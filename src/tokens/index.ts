@@ -5,7 +5,7 @@
  *   import { accent, text, leading, ease, duration } from "@level9/brand/tokens";
  */
 
-export * from "./colors.js";
-export * from "./typography.js";
-export * from "./motion.js";
-export * from "./spacing.js";
+export * from "./colors";
+export * from "./typography";
+export * from "./motion";
+export * from "./spacing";

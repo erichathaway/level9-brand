@@ -13,8 +13,8 @@
  *   See pressurePoints.ts for the canonical map.
  */
 
-export * from "./pressurePoints.js";
-export * from "./stack.js";
-export * from "./products.js";
-export * from "./playbookDomains.js";
-export * from "./voiceRules.js";
+export * from "./pressurePoints";
+export * from "./stack";
+export * from "./products";
+export * from "./playbookDomains";
+export * from "./voiceRules";

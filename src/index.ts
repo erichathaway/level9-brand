@@ -10,7 +10,7 @@
  * level9os-site and erichathaway-site.
  */
 
-export * from "./tokens/index.js";
-export * from "./assets/index.js";
-export * from "./components/index.js";
-export * from "./content/index.js";
+export * from "./tokens/index";
+export * from "./assets/index";
+export * from "./components/index";
+export * from "./content/index";

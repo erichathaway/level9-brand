@@ -5,4 +5,4 @@
  *   - @level9/brand/assets/logos — typed logo registry + path helpers
  */
 
-export * from "./logos/index.js";
+export * from "./logos/index";

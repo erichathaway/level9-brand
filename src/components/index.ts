@@ -8,4 +8,4 @@
  *   - @level9/brand/components/layout — FloatingNav, ProductCard, FooterPattern, etc
  */
 
-export * from "./motion/index.js";
+export * from "./motion/index";
