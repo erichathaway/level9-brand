@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 40">
+  <!-- Anchor icon — EXACT copy of favicon scaled into 32x32 box at y+4 -->
+  <rect x="0" y="4" width="32" height="32" rx="6" fill="#030306"/>
+  <circle cx="16" cy="31" r="3" fill="none" stroke="#f59e0b" stroke-width="2.2"/>
+  <line x1="16" y1="28" x2="16" y2="14" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="10" y1="20" x2="22" y2="20" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M10 20 C6 20 5 14 9 11" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M22 20 C26 20 27 14 23 11" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- Text -->
+  <text x="44" y="29" font-family="Inter,'Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="18" letter-spacing="-0.5" fill="#f59e0b">Link<tspan fill="#e0e0e0">Up</tspan>OS</text>
+</svg>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Eric Hathaway — Site Favicon
+  ───────────────────────────────────────────────────────────────────────────
+  32 × 32, transparent background, rounded clipping.
+  Compass rose mark in amber-only palette so it reads on light AND dark
+  browser tabs. North needle slightly lighter (#FBBF24) for emphasis.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Eric Hathaway">
+  <!-- Rounded clip on the icon canvas (preserves rounded edges if anything
+       is ever drawn at the bounds; transparent everywhere else) -->
+  <defs>
+    <clipPath id="rounded">
+      <rect x="0" y="0" width="32" height="32" rx="6"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#rounded)">
+    <!-- Compass needles, amber palette -->
+    <!-- N (dominant, lighter amber) -->
+    <polygon points="16,3 14,16 18,16" fill="#FBBF24"/>
+    <!-- S (subtle) -->
+    <polygon points="16,29 14,16 18,16" fill="#F59E0B" opacity="0.75"/>
+    <!-- E -->
+    <polygon points="29,16 16,14 16,18" fill="#F59E0B" opacity="0.85"/>
+    <!-- W -->
+    <polygon points="3,16 16,14 16,18" fill="#F59E0B" opacity="0.85"/>
+    <!-- Center hub -->
+    <circle cx="16" cy="16" r="2.4" fill="#FBBF24"/>
+  </g>
+</svg>
