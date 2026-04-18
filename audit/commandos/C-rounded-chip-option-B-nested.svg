@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  CommandOS — Rounded chip, Option B (nested chevrons = "agents managing agents")
+  Spec: 320×320, rx=56. Three nested chevrons fading inward — leadership tiers
+  supervising domain officers. Suggests orchestration depth.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="CommandOS">
+  <defs>
+    <linearGradient id="cmdBObs" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A1A14"/>
+      <stop offset="100%" stop-color="#02080A"/>
+    </linearGradient>
+    <linearGradient id="cmdBEdge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    <linearGradient id="cmdBGlass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="40" y="40" width="240" height="240" rx="56" fill="url(#cmdBObs)" stroke="url(#cmdBEdge)" stroke-width="1.5"/>
+  <rect x="40" y="40" width="240" height="240" rx="56" fill="url(#cmdBGlass)"/>
+  <!-- Three nested chevrons: outer (T1 coordinator), middle (T2 health), inner (T3 PM) -->
+  <g fill="none" stroke="#10B981" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 95 90 L 185 160 L 95 230" stroke-width="22"/>
+    <path d="M 138 120 L 200 160 L 138 200" stroke-width="16" opacity="0.62"/>
+    <path d="M 175 145 L 215 160 L 175 175" stroke-width="10" opacity="0.32"/>
+  </g>
+</svg>
