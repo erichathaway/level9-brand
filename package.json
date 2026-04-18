@@ -1,6 +1,6 @@
 {
   "name": "@level9/brand",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Shared brand system for the Level9 family of marketing sites: tokens, motion primitives, layout components, content definitions, and assets.",
   "private": false,
   "type": "module",
@@ -19,6 +19,7 @@
     "./assets/logos/*": "./src/assets/logos/*",
     "./components": "./src/components/index.ts",
     "./components/motion": "./src/components/motion/index.ts",
+    "./components/layout": "./src/components/layout/index.ts",
     "./content": "./src/content/index.ts",
     "./content/pressurePoints": "./src/content/pressurePoints.ts",
     "./content/stack": "./src/content/stack.ts",

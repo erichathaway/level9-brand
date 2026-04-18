@@ -3,9 +3,8 @@
  *
  * Subpaths:
  *   - @level9/brand/components/motion — scroll/hover/cursor primitives
- *
- * Future subpaths (not yet shipped):
- *   - @level9/brand/components/layout — FloatingNav, ProductCard, FooterPattern, etc
+ *   - @level9/brand/components/layout — section headers, hero patterns, cards, footers
  */
 
 export * from "./motion/index";
+export * from "./layout/index";
