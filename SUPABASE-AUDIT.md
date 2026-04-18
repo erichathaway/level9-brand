@@ -1,32 +1,56 @@
 # Supabase Audit — `cmd_*` tables (CommandOS namespace)
 
 **Created**: 2026-04-18
-**Trigger**: Old `commandos` Vercel project at `commandos.erichathaway.com` is being
+**Last updated**: 2026-04-18 (cleanup pass 1 executed)
+**Trigger**: Old `commandos` Vercel project at `commandos.erichathaway.com` was
 retired in favor of `commandos-v2` at `commandos.level9os.com`. This audit
 identifies which Supabase tables in the CommandOS namespace are referenced
-only by the old codebase and may be safe to retire.
+only by the old codebase.
 
-## Scope + method
+## Cleanup status
 
-- Source code grep across both repos: `commandos/` (old, Vite, March 2025)
-  and `commandos-v2/` (new, Next.js 16, current canonical).
-- Pattern matched: `.from('cmd_...')` and `.from('cmd-...')` in `src/`.
-- **Limitations** (read this before acting):
-  - Source code only. No visibility into n8n workflow JSON on the NAS.
-  - No visibility into other Level9 apps that may cross-read CommandOS tables
-    (e.g. `linkupos-site` has documented Postgres triggers writing to `cmd_tasks`).
-  - No visibility into manual scripts or one-off jobs.
-  - This audit tells you what the OLD commandos source uniquely referenced. It
-    does NOT prove nothing else writes to those tables.
+### ✅ HARD-DROPPED (4 tables — were 0 rows, 0 inserts ever)
 
-## Findings
+| Table | Notes |
+|---|---|
+| `cmd_cross_project_deps` | Empty schema cruft. Successor in v2: `cmd_project_dependencies`. |
+| `cmd_master_plan`         | Empty schema cruft. No v2 successor. Dropped CASCADE (had FK from cmd_project_plans). |
+| `cmd_plan_items`          | Empty schema cruft. No v2 successor. |
+| `cmd_suggestions`         | Empty schema cruft. No v2 successor. |
 
-### Used by BOTH codebases — DO NOT TOUCH (8 tables)
+### 🟡 SOFT-ARCHIVED via rename (4 tables — observe 7 days, then DROP)
+
+| Original name | Renamed to | Why soft-delete | Hard-drop after |
+|---|---|---|---|
+| `cmd_north_star` | `_archive_cmd_north_star` | ~1 row remained, low value | 2026-04-25 |
+| `cmd_project_plans` | `_archive_cmd_project_plans` | ~2 rows remained, low value | 2026-04-25 |
+| `cmd_outputs` | `_archive_cmd_outputs` | 61 rows of historical agent task outputs from old commandos era. Replaced in v2 by `cmd_summaries`. Last write early Apr 2026. | 2026-04-25 |
+| `cmd_token_usage` | `_archive_cmd_token_usage` | 295 rows of historical token cost data from old commandos era. Replaced in v2 by `cmd_routing_log` + `cmd_budgets`. | 2026-04-25 |
+
+### Phase 4 — final hard-drop SQL (run on or after 2026-04-25 if no errors)
+
+```sql
+DROP TABLE IF EXISTS _archive_cmd_north_star;
+DROP TABLE IF EXISTS _archive_cmd_project_plans;
+DROP TABLE IF EXISTS _archive_cmd_outputs;
+DROP TABLE IF EXISTS _archive_cmd_token_usage;
+```
+
+### Rollback (if anything in commandos-v2, n8n, or linkupos complains during the 7-day window)
+
+```sql
+ALTER TABLE _archive_cmd_north_star    RENAME TO cmd_north_star;
+ALTER TABLE _archive_cmd_project_plans RENAME TO cmd_project_plans;
+ALTER TABLE _archive_cmd_outputs       RENAME TO cmd_outputs;
+ALTER TABLE _archive_cmd_token_usage   RENAME TO cmd_token_usage;
+```
+
+## Tables RETAINED — actively used by both old + new (8 tables — DO NOT TOUCH)
 
 | Table | Notes |
 |---|---|
 | `cmd-attachments` | File attachments on tasks/projects |
-| `cmd_activity_log` | Activity audit trail |
+| `cmd_activity_log` | Activity audit trail. Also receives `event_type='token_usage'` events from commandos-v2. |
 | `cmd_agents` | Agent registry |
 | `cmd_decisions` | Decision records |
 | `cmd_governance_rules` | Governance policy rules |
@@ -34,93 +58,35 @@ only by the old codebase and may be safe to retire.
 | `cmd_projects` | Project records |
 | `cmd_tasks` | Tasks (also written to by linkupos via Postgres trigger) |
 
-### Old-only candidates — investigate before removing (8 tables)
-
-| Table | Likely v2 successor | Confidence |
-|---|---|---|
-| `cmd_cross_project_deps` | `cmd_project_dependencies` (in v2) | High — naming pattern matches |
-| `cmd_master_plan` | (no clear successor) | Medium — may have moved to a JSON column or doc |
-| `cmd_north_star` | (no clear successor) | Medium — concept may have been folded into projects |
-| `cmd_outputs` | `cmd_summaries` or `cmd_routing_log` (in v2) | Low |
-| `cmd_plan_items` | (no clear successor) | Medium — planning model may have changed |
-| `cmd_project_plans` | (no clear successor) | Medium — same |
-| `cmd_suggestions` | (no clear successor) | Low |
-| `cmd_token_usage` | `cmd_routing_log` + `cmd_budgets` (in v2) | High — same purpose, new schema |
-
-### New-only in commandos-v2 — FYI, NOT for deletion (8 tables)
+## New-only tables in commandos-v2 (8 tables — FYI not for deletion)
 
 `cmd_budgets` · `cmd_decision_learning` · `cmd_governance_agents` ·
 `cmd_officer_reviews` · `cmd_project_dependencies` · `cmd_routing_log` ·
 `cmd_summaries` · `cmd_trust_scores`
 
-## Recommended cleanup procedure (zero data loss risk)
+`cmd_routing_log` is the canonical token-tracking ledger now (`input_tokens`,
+`output_tokens`, `cost_estimate_usd`, etc.) — used by the
+`use-token-usage` React hook in commandos-v2.
 
-The 8 candidates are **suspect but not proven orphan**. Don't `DROP TABLE`
-without observation. Use this 4-phase soft-delete approach:
+## Methodology + scope limits
 
-### Phase A — Inspect each candidate in Supabase Studio
+- Source code grep across both repos: `commandos/` (old, Vite, March 2025)
+  and `commandos-v2/` (new, Next.js 16, current canonical).
+- Pattern matched: `.from('cmd_...')` and `.from('cmd-...')` in `src/`,
+  PLUS exhaustive grep across migrations, scripts, schemas, configs, docs.
+- Cross-checked `linkupos-site/src/` and `linkupos-site/n8n-export/` for
+  any external writes to the candidate tables — none found.
+- **Limitations**:
+  - No live n8n NAS access — workflow JSON on the NAS could in principle
+    contain references not in the local n8n-export folder. The 7-day
+    observation window is the safety net for this.
+  - The rename pattern (`_archive_*`) breaks any hidden writer immediately
+    and visibly. If a hidden writer exists, an error appears in the
+    consuming app's logs within minutes. Rollback is one ALTER away.
 
-Open https://supabase.com/dashboard → table editor. For each of the 8 tables:
+## Decision log
 
-1. **Row count** — if 0 rows, very low risk
-2. **Most recent insert/update** — sort by `created_at DESC` or `updated_at DESC`
-   if those columns exist, otherwise by primary key DESC
-3. **Recent activity heuristic**:
-   - No writes in 90+ days → low risk
-   - Writes within last 30 days → SOMETHING is writing to this table; find it
-     before deleting
-   - Stale data only → safe candidate for archival
-
-Record findings in this doc under each table row.
-
-### Phase B — Soft-delete via rename
-
-For each table confirmed truly orphan in Phase A, run in Supabase SQL Editor:
-
-```sql
-ALTER TABLE cmd_north_star RENAME TO _archive_cmd_north_star;
-```
-
-(Repeat per table. Adjust name as appropriate.)
-
-This:
-- Breaks any hidden writer immediately and visibly (the writer errors with
-  "relation does not exist")
-- Shows up in Supabase logs / app error logs within minutes if anything is
-  still using the table
-- Is reversible in ~5 seconds: `ALTER TABLE _archive_cmd_north_star RENAME TO cmd_north_star;`
-
-### Phase C — Observe for 7 days
-
-Watch:
-- Supabase logs (Database → Logs)
-- Each consuming app's error logs (Vercel runtime logs for commandos-v2,
-  linkupos-site, anything else under `decisioning-v1`)
-- n8n execution logs on NAS (if you have access)
-
-If nothing complains in 7 days, the table is truly orphan.
-
-### Phase D — Hard delete
-
-```sql
-DROP TABLE _archive_cmd_north_star;
-```
-
-Now it's gone. Backups in Supabase point-in-time recovery (PITR) cover you
-for 7-30 days depending on plan if you ever need to undo.
-
-## What I CAN'T do from this side
-
-- Query Supabase directly (no service role key in this environment)
-- Read n8n workflow JSON on your NAS (no NAS MCP)
-- See cross-app Postgres triggers (would need direct DB access)
-- Delete tables (you do that in Supabase Studio)
-
-## What I CAN do as you progress
-
-- Update this doc with findings as you record them per table
-- Generate `RENAME TO _archive_*` SQL statements for any subset you want to
-  soft-delete in batch
-- Generate the matching `RENAME` rollback statements as a safety net
-
-Reply with Phase A findings (or just "drop them all") and I'll generate the SQL.
+- **2026-04-18 cleanup pass 1**: Dropped 4 empty tables, archived 4 tables
+  with historical data. Per Eric's "no customers, no history" stance for the
+  old commandos project, this is acceptable risk. The renaming approach
+  preserves data for 7 days as a safety net.
