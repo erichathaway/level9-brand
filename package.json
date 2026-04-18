@@ -13,7 +13,10 @@
     "./tokens/typography": "./src/tokens/typography.ts",
     "./tokens/motion": "./src/tokens/motion.ts",
     "./tokens/spacing": "./src/tokens/spacing.ts",
-    "./styles/globals.css": "./src/styles/globals.css"
+    "./styles/globals.css": "./src/styles/globals.css",
+    "./assets": "./src/assets/index.ts",
+    "./assets/logos": "./src/assets/logos/index.ts",
+    "./assets/logos/*": "./src/assets/logos/*"
   },
   "files": [
     "src/"
