@@ -12,3 +12,4 @@
 
 export * from "./tokens/index.js";
 export * from "./assets/index.js";
+export * from "./components/index.js";
