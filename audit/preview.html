@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logo Audit — Level9 Brand Family</title>
+  <style>
+    /* Mirrors @level9/brand globals.css for accurate preview against real site bg */
+    :root {
+      --bg-root: #030306;
+      --bg-surface: #0d0d18;
+      --bg-elevated: #14142a;
+      --violet: #8b5cf6;
+      --cyan: #06b6d4;
+      --fuchsia: #ec4899;
+      --amber: #f59e0b;
+      --emerald: #10b981;
+      --slate: #64748b;
+      --red: #ef4444;
+      --text-primary: rgba(255, 255, 255, 0.90);
+      --text-secondary: rgba(255, 255, 255, 0.70);
+      --text-muted: rgba(255, 255, 255, 0.50);
+      --text-subtle: rgba(255, 255, 255, 0.35);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.14);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-root);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      padding: 48px 32px 96px;
+      line-height: 1.5;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, var(--violet), var(--cyan), var(--fuchsia));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .lede {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 720px;
+      margin-bottom: 8px;
+    }
+    .instructions {
+      margin: 24px 0 56px;
+      padding: 20px 24px;
+      border: 1px solid var(--border-medium);
+      background: rgba(139, 92, 246, 0.04);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    .instructions strong { color: var(--text-primary); }
+
+    .brand-section {
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .brand-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .brand-name {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+    .brand-status {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: "SF Mono", "Fira Code", monospace;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid;
+    }
+    .status-complete {
+      color: var(--emerald);
+      border-color: rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.08);
+    }
+    .status-gap {
+      color: var(--red);
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.08);
+    }
+    .status-missing {
+      color: var(--amber);
+      border-color: rgba(245, 158, 11, 0.3);
+      background: rgba(245, 158, 11, 0.08);
+    }
+    .brand-note {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 32px;
+      max-width: 800px;
+    }
+
+    .logo-row {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 24px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.015);
+    }
+    .logo-row:hover { background: rgba(255, 255, 255, 0.025); }
+    .logo-row.flagged {
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.04);
+    }
+
+    .number {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--text-subtle);
+      font-family: "SF Mono", "Fira Code", monospace;
+      text-align: center;
+    }
+    .number.recommended {
+      color: var(--violet);
+      text-shadow: 0 0 24px rgba(139, 92, 246, 0.4);
+    }
+
+    .logo-content { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; }
+
+    .logo-meta { min-width: 0; }
+    .logo-label {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+    .logo-label .recommended-badge {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: "SF Mono", monospace;
+      background: rgba(139, 92, 246, 0.15);
+      color: var(--violet);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      vertical-align: middle;
+    }
+    .logo-label .flag-badge {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: "SF Mono", monospace;
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--red);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      vertical-align: middle;
+    }
+    .logo-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 560px;
+    }
+    .logo-path {
+      font-family: "SF Mono", monospace;
+      font-size: 11px;
+      color: var(--text-subtle);
+      margin-top: 6px;
+      word-break: break-all;
+    }
+
+    .logo-sizes {
+      display: flex;
+      align-items: end;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .size-cell { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .size-label {
+      font-size: 9px;
+      color: var(--text-subtle);
+      font-family: "SF Mono", monospace;
+      letter-spacing: 0.1em;
+    }
+    .size-cell img {
+      display: block;
+      object-fit: contain;
+    }
+    .size-16  img { width: 16px;  height: 16px; }
+    .size-32  img { width: 32px;  height: 32px; }
+    .size-80  img { width: 80px;  height: 80px; }
+    .size-160 img { width: 160px; height: 160px; }
+    .size-h img {
+      height: 28px;
+      width: auto;
+    }
+
+    .gap-section {
+      margin-top: 24px;
+      padding: 24px;
+      border: 1px dashed rgba(239, 68, 68, 0.4);
+      border-radius: 12px;
+      background: rgba(239, 68, 68, 0.04);
+    }
+    .gap-section h4 {
+      color: var(--red);
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: "SF Mono", monospace;
+      margin-bottom: 12px;
+    }
+    .gap-section p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      max-width: 720px;
+    }
+    .gap-section .brief {
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 8px;
+      font-family: "SF Mono", monospace;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .summary-table {
+      margin: 48px 0 32px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .summary-table th, .summary-table td {
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 13px;
+    }
+    .summary-table th {
+      color: var(--text-subtle);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    .summary-table td.recommend { color: var(--violet); font-weight: 700; }
+    .summary-table td.flag { color: var(--red); }
+    .summary-table td .num {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      font-family: "SF Mono", monospace;
+      font-weight: 700;
+      background: rgba(139, 92, 246, 0.15);
+      color: var(--violet);
+      border-radius: 4px;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Logo Audit — Level9 Brand Family</h1>
+    <p class="lede">Every unique logo SVG found across 6 site repos and marketing-assets/, deduplicated by md5 hash, rendered at multiple sizes against the canonical site background (#030306).</p>
+
+    <div class="instructions">
+      <strong>How to use this page:</strong> Each logo is numbered. Tell me by number which to mark canonical for each brand (e.g., &ldquo;use #1 for Level9 chip, #2 for square&rdquo;). Recommended picks are highlighted in violet. Flagged ones (wrong color, off-family aesthetic) marked in red.
+    </div>
+
+    <!-- ═══════════════ LEVEL9 ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">Level9 / Level9OS</div>
+        <span class="brand-status status-complete">Has full system</span>
+      </div>
+      <p class="brand-note">Brand color: violet → cyan → teal gradient. The "9" wordmark in white, tilted -14°.</p>
+
+      <div class="logo-row">
+        <div class="number recommended">1</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Rounded chip <span class="recommended-badge">My pick: chip canonical</span></div>
+            <div class="logo-desc">320×320 with rounded corners (rx=56). Obsidian gradient fill, cool gradient hairline edge (violet→cyan→teal), glass overlay, white tilted "9" wordmark at font-size 180. Family format — matches Eric / LucidORG / Big E.</div>
+            <div class="logo-path">level9/A-rounded-chip.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="level9/A-rounded-chip.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="level9/A-rounded-chip.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="level9/A-rounded-chip.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="level9/A-rounded-chip.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logo-row">
+        <div class="number recommended">2</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Edge-to-edge square <span class="recommended-badge">My pick: square variant</span></div>
+            <div class="logo-desc">320×320 sharp corners. Same obsidian + tilted 9 (font-size 200), 4px gradient inset edge. Use for app icons + social previews where rounded corners get masked anyway.</div>
+            <div class="logo-path">level9/B-edge-to-edge-square.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="level9/B-edge-to-edge-square.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="level9/B-edge-to-edge-square.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="level9/B-edge-to-edge-square.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="level9/B-edge-to-edge-square.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logo-row">
+        <div class="number">3</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Favicon (current site)</div>
+            <div class="logo-desc">Smaller mark currently wired as the level9os.com app icon. Different artwork from #1 and #2. Could replace with #2 rendered at 32×32 for consistency.</div>
+            <div class="logo-path">level9/C-favicon-app-icon.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="level9/C-favicon-app-icon.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="level9/C-favicon-app-icon.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="level9/C-favicon-app-icon.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="level9/C-favicon-app-icon.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ ERIC HATHAWAY ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">Eric Hathaway</div>
+        <span class="brand-status status-complete">Has full system</span>
+      </div>
+      <p class="brand-note">Brand: amber/silver compass rose. Dominant white North needle = leadership / direction. Refined from concept #07.</p>
+
+      <div class="logo-row">
+        <div class="number recommended">4</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Edge-to-edge square <span class="recommended-badge">My pick: square variant</span></div>
+            <div class="logo-desc">320×320 sharp corners. Compass rose at radius 120. Dominant white North needle, amber East/West/South needles, subtle diagonal needles. Obsidian fill + amber/silver edge gradient. Same as your desktop file.</div>
+            <div class="logo-path">erichathaway/A-edge-to-edge-square.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="erichathaway/A-edge-to-edge-square.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="erichathaway/A-edge-to-edge-square.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="erichathaway/A-edge-to-edge-square.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="erichathaway/A-edge-to-edge-square.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logo-row">
+        <div class="number recommended">5</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Rounded chip <span class="recommended-badge">My pick: chip canonical</span></div>
+            <div class="logo-desc">320×320 rounded chip (rx=56). Same compass design, smaller radius (84) to fit inside the chip frame. Matches the Level9 family chip format. Use this in nav + content cards.</div>
+            <div class="logo-path">erichathaway/B-rounded-chip.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="erichathaway/B-rounded-chip.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="erichathaway/B-rounded-chip.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="erichathaway/B-rounded-chip.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="erichathaway/B-rounded-chip.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logo-row">
+        <div class="number">6</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Favicon (current site)</div>
+            <div class="logo-desc">Smaller mark currently wired as the erichathaway.com app icon. Different artwork — simpler compass.</div>
+            <div class="logo-path">erichathaway/C-favicon-app-icon.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="erichathaway/C-favicon-app-icon.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="erichathaway/C-favicon-app-icon.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="erichathaway/C-favicon-app-icon.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="erichathaway/C-favicon-app-icon.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ LUCIDORG ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">LucidORG</div>
+        <span class="brand-status status-complete">Has full system</span>
+      </div>
+      <p class="brand-note">Brand: cyan / sky-blue / violet six-shape interlocking mark with 180° rotational symmetry. From the original Asset 5 paths.</p>
+
+      <div class="logo-row">
+        <div class="number recommended">7</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Edge-to-edge square <span class="recommended-badge">My pick: square variant</span></div>
+            <div class="logo-desc">320×320 sharp corners. Six paths from real Asset 5 (verbatim), recolored cyan/sky/violet. Cool gradient hairline edge. Same as desktop file.</div>
+            <div class="logo-path">lucidorg/A-edge-to-edge-square.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="lucidorg/A-edge-to-edge-square.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="lucidorg/A-edge-to-edge-square.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="lucidorg/A-edge-to-edge-square.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="lucidorg/A-edge-to-edge-square.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logo-row">
+        <div class="number recommended">8</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Rounded chip <span class="recommended-badge">My pick: chip canonical</span></div>
+            <div class="logo-desc">320×320 rounded chip. Same six paths, scaled to fit (0.958×). Matches family chip format.</div>
+            <div class="logo-path">lucidorg/B-rounded-chip.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="lucidorg/B-rounded-chip.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="lucidorg/B-rounded-chip.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="lucidorg/B-rounded-chip.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="lucidorg/B-rounded-chip.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logo-row flagged">
+        <div class="number">9</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Mini client-row mark <span class="flag-badge">WRONG COLOR</span></div>
+            <div class="logo-desc">40×40 amber circle outline + crosshairs. Used in the "client trust" rows on level9os.com. <strong>The amber is wrong</strong> — LucidORG is cyan/violet. Brand-agent should replace with a cyan version of this mini-mark.</div>
+            <div class="logo-path">lucidorg/C-mini-client-row-WRONG-COLOR.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="lucidorg/C-mini-client-row-WRONG-COLOR.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="lucidorg/C-mini-client-row-WRONG-COLOR.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="lucidorg/C-mini-client-row-WRONG-COLOR.svg"><div class="size-label">80px card</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ LINKUPOS ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">LinkupOS</div>
+        <span class="brand-status status-gap">No family chip — gap</span>
+      </div>
+      <p class="brand-note">Brand: amber upside-down anchor. Currently exists only as a 32×32 favicon stroke icon and a horizontal wordmark. <strong>No 320×320 family-format chip.</strong></p>
+
+      <div class="logo-row">
+        <div class="number">10</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Favicon anchor</div>
+            <div class="logo-desc">32×32 dark rounded square + amber upside-down anchor (Lucide stroke icon). Favicon-grade only — does not scale up cleanly to chip size.</div>
+            <div class="logo-path">linkupos/A-favicon-anchor.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="linkupos/A-favicon-anchor.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="linkupos/A-favicon-anchor.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="linkupos/A-favicon-anchor.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="linkupos/A-favicon-anchor.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logo-row">
+        <div class="number">11</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Horizontal wordmark</div>
+            <div class="logo-desc">240×40 banner: anchor mark + "LinkUpOS" wordmark (amber Link / gray Up / amber OS). Used as the linkupos.com header logo.</div>
+            <div class="logo-path">linkupos/B-horizontal-wordmark.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-h"><img src="linkupos/B-horizontal-wordmark.svg"><div class="size-label">28px tall</div></div>
+            <div class="size-cell" style="display:flex;align-items:center;"><img src="linkupos/B-horizontal-wordmark.svg" style="height:48px;width:auto;"><div class="size-label">48px tall</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logo-row">
+        <div class="number">12</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">300px version</div>
+            <div class="logo-desc">Larger version of the favicon anchor (didn't dive into details).</div>
+            <div class="logo-path">linkupos/C-300px-version.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-32"><img src="linkupos/C-300px-version.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="linkupos/C-300px-version.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="linkupos/C-300px-version.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gap-section">
+        <h4>🚨 Gap: brand-agent needs to design</h4>
+        <p>320×320 family-format chip with amber edge gradient + an elaborated anchor mark (filled paths, not the simple Lucide stroke icon). Should match the visual weight of Level9 / Eric / LucidORG / Big E chips.</p>
+        <div class="brief">Brief: 320×320, rx=56, obsidian gradient fill (#1A0A05 → #050201), amber edge gradient (#FBBF24 → #F59E0B), glass overlay, large anchor mark in amber with proper detail (chain + ring + flukes), centered. Match the chip-family aesthetic established by logos 1, 5, 8, and the canonical Big E #16.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ COMMANDOS ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">CommandOS</div>
+        <span class="brand-status status-gap">No family chip — gap</span>
+      </div>
+      <p class="brand-note">Brand: emerald orchestration. Currently exists only as a 32×32 chevron favicon. <strong>No 320×320 family-format chip.</strong></p>
+
+      <div class="logo-row">
+        <div class="number">13</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Favicon chevron</div>
+            <div class="logo-desc">32×32 dark circle + cyan chevron `>` + small terminal-rect. Currently uses cyan (#00d4d4) — should probably be emerald (#10b981) per CommandOS pressure-point color.</div>
+            <div class="logo-path">commandos/A-favicon-chevron.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="commandos/A-favicon-chevron.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="commandos/A-favicon-chevron.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="commandos/A-favicon-chevron.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="commandos/A-favicon-chevron.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gap-section">
+        <h4>🚨 Gap: brand-agent needs to design</h4>
+        <p>320×320 family-format chip with emerald edge + an orchestration mark. Concept ideas: nested chevrons (multi-tier orchestration), a conductor's baton, an agent fleet visualization (3+ connected nodes), or a command-bridge mark.</p>
+        <div class="brief">Brief: 320×320, rx=56, obsidian gradient fill, emerald edge gradient (#10B981 → #059669), glass overlay, orchestration mark in emerald + accent. Match chip-family aesthetic. The mark should suggest "agents managing agents," not just a generic chevron.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ STRATOS ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">StratOS</div>
+        <span class="brand-status status-gap">Off-family aesthetic</span>
+      </div>
+      <p class="brand-note">Brand: violet decision intelligence. You said 3 versions exist — only 1 found. The found version is polished but doesn't match the family chip aesthetic.</p>
+
+      <div class="logo-row flagged">
+        <div class="number">14</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">512px sci-fi compass <span class="flag-badge">OFF-FAMILY</span></div>
+            <div class="logo-desc">512×512, very polished but different aesthetic from family. Sci-fi compass: cyan radial gradients, multi-blur glow filters, North-pointing arrow, N/S/E/W cardinal letters, dark space background. Beautiful but doesn't fit the chip family format.</div>
+            <div class="logo-path">stratos/A-512px-compass-scifi.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="stratos/A-512px-compass-scifi.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="stratos/A-512px-compass-scifi.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="stratos/A-512px-compass-scifi.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="stratos/A-512px-compass-scifi.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gap-section">
+        <h4>🚨 Gap: brand-agent needs to design (per your "fine surface that")</h4>
+        <p>320×320 family-format chip with violet edge + a decision-engine / executive-room mark. Concept ideas: 10-point decision room visualization (the StratOS ELT chamber), a strategic compass with decision vectors, or a deliberation-rounds mark.</p>
+        <div class="brief">Brief: 320×320, rx=56, obsidian gradient fill, violet edge gradient (#8B5CF6 → #7C3AED), glass overlay, decision-engine mark in violet + accent. Match chip-family aesthetic. The mark should suggest "10 executives deliberating," not a tech-y compass.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ COO PLAYBOOK ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">COO Playbook</div>
+        <span class="brand-status status-gap">No family chip — gap</span>
+      </div>
+      <p class="brand-note">Brand: slate methodology. Currently exists only as a 32×32 alignment-bars favicon. <strong>No 320×320 family-format chip.</strong></p>
+
+      <div class="logo-row">
+        <div class="number">15</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Favicon alignment bars</div>
+            <div class="logo-desc">32×32 dark rounded square + 4 horizontal alignment bars (violet→cyan gradient, descending widths) + pink dot indicator. Alignment-cycle metaphor — fits the brand thesis.</div>
+            <div class="logo-path">coo-playbook/A-favicon-alignment-bars.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="coo-playbook/A-favicon-alignment-bars.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="coo-playbook/A-favicon-alignment-bars.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="coo-playbook/A-favicon-alignment-bars.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="coo-playbook/A-favicon-alignment-bars.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gap-section">
+        <h4>🚨 Gap: brand-agent needs to design</h4>
+        <p>320×320 family-format chip with slate edge + the alignment-bars metaphor scaled up. Could also pull in the 4-pressure-point cycle visual since Playbook is the install manual for the cycle.</p>
+        <div class="brief">Brief: 320×320, rx=56, obsidian gradient fill, slate edge gradient (#64748B → #475569), glass overlay, alignment-bars + cycle indicator mark. Match chip-family aesthetic.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ BIG E SESSIONS ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">Big E Sessions</div>
+        <span class="brand-status status-complete">Already canonical</span>
+      </div>
+      <p class="brand-note">Brand: amber music project. "bigE" wordmark + 13-bar mountain equalizer. Already in family chip format.</p>
+
+      <div class="logo-row">
+        <div class="number recommended">16</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Rounded chip <span class="recommended-badge">My pick: canonical</span></div>
+            <div class="logo-desc">320×320 chip. "big" white wordmark + "E" amber wordmark (40% larger) + 13-bar mountain equalizer in amber. Matches family format.</div>
+            <div class="logo-path">bigesessions/A-rounded-chip-CANONICAL.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="bigesessions/A-rounded-chip-CANONICAL.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="bigesessions/A-rounded-chip-CANONICAL.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="bigesessions/A-rounded-chip-CANONICAL.svg"><div class="size-label">80px card</div></div>
+            <div class="size-cell size-160"><img src="bigesessions/A-rounded-chip-CANONICAL.svg"><div class="size-label">160px hero</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ NEXTGENINTERN ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">NextGenIntern</div>
+        <span class="brand-status status-gap">No chip + wrong color</span>
+      </div>
+      <p class="brand-note">Brand color confirmed: <strong>blues</strong> (per your latest message). Currently the only mark is wrong-color amber. The nextgenintern-site repo has zero SVG logos at all.</p>
+
+      <div class="logo-row flagged">
+        <div class="number">17</div>
+        <div class="logo-content">
+          <div class="logo-meta">
+            <div class="logo-label">Mini mark <span class="flag-badge">WRONG COLOR</span></div>
+            <div class="logo-desc">40×40 amber circle outline + crosshairs + center dot. <strong>Wrong color</strong> — should be blues per the brand. Brand-agent replaces.</div>
+            <div class="logo-path">nextgenintern/A-mini-mark-WRONG-COLOR.svg</div>
+          </div>
+          <div class="logo-sizes">
+            <div class="size-cell size-16"><img src="nextgenintern/A-mini-mark-WRONG-COLOR.svg"><div class="size-label">16px favicon</div></div>
+            <div class="size-cell size-32"><img src="nextgenintern/A-mini-mark-WRONG-COLOR.svg"><div class="size-label">32px nav</div></div>
+            <div class="size-cell size-80"><img src="nextgenintern/A-mini-mark-WRONG-COLOR.svg"><div class="size-label">80px card</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gap-section">
+        <h4>🚨 Gap: brand-agent needs to design from scratch</h4>
+        <p>Full set in family format: 320×320 chip + 320×320 square + 32×32 favicon + horizontal wordmark. Brand color: <strong>blues</strong> (cyan-to-sky-to-deep-blue gradient). Concept: education, next generation, internship-to-career bridge. Mark could suggest: rising arc, bridge, or step-pattern (advancement metaphor).</p>
+        <div class="brief">Brief: 320×320, rx=56, obsidian gradient fill, blues edge gradient (#0EA5E9 cyan → #3B82F6 blue → #1E3A8A deep blue), glass overlay, "next generation" mark. Match chip-family aesthetic.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ OUTBOUNDOS ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">OutboundOS</div>
+        <span class="brand-status status-missing">Does not exist</span>
+      </div>
+      <p class="brand-note">Brand: amber umbrella over LinkupOS + ABM Engine + AutoCS pods. <strong>No logo exists anywhere in the workspace.</strong></p>
+
+      <div class="gap-section">
+        <h4>🚨 Gap: brand-agent designs from scratch</h4>
+        <p>320×320 family-format chip in amber. The mark should suggest "umbrella over multiple pods." Concept ideas: literal umbrella with 3 sub-shapes, 3 connected nodes (anchor + outbound arrow + care heart), or an "O" with 3 inner orbits.</p>
+        <div class="brief">Brief: 320×320, rx=56, obsidian gradient fill, amber edge gradient (#FBBF24 → #F59E0B), glass overlay, umbrella-over-3-pods mark. Match chip-family aesthetic. Should NOT just be a letter "O" — needs to suggest the umbrella concept.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SUMMARY ═══════════════ -->
+    <section class="brand-section">
+      <div class="brand-header">
+        <div class="brand-name">Summary — pick by number</div>
+      </div>
+      <p class="brand-note">Confirm canonicals + flag any rejections. I'll then populate <code>src/assets/logos/&lt;brand&gt;/</code> in the package and hand the gap list to brand-agent.</p>
+
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Brand</th>
+            <th>My picks</th>
+            <th>Status</th>
+            <th>Brand-agent task</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Level9</td>
+            <td class="recommend"><span class="num">1</span>chip + <span class="num">2</span>square</td>
+            <td>Complete</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Eric Hathaway</td>
+            <td class="recommend"><span class="num">5</span>chip + <span class="num">4</span>square</td>
+            <td>Complete</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>LucidORG</td>
+            <td class="recommend"><span class="num">8</span>chip + <span class="num">7</span>square</td>
+            <td>Mini-mark wrong color</td>
+            <td class="flag">Replace #9 with cyan version</td>
+          </tr>
+          <tr>
+            <td>LinkupOS</td>
+            <td><span class="num">11</span>wordmark only</td>
+            <td>No chip</td>
+            <td class="flag">Design 320×320 amber chip</td>
+          </tr>
+          <tr>
+            <td>CommandOS</td>
+            <td>—</td>
+            <td>No chip</td>
+            <td class="flag">Design 320×320 emerald chip</td>
+          </tr>
+          <tr>
+            <td>StratOS</td>
+            <td>—</td>
+            <td>Off-family aesthetic</td>
+            <td class="flag">Design 320×320 violet family chip</td>
+          </tr>
+          <tr>
+            <td>COO Playbook</td>
+            <td>—</td>
+            <td>No chip</td>
+            <td class="flag">Design 320×320 slate chip</td>
+          </tr>
+          <tr>
+            <td>Big E Sessions</td>
+            <td class="recommend"><span class="num">16</span>canonical</td>
+            <td>Complete</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>NextGenIntern</td>
+            <td>—</td>
+            <td>No chip + wrong color</td>
+            <td class="flag">Design full set in <strong>blues</strong></td>
+          </tr>
+          <tr>
+            <td>OutboundOS</td>
+            <td>—</td>
+            <td>Does not exist</td>
+            <td class="flag">Design from scratch (amber umbrella)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>
