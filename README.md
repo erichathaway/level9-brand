@@ -10,8 +10,8 @@ Shared brand system for the Level9 family of marketing front-end sites.
 | `@level9/brand/styles/globals.css` | ✅ v0.1 | Canonical `:root` design tokens + utility classes |
 | `@level9/brand/assets/logos` | ✅ v0.2 | 30 canonical SVGs across 10 brands (chip / square / wordmark + mini for Big E), typed `logo()` helper, `BRAND_NAMES`, `PLACEHOLDER_BRANDS` |
 | `@level9/brand/components/motion` | ✅ v0.3 | FadeIn, Counter, AnimatedBar, RevealMask, MagneticCard, MagneticButton, CursorGradient, LiveTicker |
+| `@level9/brand/content` | ✅ v0.4 | pressurePoints (4-cycle), stack (8 layers), products (canonical roster), playbookDomains (8 COO Playbook), voiceRules (em-dash ban + banned phrases + voice characteristics) |
 | `@level9/brand/components/layout` | 🔨 next | FloatingNav (parameterized), HeroPattern, ProductCard, PressurePointCard, FooterPattern |
-| `@level9/brand/content` | 🔨 next | pressurePoints, products, playbookDomains, voice rules |
 
 ## Why this exists
 
