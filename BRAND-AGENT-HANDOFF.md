@@ -2,7 +2,8 @@
 
 When brand-agent has bandwidth, the following marks need design work. Everything
 else (Level9, Eric Hathaway, LucidORG, LinkupOS, CommandOS, COO Playbook, Big E
-Sessions) has v0.1 canonical marks already in `src/assets/logos/<brand>/`.
+Sessions, MAX, The Alignment Advantage) has v0.1 canonical marks already in
+`src/assets/logos/<brand>/`. Refinement of v0.1 marks is welcome but not blocking.
 
 ## Family chip format (reference)
 
@@ -111,41 +112,7 @@ Obsidian fill `#0A0612 → #030107` (deep dark).
 - Must work at 16px (favicon)
 - Should pair visually with the violet pressure point
 
-## 4. The Alignment Advantage (book) — no mark exists
-
-**Files to create**:
-- `src/assets/logos/alignment-advantage/chip.svg`
-- `src/assets/logos/alignment-advantage/square.svg`
-- `src/assets/logos/alignment-advantage/wordmark.svg`
-
-Also: add `"alignment-advantage"` to `BrandId` type, `LOGO_PATHS`,
-`BRAND_NAMES`, and `PLACEHOLDER_BRANDS` in `src/assets/logos/index.ts`.
-
-**Brand context**: Eric's 2026 book. Title: "The Alignment Advantage".
-Thesis: alignment is the fourth pillar (the missing one) alongside
-People / Process / Leadership. Builds the case that misalignment costs
-the US $1.5T/year and is an infrastructure problem, not a culture problem.
-
-Used on erichathaway.com FloatingNav (small social row icon, currently
-a generic inline book SVG at `src/components/FloatingNav.tsx`).
-
-**Color palette**: fuchsia primary (`#EC4899`) — the book's pressure-point
-color in the brand token system. Consider pairing with violet for
-"aligned-with-the-Level9-thesis" cue.
-
-**Concept direction** (pick one or hybrid):
-- **Stacked alignment bars** — 3 misaligned bars snapping to a shared axis
-- **Book with aligned pages** — stylized book spine where the pages converge
-- **Fourth pillar** — 3 incomplete pillars + 1 complete (the A for Alignment)
-- **A-mark** — strong editorial capital A with alignment cue (axis, stacked bars)
-
-**Constraints**:
-- Must work at 16px (favicon/nav) without losing readability
-- Must feel editorial/book-y, not software-y (it's a book, not a product)
-- Must connect visually to the Level9 family but not compete with the
-  product brand marks
-
-## 5. LucidORG mini client-row mark — wrong color
+## 4. LucidORG mini client-row mark — wrong color
 
 **File to replace**:
 - `level9os-site/public/logos/lucidorg.svg` (used in the "client trust" rows)

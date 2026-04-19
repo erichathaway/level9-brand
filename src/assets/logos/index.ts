@@ -30,7 +30,9 @@ export type BrandId =
   | "coo-playbook"
   | "bigesessions"
   | "outboundos"
-  | "nextgenintern";
+  | "nextgenintern"
+  | "max"
+  | "alignment-advantage";
 
 /* ─── Logo variant type ─────────────────────────────────────── */
 export type LogoVariant = "chip" | "square" | "wordmark" | "mini";
@@ -87,6 +89,16 @@ export const LOGO_PATHS = {
     square: "nextgenintern/square.svg",     // PLACEHOLDER
     wordmark: "nextgenintern/wordmark.svg", // PLACEHOLDER
   },
+  max: {
+    chip: "max/chip.svg",                   // v1: tilted M + voice waveform, fuchsia family
+    square: "max/square.svg",
+    wordmark: "max/wordmark.svg",
+  },
+  "alignment-advantage": {
+    chip: "alignment-advantage/chip.svg",         // v1: dark red + book with alignment bars
+    square: "alignment-advantage/square.svg",
+    wordmark: "alignment-advantage/wordmark.svg",
+  },
 } as const;
 
 /* ─── Brands flagged as PLACEHOLDER (need brand-agent design) ─── */
@@ -129,4 +141,6 @@ export const BRAND_NAMES: Readonly<Record<BrandId, string>> = {
   bigesessions: "Big E Sessions",
   outboundos: "OutboundOS",
   nextgenintern: "NextGenIntern",
+  max: "MAX",
+  "alignment-advantage": "The Alignment Advantage",
 };
