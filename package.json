@@ -1,6 +1,6 @@
 {
   "name": "@level9/brand",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Shared brand system for the Level9 family of marketing sites: tokens, motion primitives, layout components, content definitions, and assets.",
   "private": false,
   "type": "module",

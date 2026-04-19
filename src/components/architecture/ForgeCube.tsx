@@ -117,6 +117,10 @@ export default function ForgeCube({ products, href, className, skipDust = false,
     const initialRect = canvas.parentElement!.getBoundingClientRect();
     const CUBE_SIZE = Math.min(initialRect.width, initialRect.height) * 0.42;
     const FOCAL = 900;
+    // Text + shadow scale relative to a reference cube size (~280) so the
+    // letter mark, name, and shadow blur stay proportional whether the
+    // cube renders at 600px (desktop) or 160px (mobile, smaller container).
+    const TEXT_SCALE = CUBE_SIZE / 280;
     const { verts, edges, faces } = buildCube(CUBE_SIZE);
     const start = performance.now();
 
@@ -252,20 +256,20 @@ export default function ForgeCube({ products, href, className, skipDust = false,
 
           if (facing > 0.35) {
             ctx.save();
-            ctx.font = `900 ${Math.round(36 + facing * 24)}px Inter, sans-serif`;
+            ctx.font = `900 ${Math.round((36 + facing * 24) * TEXT_SCALE)}px Inter, sans-serif`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.fillStyle = `rgba(${p.rgb.join(",")},${glassOpacity * (isHover ? 1 : 0.85)})`;
             ctx.shadowColor = p.color;
-            ctx.shadowBlur = isHover ? 20 : 8;
+            ctx.shadowBlur = (isHover ? 20 : 8) * TEXT_SCALE;
             ctx.fillText(p.icon, cxs, cys);
             ctx.restore();
 
             ctx.save();
-            ctx.font = `600 ${Math.round(10 + facing * 2)}px "JetBrains Mono", monospace`;
+            ctx.font = `600 ${Math.round((10 + facing * 2) * TEXT_SCALE)}px "JetBrains Mono", monospace`;
             ctx.textAlign = "center";
             ctx.fillStyle = `rgba(${p.rgb.join(",")},${glassOpacity * 0.7})`;
-            ctx.fillText(p.name.toUpperCase(), cxs, cys + 38);
+            ctx.fillText(p.name.toUpperCase(), cxs, cys + 38 * TEXT_SCALE);
             ctx.restore();
           }
         }
