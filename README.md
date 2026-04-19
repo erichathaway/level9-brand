@@ -1,8 +1,14 @@
-# @level9/brand
+# `@level9/brand` — Central canon for the Level9 family
 
-Shared brand system for the Level9 family of marketing front-end sites.
+This repo is **the single source of truth** for the Level9 family. Code
+package + organizational docs in one place, intentionally.
 
-## What's in here
+> **Read first:** [policy/NORTHSTAR.md](./policy/NORTHSTAR.md) — the mission
+> every product, every page, every decision orients toward.
+
+## What's here
+
+### Code package (`@level9/brand` — npm/git)
 
 | Subpath | Status | Contents |
 |---|---|---|
@@ -12,18 +18,46 @@ Shared brand system for the Level9 family of marketing front-end sites.
 | `@level9/brand/components/motion` | ✅ v0.3 | FadeIn, Counter, AnimatedBar, RevealMask, MagneticCard, MagneticButton, CursorGradient, LiveTicker |
 | `@level9/brand/content` | ✅ v0.4 | pressurePoints (4-cycle), stack (8 layers), products (canonical roster), playbookDomains (8 COO Playbook), voiceRules (em-dash ban + banned phrases + voice characteristics) |
 | `@level9/brand/components/layout` | ✅ v0.5 | SectionHeader, AmbientBackground, HeroEyebrow, CycleRibbon, PressurePointCard, PlaybookDomainCard, FooterPattern |
-| `@level9/brand/components/layout` (FloatingNav) | 🔨 future | Parameterized FloatingNav shell — needs more parameterization work since each site has structurally different nav |
+| `@level9/brand/tailwind-preset` | ✅ v0.6 | Brand colors as Tailwind utility classes (`bg-decide`, `text-execute-soft`, etc) |
 
-## Why this exists
+### Policy + procedure docs (the organizational alignment layer)
+
+| Path | What it is |
+|---|---|
+| [`policy/NORTHSTAR.md`](./policy/NORTHSTAR.md) | The mission. Read first. |
+| [`policy/COMPANY-CHARTER.md`](./policy/COMPANY-CHARTER.md) | Values, voice, principles, conduct |
+| [`policy/ALIGNMENT-CYCLE.md`](./policy/ALIGNMENT-CYCLE.md) | The 4-pressure-point operational doctrine |
+| [`policy/DECISION-FRAMEWORK.md`](./policy/DECISION-FRAMEWORK.md) | How big decisions get made (Type 1 / 2 / 3) |
+| [`procedure/PROJECT-LIFECYCLE.md`](./procedure/PROJECT-LIFECYCLE.md) | Intake → ship → retire |
+| [`procedure/DEPLOY-PROCEDURE.md`](./procedure/DEPLOY-PROCEDURE.md) | How sites deploy + update |
+| [`procedure/DATA-CLEANUP-PROCEDURE.md`](./procedure/DATA-CLEANUP-PROCEDURE.md) | Inventory → soft-delete → observe → hard-delete |
+| [`procedure/BRAND-CONSISTENCY-CHECKLIST.md`](./procedure/BRAND-CONSISTENCY-CHECKLIST.md) | Pre-launch QA |
+
+### System reference docs
+
+| Path | What it is |
+|---|---|
+| [`ARCHITECTURE-MAP.md`](./ARCHITECTURE-MAP.md) | Every product, site, repo, Vercel project, domain in one map |
+| [`CLAUDE-TEMPLATE.md`](./CLAUDE-TEMPLATE.md) | Canonical agent context structure for any new repo |
+| [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Why this package exists in the shape it does |
+| [`BRAND-AGENT-HANDOFF.md`](./BRAND-AGENT-HANDOFF.md) | Outstanding logo design tasks |
+| [`VERCEL-AUDIT.md`](./VERCEL-AUDIT.md) | Vercel project inventory + cleanup state |
+| [`SUPABASE-AUDIT.md`](./SUPABASE-AUDIT.md) | `cmd_*` table cleanup state (old commandos retirement) |
+| [`audit/preview.html`](./audit/preview.html) | Live visual logo audit (open in browser) |
+
+## Why this exists (in this shape)
 
 The Level9 family has 4–6 marketing front-end sites that all need to look + feel
 the same: level9os.com, erichathaway.com, nextgenintern.com, linkupos.com, the
-front pages of thenewcoo.com and stratos.lucidorg.com. Without a shared package,
-every change has to be hand-replicated across each repo and they drift.
+front pages of thenewcoo.com and stratos.lucidorg.com. Without a shared canon,
+every change has to be hand-replicated and they drift.
 
-This package is the single source of truth. Sites consume it via npm git ref
-(no need to publish to a registry). Bumping the ref + redeploying each site
-propagates a brand change across the family.
+This repo is the alignment layer — both for **code** (the npm package) and
+for **organization** (policy + procedure docs). Sites consume the code via
+git ref. Agents read the policy docs before working in the family.
+
+Bumping the package ref + redeploying propagates a brand change across the
+family. Updating a procedure doc here updates the canon every agent reads.
 
 ## Consuming the package
 
@@ -37,55 +71,69 @@ In a consuming site's `package.json`:
 }
 ```
 
-Then in your code:
+In `next.config.mjs`:
 
-```ts
-// Subpath imports (preferred — smaller bundles)
-import { accent, text, leading, ease } from "@level9/brand/tokens";
-
-// Aggregate import (works but pulls everything)
-import { accent } from "@level9/brand";
+```js
+const nextConfig = {
+  transpilePackages: ["@level9/brand"],
+  // ...
+};
 ```
 
-In the site's root layout, import the canonical stylesheet once:
+In `tailwind.config.ts`:
+
+```ts
+import preset from "@level9/brand/tailwind-preset";
+export default { presets: [preset], content: [...] };
+```
+
+In `src/app/layout.tsx`:
 
 ```ts
 import "@level9/brand/styles/globals.css";
 ```
 
-## Updating the package
+In any component:
 
-This is v0.1 — early days. Workflow:
+```tsx
+import { FadeIn, RevealMask, MagneticCard } from "@level9/brand/components/motion";
+import { SectionHeader, PressurePointCard } from "@level9/brand/components/layout";
+import { pressurePoints, products } from "@level9/brand/content";
+```
 
-1. Make changes here, commit + push to `main`.
-2. In each consuming site, run `npm update @level9/brand` to pull the latest
-   git HEAD, then commit the lockfile change and redeploy.
-3. (Future) When the package stabilizes, switch from `#main` ref to a `#vX.Y.Z` tag
-   so updates are explicit per consumer.
+To pull updates: `npm install @level9/brand --force` (force flag because
+git ref caching).
 
 ## Family sites adoption status
 
-| Site | Repo | Adopted |
-|---|---|---|
-| level9os.com | `level9os-site` | 🔨 next |
-| erichathaway.com | `erichathaway-site` | 🔨 next |
-| nextgenintern.com | `nextgenintern-site` | ⏸ phase 6 |
-| linkupos.com | `linkupos-site` | ⏸ phase 7 |
-| thenewcoo.com (front) | `coo-playbook-app` | ⏸ phase 8 |
-| stratos.lucidorg.com (front) | `stratos-v2` | ⏸ phase 8 |
+| Site | Repo | Consumes brand pkg | Notes |
+|---|---|---|---|
+| level9os.com | `level9os-site` | ✅ tokens + motion + content | Canonical site for the family |
+| erichathaway.com | `erichathaway-site` | ✅ motion only (lite) | Pure personal brand |
+| nextgenintern.com | `nextgenintern-site` | ⏸ next adoption | Easy onboard (brand new) |
+| linkupos.com | `linkupos-site` | ⏸ later | Live product, complex |
+| thenewcoo.com (front) | `coo-playbook-app` | ⏸ later | Front page only; product app stays separate |
+| stratos.lucidorg.com (front) | `stratos-marketing` | ⏸ later | Front page only |
 
-## Architecture
+## Brand voice rules (top-level summary)
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for the design rationale, the package
-structure, and the path to a future monorepo migration if/when this v1 proves out.
+Full source: [`src/content/voiceRules.ts`](./src/content/voiceRules.ts) +
+[`policy/COMPANY-CHARTER.md`](./policy/COMPANY-CHARTER.md).
 
-## Brand voice rules
+- No em-dashes (`—`), en-dashes (`–`), or double-hyphens in user-facing copy
+- Direct, operator-to-operator. No keyword inflation.
+- Specific over general (named companies, real numbers, real artifacts)
+- Augments the workforce — never replaces
+- Numerals not spelled out: "20 years" not "twenty years"
+- ISO dates in code (`YYYY-MM-DD`); flowing months in copy ("Apr 2026")
+- See [voiceRules.ts](./src/content/voiceRules.ts) for the full list of
+  banned phrases + lint helpers (`findHardBans`, `passesVoiceCheck`)
 
-- No em-dashes (`—`) in user-facing copy. Use periods, colons, or rephrase.
-- Voice: direct, operator-to-operator. No keyword inflation.
-- Numerals not spelled out: "20 years" not "twenty years" (in product copy;
-  long-form content can flex).
-- Dates as `YYYY-MM-DD` in code/notation; flowing months ("Apr 2026") in copy.
+## How to add a new site
+
+See [`procedure/PROJECT-LIFECYCLE.md`](./procedure/PROJECT-LIFECYCLE.md)
+for the full intake. Quick scaffold steps in
+[`ARCHITECTURE-MAP.md`](./ARCHITECTURE-MAP.md).
 
 ## License
 
