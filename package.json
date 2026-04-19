@@ -1,6 +1,6 @@
 {
   "name": "@level9/brand",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Shared brand system for the Level9 family of marketing sites: tokens, motion primitives, layout components, content definitions, and assets.",
   "private": false,
   "type": "module",
@@ -29,10 +29,11 @@
     "./content/voiceRules": "./src/content/voiceRules.ts"
   },
   "files": [
-    "src/"
+    "src/",
+    "scripts/"
   ],
   "scripts": {
-    "lint": "echo 'lint stub — wire ESLint when components arrive'"
+    "lint": "echo 'lint stub. wire ESLint when components arrive'"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0"
