@@ -75,6 +75,28 @@ player components, etc.>
 - Methodology → slate `#64748b` (COO Playbook)
 - MAX → fuchsia `#ec4899`
 
+## Legal + LLC attribution
+
+This site's operating LLC: <LucidORG LLC | NextGen Interns LLC | Level9OS LLC | Eric Hathaway (individual)>.
+Source of truth for legal attribution: `@level9/brand/legal/attribution.ts`.
+
+Legal pages consumed from the canonical per-LLC templates:
+- `app/privacy/page.tsx` → `import { PrivacyPolicy } from "@level9/brand/legal/<llc>"`
+- `app/terms/page.tsx` → `import { TermsOfService } from "@level9/brand/legal/<llc>"`
+- `app/cookies/page.tsx` → `import { CookiePolicy } from "@level9/brand/legal/<llc>"`
+
+Footer consumed from the canonical LegalFooter component:
+```tsx
+import { LegalFooter } from "@level9/brand/legal";
+<LegalFooter siteSlug="<this-site-slug>" />
+```
+
+Never hand-write privacy / terms / cookie copy in this repo. Never hardcode the LLC name in a footer. If the site isn't in `attribution.ts` yet, add it there first.
+
+## Secrets
+
+Secrets come from Supabase `cmd_secrets` via `get_secret(p_service, p_key_name)` — NOT inline in code, NOT in this file. Env vars used: `<list names only, not values>`.
+
 ## Database (Supabase)
 
 <If this app touches Supabase:>
