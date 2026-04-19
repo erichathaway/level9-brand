@@ -1,7 +1,7 @@
 {
   "name": "@level9/brand",
-  "version": "0.8.1",
-  "description": "Shared brand system for the Level9 family of marketing sites: tokens, motion primitives, layout components, content definitions, and assets.",
+  "version": "0.9.0",
+  "description": "Shared brand + legal system for the Level9 family of marketing sites: tokens, motion primitives, layout components, content definitions, assets, and per-LLC legal policy templates.",
   "private": false,
   "type": "module",
   "main": "./src/index.ts",
@@ -27,11 +27,19 @@
     "./content/stack": "./src/content/stack.ts",
     "./content/products": "./src/content/products.ts",
     "./content/playbookDomains": "./src/content/playbookDomains.ts",
-    "./content/voiceRules": "./src/content/voiceRules.ts"
+    "./content/voiceRules": "./src/content/voiceRules.ts",
+    "./legal": "./legal/index.ts",
+    "./legal/lucidorg": "./legal/lucidorg/index.ts",
+    "./legal/nextgenintern": "./legal/nextgenintern/index.ts",
+    "./legal/level9os": "./legal/level9os/index.ts",
+    "./legal/eric-personal": "./legal/eric-personal/index.ts",
+    "./legal/attribution": "./legal/attribution.ts",
+    "./legal/entities": "./legal/entities.ts"
   },
   "files": [
     "src/",
-    "scripts/"
+    "scripts/",
+    "legal/"
   ],
   "scripts": {
     "lint": "echo 'lint stub. wire ESLint when components arrive'"
