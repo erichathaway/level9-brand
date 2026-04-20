@@ -48,7 +48,7 @@ export function LegalFooter({
       data-legal-footer="@level9/brand"
       style={{
         fontSize: 12,
-        color: "rgba(255,255,255,0.45)",
+        color: "rgba(255,255,255,0.7)",
         display: "flex",
         flexWrap: "wrap",
         gap: 16,
