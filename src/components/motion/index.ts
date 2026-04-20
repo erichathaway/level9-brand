@@ -6,7 +6,15 @@
  *
  * Usage:
  *   import { FadeIn, RevealMask, MagneticCard, Counter } from "@level9/brand/components/motion";
+ *
+ * Also re-exports the raw framer-motion `motion` component and
+ * `AnimatePresence` wrapper so consumer sites can flow through the
+ * canonical package instead of taking a direct framer-motion dependency.
+ * If we ever need to wrap framer-motion globally (prefers-reduced-motion,
+ * pause-on-battery, etc.), we have the seam here.
  */
+
+export { motion, AnimatePresence } from "framer-motion";
 
 export { FadeIn, default as FadeInDefault } from "./FadeIn";
 export type { FadeInProps } from "./FadeIn";
