@@ -81,14 +81,14 @@ export function PolicyShell({
           paddingTop: 24,
           borderTop: "1px solid rgba(255,255,255,0.08)",
           fontSize: 13,
-          color: "rgba(255,255,255,0.5)",
+          color: "rgba(255,255,255,0.7)",
         }}
       >
         <p>
           Questions about this {docType} notice? Contact{" "}
           <a
             href={`mailto:${entity.privacyEmail ?? entity.contactEmail}`}
-            style={{ color: "rgb(34,211,238)" }}
+            style={{ color: "rgb(34,211,238)", textDecoration: "underline" }}
           >
             {entity.privacyEmail ?? entity.contactEmail}
           </a>
@@ -110,11 +110,14 @@ export function TemplateSection({
   source: "iubenda" | "termly" | "internal" | "shared";
   children: React.ReactNode;
 }) {
+  // WCAG AA compliance: these badge colors render at 10px on a #030306 body.
+  // The palette uses lightened tints of each canonical accent so contrast is
+  // at least 4.5:1 against the dark bg. Do not re-dim without re-auditing.
   const srcBadge = {
-    iubenda: { label: "Iubenda", color: "rgba(16,185,129,0.75)" },
-    termly: { label: "Termly", color: "rgba(59,130,246,0.75)" },
-    internal: { label: "Internal", color: "rgba(139,92,246,0.75)" },
-    shared: { label: "Shared", color: "rgba(107,114,128,0.75)" },
+    iubenda: { label: "Iubenda", color: "rgb(52,211,153)" },  // emerald-400
+    termly: { label: "Termly", color: "rgb(96,165,250)" },     // blue-400
+    internal: { label: "Internal", color: "rgb(167,139,250)" }, // violet-400
+    shared: { label: "Shared", color: "rgb(148,163,184)" },    // slate-400
   }[source];
 
   return (
