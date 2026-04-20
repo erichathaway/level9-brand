@@ -33,6 +33,7 @@ export const accent = {
   emerald: "#10b981",  // Coordinate pressure point · CommandOS
   slate: "#64748b",    // COO Playbook · methodology
   red: "#ef4444",      // The Vault · governance chassis · alarm
+  indigo: "#6366f1",   // Level9OS parent-company umbrella · Education pipeline
 } as const;
 
 /** Soft variants — accent color at 15% alpha. Use for tints, badges, glows. */
