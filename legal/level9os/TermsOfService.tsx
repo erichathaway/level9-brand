@@ -3,10 +3,17 @@
 
 import React from "react";
 import { getEntity } from "../entities";
-import { PolicyShell, TemplateSection, PasteExternalHere } from "../_shared/PolicyShell";
+import { PolicyShell, TemplateSection } from "../_shared/PolicyShell";
+import {
+  DisclaimersSection,
+  LimitationOfLiabilitySection,
+} from "../_shared/GenericGDPRSections";
 
 const entity = getEntity("level9os");
-const TEMPLATE_SECTIONS_REMAINING = 2;
+// 1 external-source section ("Disclaimers and liability") replaced with two
+// GenericGDPRSections components back-to-back. Narrower scope than LucidORG
+// (consulting + site only, no paid SaaS). Legal counsel review recommended.
+const TEMPLATE_SECTIONS_REMAINING = 0;
 
 export function TermsOfService() {
   return (
@@ -49,11 +56,12 @@ export function TermsOfService() {
         </p>
       </TemplateSection>
 
-      <TemplateSection heading="Disclaimers and liability" source="termly">
-        <PasteExternalHere
-          source="termly"
-          note="Narrower than LucidORG's since there's no paid SaaS product — just site use + optional consulting engagement. Termly will generate a lighter version."
-        />
+      <TemplateSection heading="Disclaimers" source="shared">
+        <DisclaimersSection entity={entity} />
+      </TemplateSection>
+
+      <TemplateSection heading="Limitation of liability" source="shared">
+        <LimitationOfLiabilitySection entity={entity} />
       </TemplateSection>
 
       <TemplateSection heading="Third-party links" source="shared">

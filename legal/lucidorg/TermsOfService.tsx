@@ -3,10 +3,17 @@
 
 import React from "react";
 import { getEntity } from "../entities";
-import { PolicyShell, TemplateSection, PasteExternalHere } from "../_shared/PolicyShell";
+import { PolicyShell, TemplateSection } from "../_shared/PolicyShell";
+import {
+  DisclaimersSection,
+  LimitationOfLiabilitySection,
+  IndemnificationSection,
+} from "../_shared/GenericGDPRSections";
 
 const entity = getEntity("lucidorg");
-const TEMPLATE_SECTIONS_REMAINING = 3;
+// 3 external-source sections replaced with GenericGDPRSections (Gov Hub #5).
+// Legal counsel review required before shipping to commercial production.
+const TEMPLATE_SECTIONS_REMAINING = 0;
 
 export function TermsOfService() {
   return (
@@ -82,25 +89,16 @@ export function TermsOfService() {
         </p>
       </TemplateSection>
 
-      <TemplateSection heading="Disclaimers" source="termly">
-        <PasteExternalHere
-          source="termly"
-          note="Standard disclaimers (AS IS, NO WARRANTY). Termly generates a US-English compliant block; paste it here."
-        />
+      <TemplateSection heading="Disclaimers" source="shared">
+        <DisclaimersSection entity={entity} />
       </TemplateSection>
 
-      <TemplateSection heading="Limitation of liability" source="termly">
-        <PasteExternalHere
-          source="termly"
-          note="Liability cap + consequential damages exclusion. Typical LLC cap: greater of $100 or fees paid in prior 12 months. Termly generates this based on business type."
-        />
+      <TemplateSection heading="Limitation of liability" source="shared">
+        <LimitationOfLiabilitySection entity={entity} />
       </TemplateSection>
 
-      <TemplateSection heading="Indemnification" source="termly">
-        <PasteExternalHere
-          source="termly"
-          note="User indemnifies LLC for their content + misuse. Termly boilerplate."
-        />
+      <TemplateSection heading="Indemnification" source="shared">
+        <IndemnificationSection entity={entity} />
       </TemplateSection>
 
       <TemplateSection heading="Termination" source="internal">

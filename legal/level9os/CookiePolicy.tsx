@@ -2,10 +2,14 @@
 
 import React from "react";
 import { getEntity } from "../entities";
-import { PolicyShell, TemplateSection, PasteExternalHere } from "../_shared/PolicyShell";
+import { PolicyShell, TemplateSection } from "../_shared/PolicyShell";
+import {
+  CookieInventorySection,
+  CookieChoicesSection,
+} from "../_shared/GenericGDPRSections";
 
 const entity = getEntity("level9os");
-const TEMPLATE_SECTIONS_REMAINING = 2;
+const TEMPLATE_SECTIONS_REMAINING = 0;
 
 export function CookiePolicy() {
   return (
@@ -31,12 +35,12 @@ export function CookiePolicy() {
         </ul>
       </TemplateSection>
 
-      <TemplateSection heading="Cookie inventory" source="iubenda">
-        <PasteExternalHere source="iubenda" note="Iubenda scan of level9os.com produces the vendor/purpose/duration table." />
+      <TemplateSection heading="Cookie inventory" source="shared">
+        <CookieInventorySection entity={entity} />
       </TemplateSection>
 
-      <TemplateSection heading="Your choices" source="iubenda">
-        <PasteExternalHere source="iubenda" note="Consent banner + preferences link." />
+      <TemplateSection heading="Your choices" source="shared">
+        <CookieChoicesSection entity={entity} />
       </TemplateSection>
 
       <TemplateSection heading="Contact" source="internal">

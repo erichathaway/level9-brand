@@ -5,10 +5,18 @@
 
 import React from "react";
 import { getEntity } from "../entities";
-import { PolicyShell, TemplateSection, PasteExternalHere } from "../_shared/PolicyShell";
+import { PolicyShell, TemplateSection } from "../_shared/PolicyShell";
+import {
+  DataCategoriesSection,
+  RightsSection,
+} from "../_shared/GenericGDPRSections";
 
 const entity = getEntity("level9os");
-const TEMPLATE_SECTIONS_REMAINING = 3;
+// Replaced 2 external-source sections with GenericGDPRSections (2026-04-20 #5).
+// Level9OS is consulting + umbrella, so no international-transfers or legal-basis
+// table (narrow scope, no cross-border product processors). Legal counsel review
+// still required.
+const TEMPLATE_SECTIONS_REMAINING = 0;
 
 export function PrivacyPolicy() {
   return (
@@ -37,11 +45,8 @@ export function PrivacyPolicy() {
         </p>
       </TemplateSection>
 
-      <TemplateSection heading="Information we collect" source="iubenda">
-        <PasteExternalHere
-          source="iubenda"
-          note="Narrow scope: marketing-site data (email signup, contact form, visit analytics) + consulting-engagement data (company name, engagement scope). Declare only these in Iubenda — do NOT include product-side processors."
-        />
+      <TemplateSection heading="Information we collect" source="shared">
+        <DataCategoriesSection entity={entity} />
       </TemplateSection>
 
       <TemplateSection heading="How we use it" source="internal">
@@ -65,8 +70,8 @@ export function PrivacyPolicy() {
         </ul>
       </TemplateSection>
 
-      <TemplateSection heading="Your rights" source="iubenda">
-        <PasteExternalHere source="iubenda" note="GDPR + CCPA rights. Identical to LucidORG but with Level9OS as Controller." />
+      <TemplateSection heading="Your rights" source="shared">
+        <RightsSection entity={entity} includeCCPA={true} />
       </TemplateSection>
 
       <TemplateSection heading="Retention" source="internal">

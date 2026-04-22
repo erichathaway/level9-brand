@@ -2,10 +2,17 @@
 
 import React from "react";
 import { getEntity } from "../entities";
-import { PolicyShell, TemplateSection, PasteExternalHere } from "../_shared/PolicyShell";
+import { PolicyShell, TemplateSection } from "../_shared/PolicyShell";
+import {
+  DisclaimersSection,
+  LimitationOfLiabilitySection,
+  IndemnificationSection,
+} from "../_shared/GenericGDPRSections";
 
 const entity = getEntity("nextgenintern");
-const TEMPLATE_SECTIONS_REMAINING = 3;
+// 3 external-source sections replaced with GenericGDPRSections (Gov Hub #5).
+// COPPA-sensitive audience — legal counsel review required before shipping.
+const TEMPLATE_SECTIONS_REMAINING = 0;
 
 export function TermsOfService() {
   return (
@@ -82,16 +89,16 @@ export function TermsOfService() {
         </p>
       </TemplateSection>
 
-      <TemplateSection heading="Disclaimers" source="termly">
-        <PasteExternalHere source="termly" note="AS IS, no warranty of employment outcomes, no warranty of employer quality." />
+      <TemplateSection heading="Disclaimers" source="shared">
+        <DisclaimersSection entity={entity} />
       </TemplateSection>
 
-      <TemplateSection heading="Limitation of liability" source="termly">
-        <PasteExternalHere source="termly" note="Cap + consequential damages exclusion, with minor-safety carve-out if applicable." />
+      <TemplateSection heading="Limitation of liability" source="shared">
+        <LimitationOfLiabilitySection entity={entity} />
       </TemplateSection>
 
-      <TemplateSection heading="Indemnification" source="termly">
-        <PasteExternalHere source="termly" note="User indemnifies NextGen for their content and misuse." />
+      <TemplateSection heading="Indemnification" source="shared">
+        <IndemnificationSection entity={entity} />
       </TemplateSection>
 
       <TemplateSection heading="Termination" source="internal">

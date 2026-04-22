@@ -3,10 +3,14 @@
 
 import React from "react";
 import { getEntity } from "../entities";
-import { PolicyShell, TemplateSection, PasteExternalHere } from "../_shared/PolicyShell";
+import { PolicyShell, TemplateSection } from "../_shared/PolicyShell";
+import {
+  CookieInventorySection,
+  CookieChoicesSection,
+} from "../_shared/GenericGDPRSections";
 
 const entity = getEntity("lucidorg");
-const TEMPLATE_SECTIONS_REMAINING = 2;
+const TEMPLATE_SECTIONS_REMAINING = 0;
 
 export function CookiePolicy() {
   return (
@@ -51,18 +55,12 @@ export function CookiePolicy() {
         </ul>
       </TemplateSection>
 
-      <TemplateSection heading="Cookie inventory (Iubenda auto-generated)" source="iubenda">
-        <PasteExternalHere
-          source="iubenda"
-          note="Iubenda's Cookie Solution scans your site and produces a live inventory with vendor, purpose, and duration. Paste or embed the generated <script> or the static JSON version here."
-        />
+      <TemplateSection heading="Cookie inventory" source="shared">
+        <CookieInventorySection entity={entity} />
       </TemplateSection>
 
-      <TemplateSection heading="Your choices" source="iubenda">
-        <PasteExternalHere
-          source="iubenda"
-          note="Consent banner + preferences link. Include GDPR-compliant consent (prior, specific, informed, revocable) and California/Connecticut opt-out language. Iubenda's Cookie Solution UI code drops in here."
-        />
+      <TemplateSection heading="Your choices" source="shared">
+        <CookieChoicesSection entity={entity} />
       </TemplateSection>
 
       <TemplateSection heading="Browser controls" source="shared">

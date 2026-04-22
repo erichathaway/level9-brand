@@ -9,13 +9,22 @@
 
 import React from "react";
 import { getEntity } from "../entities";
-import { PolicyShell, TemplateSection, PasteExternalHere } from "../_shared/PolicyShell";
+import { PolicyShell, TemplateSection } from "../_shared/PolicyShell";
+import {
+  DataCategoriesSection,
+  LegalBasisSection,
+  RightsSection,
+  InternationalTransfersSection,
+} from "../_shared/GenericGDPRSections";
 
 const entity = getEntity("lucidorg");
 
-// Count template-placeholder sections so PolicyShell can render the banner.
-// When populating: decrement this as you replace each [PASTE] block with real text.
-const TEMPLATE_SECTIONS_REMAINING = 5;
+// 4 external-source sections replaced with free-option GenericGDPRSections
+// blocks (2026-04-20, Gov Hub #5). Legal counsel review required before
+// shipping. Internal sections (data controller, product data flows,
+// processors, retention, security, children's privacy, changes) already
+// populated from the original scaffold.
+const TEMPLATE_SECTIONS_REMAINING = 0;
 
 export function PrivacyPolicy() {
   return (
@@ -41,11 +50,8 @@ export function PrivacyPolicy() {
         </p>
       </TemplateSection>
 
-      <TemplateSection heading="Information we collect" source="iubenda">
-        <PasteExternalHere
-          source="iubenda"
-          note="Iubenda will enumerate data categories based on the services we've declared (analytics, authentication, payment, email, AI providers). Paste the full 'Types of Data collected' block here."
-        />
+      <TemplateSection heading="Information we collect" source="shared">
+        <DataCategoriesSection entity={entity} />
       </TemplateSection>
 
       <TemplateSection heading="Product-specific data flows (additions)" source="internal">
@@ -71,18 +77,12 @@ export function PrivacyPolicy() {
         </ul>
       </TemplateSection>
 
-      <TemplateSection heading="Purpose and legal basis (GDPR)" source="iubenda">
-        <PasteExternalHere
-          source="iubenda"
-          note="Per-purpose legal basis table (contract, legitimate interest, consent). Iubenda generates this when GDPR scope is enabled."
-        />
+      <TemplateSection heading="Purpose and legal basis (GDPR)" source="shared">
+        <LegalBasisSection entity={entity} />
       </TemplateSection>
 
-      <TemplateSection heading="Your rights (GDPR + CCPA)" source="iubenda">
-        <PasteExternalHere
-          source="iubenda"
-          note="Rights enumeration: access, rectification, erasure, portability, objection, restriction, withdraw consent, lodge complaint with supervisory authority. For California residents, include CCPA-specific rights (know, delete, opt-out of sale, non-discrimination)."
-        />
+      <TemplateSection heading="Your rights (GDPR + CCPA)" source="shared">
+        <RightsSection entity={entity} includeCCPA={true} />
       </TemplateSection>
 
       <TemplateSection heading="Third-party processors" source="internal">
@@ -114,11 +114,8 @@ export function PrivacyPolicy() {
         </p>
       </TemplateSection>
 
-      <TemplateSection heading="International transfers" source="iubenda">
-        <PasteExternalHere
-          source="iubenda"
-          note="Standard Contractual Clauses and safeguards language. Required if you have any EU/UK users."
-        />
+      <TemplateSection heading="International transfers" source="shared">
+        <InternationalTransfersSection entity={entity} />
       </TemplateSection>
 
       <TemplateSection heading="Security" source="internal">

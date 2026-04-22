@@ -4,10 +4,21 @@
 
 import React from "react";
 import { getEntity } from "../entities";
-import { PolicyShell, TemplateSection, PasteExternalHere } from "../_shared/PolicyShell";
+import { PolicyShell, TemplateSection } from "../_shared/PolicyShell";
+import {
+  DataCategoriesSection,
+  LegalBasisSection,
+  RightsSection,
+  InternationalTransfersSection,
+  CCPASection,
+} from "../_shared/GenericGDPRSections";
 
 const entity = getEntity("nextgenintern");
-const TEMPLATE_SECTIONS_REMAINING = 6;
+// Replaced 5 external-source sections with GenericGDPRSections (2026-04-20 #5).
+// Special: CCPASection uses includeMinor=true because audience includes under-16s.
+// COPPA-specific disclosures already handled in the dedicated "Children under 13"
+// internal section above. Legal counsel review required (COPPA-sensitive).
+const TEMPLATE_SECTIONS_REMAINING = 0;
 
 export function PrivacyPolicy() {
   return (
@@ -40,15 +51,12 @@ export function PrivacyPolicy() {
         </p>
       </TemplateSection>
 
-      <TemplateSection heading="Information we collect" source="iubenda">
-        <PasteExternalHere
-          source="iubenda"
-          note="Iubenda-generated data categories. Ensure you declare school affiliation, resume uploads, employer-match data, and any background-check integrations so Iubenda surfaces all applicable sections."
-        />
+      <TemplateSection heading="Information we collect" source="shared">
+        <DataCategoriesSection entity={entity} />
       </TemplateSection>
 
-      <TemplateSection heading="Purpose and legal basis" source="iubenda">
-        <PasteExternalHere source="iubenda" note="Per-purpose legal basis including student/intern matching." />
+      <TemplateSection heading="Purpose and legal basis" source="shared">
+        <LegalBasisSection entity={entity} />
       </TemplateSection>
 
       <TemplateSection heading="Student / intern specifics" source="internal">
@@ -71,11 +79,8 @@ export function PrivacyPolicy() {
         </ul>
       </TemplateSection>
 
-      <TemplateSection heading="Your rights" source="iubenda">
-        <PasteExternalHere
-          source="iubenda"
-          note="GDPR + CCPA rights, plus minors-specific rights (California Eraser law allows minors to request removal)."
-        />
+      <TemplateSection heading="Your rights" source="shared">
+        <RightsSection entity={entity} includeCCPA={true} />
       </TemplateSection>
 
       <TemplateSection heading="FERPA considerations" source="internal">
@@ -106,8 +111,8 @@ export function PrivacyPolicy() {
         </p>
       </TemplateSection>
 
-      <TemplateSection heading="International transfers" source="iubenda">
-        <PasteExternalHere source="iubenda" note="SCCs for any EU-origin student data." />
+      <TemplateSection heading="International transfers" source="shared">
+        <InternationalTransfersSection entity={entity} />
       </TemplateSection>
 
       <TemplateSection heading="Security" source="internal">
@@ -118,8 +123,8 @@ export function PrivacyPolicy() {
         </p>
       </TemplateSection>
 
-      <TemplateSection heading="California (CCPA)" source="iubenda">
-        <PasteExternalHere source="iubenda" note="CCPA rights + Do Not Sell/Share + minor-specific opt-in." />
+      <TemplateSection heading="California (CCPA)" source="shared">
+        <CCPASection entity={entity} includeMinor={true} />
       </TemplateSection>
 
       <TemplateSection heading="Changes" source="shared">
