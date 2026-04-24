@@ -35,7 +35,7 @@ export type BrandId =
   | "alignment-advantage";
 
 /* ─── Logo variant type ─────────────────────────────────────── */
-export type LogoVariant = "chip" | "square" | "wordmark" | "mini";
+export type LogoVariant = "chip" | "square" | "wordmark" | "mini" | "favicon";
 
 /* ─── Canonical logo path map (relative to /assets/logos/) ──── */
 export const LOGO_PATHS = {
@@ -43,61 +43,73 @@ export const LOGO_PATHS = {
     chip: "level9/chip.svg",
     square: "level9/square.svg",
     wordmark: "level9/wordmark.svg",
+    favicon: "level9/favicon.svg",
   },
   erichathaway: {
     chip: "erichathaway/chip.svg",
     square: "erichathaway/square.svg",
     wordmark: "erichathaway/wordmark.svg",
+    favicon: "erichathaway/favicon.svg",
   },
   lucidorg: {
     chip: "lucidorg/chip.svg",
     square: "lucidorg/square.svg",
     wordmark: "lucidorg/wordmark.svg",
+    favicon: "lucidorg/favicon.svg",
   },
   linkupos: {
     chip: "linkupos/chip.svg",
     square: "linkupos/square.svg",
     wordmark: "linkupos/wordmark.svg",
+    favicon: "linkupos/favicon.svg",
   },
   commandos: {
     chip: "commandos/chip.svg",
     square: "commandos/square.svg",
     wordmark: "commandos/wordmark.svg",
+    favicon: "commandos/favicon.svg",
   },
   stratos: {
     chip: "stratos/chip.svg",        // always round; no square variant by design
     wordmark: "stratos/wordmark.svg",
+    favicon: "stratos/favicon.svg",
   },
   "coo-playbook": {
     chip: "coo-playbook/chip.svg",
     square: "coo-playbook/square.svg",
     wordmark: "coo-playbook/wordmark.svg",
+    favicon: "coo-playbook/favicon.svg",
   },
   bigesessions: {
     chip: "bigesessions/chip.svg",
     square: "bigesessions/square.svg",
     wordmark: "bigesessions/wordmark.svg",
     mini: "bigesessions/mini.svg",   // bars-only, use at <80px
+    favicon: "bigesessions/favicon.svg",
   },
   outboundos: {
     chip: "outboundos/chip.svg",         // PLACEHOLDER — brand-agent designs final
     square: "outboundos/square.svg",     // PLACEHOLDER
     wordmark: "outboundos/wordmark.svg", // PLACEHOLDER
+    favicon: "outboundos/favicon.svg",
   },
   nextgenintern: {
     chip: "nextgenintern/chip.svg",         // PLACEHOLDER — brand-agent designs final
     square: "nextgenintern/square.svg",     // PLACEHOLDER
     wordmark: "nextgenintern/wordmark.svg", // PLACEHOLDER
+    favicon: "nextgenintern/favicon.svg",
   },
   max: {
     chip: "max/chip.svg",                   // v1: tilted M + voice waveform, fuchsia family
     square: "max/square.svg",
     wordmark: "max/wordmark.svg",
+    favicon: "max/favicon.svg",
   },
   "alignment-advantage": {
     chip: "alignment-advantage/chip.svg",         // v1: dark red + book with alignment bars
     square: "alignment-advantage/square.svg",
     wordmark: "alignment-advantage/wordmark.svg",
+    favicon: "alignment-advantage/favicon.svg",
   },
 } as const;
 

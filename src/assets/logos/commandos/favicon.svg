@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  CommandOS — favicon variant. Chevron + terminal cursor on emerald
+  chip, full-bleed for favicon weight.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="CommandOS">
+  <defs>
+    <linearGradient id="cmdFavObs" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A1A14"/>
+      <stop offset="100%" stop-color="#02080A"/>
+    </linearGradient>
+    <linearGradient id="cmdFavEdge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="304" height="304" rx="56" fill="url(#cmdFavObs)" stroke="url(#cmdFavEdge)" stroke-width="6"/>
+  <path d="M 80 80 L 170 160 L 80 240" stroke="#10B981" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <rect x="200" y="144" width="56" height="32" rx="8" fill="#10B981"/>
+</svg>
