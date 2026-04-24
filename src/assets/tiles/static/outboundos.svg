@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  OutboundOS static tile. 1200x630.
+  Visual: 3 orbiting pod rings around a central voice-profile hub.
+  Canonical color: amber (#f59e0b) into orange.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="OutboundOS · Autonomous Pod Umbrella">
+  <defs>
+    <linearGradient id="obWord" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <radialGradient id="obGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.42"/>
+      <stop offset="55%" stop-color="#f59e0b" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="obHub" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#060610"/>
+  <ellipse cx="925" cy="315" rx="380" ry="300" fill="url(#obGlow)"/>
+
+  <!-- 3 orbits around hub @ (925, 315) -->
+  <g transform="translate(925 315)" fill="none" stroke="#f59e0b" stroke-width="1">
+    <ellipse cx="0" cy="0" rx="105" ry="42" opacity="0.7"/>
+    <ellipse cx="0" cy="0" rx="155" ry="62" opacity="0.55" transform="rotate(35)"/>
+    <ellipse cx="0" cy="0" rx="195" ry="78" opacity="0.4"  transform="rotate(-35)"/>
+  </g>
+
+  <!-- central voice-profile hub -->
+  <g transform="translate(925 315)">
+    <circle r="56" fill="#f59e0b" opacity="0.15"/>
+    <circle r="38" fill="url(#obHub)"/>
+    <circle r="38" fill="#060610" opacity="0.55"/>
+    <text y="4" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="9" fill="#fbbf24" letter-spacing="2.2">VOICE</text>
+    <text y="18" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="9" fill="#fbbf24" letter-spacing="2.2">PROFILE</text>
+  </g>
+
+  <!-- 3 pod nodes on the orbits -->
+  <g transform="translate(925 315)">
+    <!-- LinkupOS -->
+    <g transform="translate(-90 -20)">
+      <circle r="16" fill="#f59e0b" opacity="0.2"/>
+      <circle r="10" fill="#060610" stroke="#f59e0b" stroke-width="2"/>
+      <text x="0" y="-24" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="12" fill="rgba(255,255,255,0.82)">LinkupOS</text>
+      <text x="0" y="-38" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="8" fill="rgba(245,158,11,0.75)" letter-spacing="1.5">LINKEDIN SIGNAL</text>
+    </g>
+    <!-- ABM Engine -->
+    <g transform="translate(125 -50)">
+      <circle r="16" fill="#fb923c" opacity="0.22"/>
+      <circle r="10" fill="#060610" stroke="#fb923c" stroke-width="2"/>
+      <text x="0" y="-24" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="12" fill="rgba(255,255,255,0.82)">ABM Engine</text>
+      <text x="0" y="-38" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="8" fill="rgba(251,146,60,0.8)" letter-spacing="1.5">MULTI-CHANNEL OUTBOUND</text>
+    </g>
+    <!-- AutoCS -->
+    <g transform="translate(60 90)">
+      <circle r="16" fill="#f97316" opacity="0.22"/>
+      <circle r="10" fill="#060610" stroke="#f97316" stroke-width="2"/>
+      <text x="0" y="28" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="12" fill="rgba(255,255,255,0.82)">AutoCS</text>
+      <text x="0" y="42" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="8" fill="rgba(249,115,22,0.82)" letter-spacing="1.5">CUSTOMER CARE</text>
+    </g>
+  </g>
+
+  <!-- Level9 co-sign -->
+  <g transform="translate(1050 560)">
+    <rect x="0" y="0" width="40" height="40" rx="8" fill="#0d0d18" stroke="#f59e0b" stroke-width="1" opacity="0.8"/>
+    <text x="20" y="28" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="22" fill="#ffffff" transform="rotate(-14 20 26)" style="letter-spacing:-0.04em">9</text>
+    <text x="52" y="25" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="13" fill="rgba(255,255,255,0.65)">Level9 OS</text>
+    <text x="52" y="40" font-family="SF Mono, Menlo, monospace" font-size="9" fill="rgba(255,255,255,0.35)" letter-spacing="1.5">EXECUTION LAYER</text>
+  </g>
+
+  <!-- Eyebrow + status chip -->
+  <text x="72" y="96" font-family="SF Mono, Menlo, monospace" font-size="11" fill="#fbbf24" letter-spacing="5.5">AUTONOMOUS POD UMBRELLA</text>
+  <g transform="translate(72 108)">
+    <rect x="0" y="0" width="62" height="22" rx="11" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.4)" stroke-width="1"/>
+    <circle cx="12" cy="11" r="3" fill="#10b981"/>
+    <text x="22" y="15" font-family="SF Mono, Menlo, monospace" font-size="10" fill="#10b981" letter-spacing="1.6">LIVE</text>
+    <text x="80" y="16" font-family="SF Mono, Menlo, monospace" font-size="10" fill="rgba(255,255,255,0.4)" letter-spacing="3">3 PODS · ONE VOICE PROFILE</text>
+  </g>
+
+  <!-- Product name -->
+  <text x="72" y="278" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="112" fill="url(#obWord)" letter-spacing="-4">OutboundOS</text>
+
+  <text x="72" y="352" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="24" fill="rgba(255,255,255,0.75)">Teams burn budget on outbound and customer care</text>
+  <text x="72" y="384" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="24" fill="rgba(255,255,255,0.75)">that could run itself.</text>
+
+  <text x="72" y="440" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="22" fill="#fbbf24">One umbrella. Three autonomous pods. One voice profile.</text>
+  <text x="72" y="468" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="22" fill="#fbbf24">Governance gated. Small monthly footprint.</text>
+
+  <g transform="translate(72 560)">
+    <text font-family="SF Mono, Menlo, monospace" font-size="10" fill="rgba(255,255,255,0.35)" letter-spacing="3">EXECUTION · OUTBOUND + CARE UMBRELLA</text>
+    <text y="22" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.55)">linkupos.com · abm · autocs</text>
+  </g>
+</svg>

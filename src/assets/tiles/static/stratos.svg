@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  StratOS static tile. 1200x630 (LinkedIn Experience + post).
+  Visual: 10 executive nodes across 3 round-trip debate arcs converging on one verdict node.
+  Canonical color: violet (#8b5cf6) into fuchsia.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="StratOS · AI Decision Engine">
+  <defs>
+    <linearGradient id="stratosWord" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <radialGradient id="stratosGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#8b5cf6" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="stratosArc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.0"/>
+      <stop offset="50%" stop-color="#a78bfa" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0.0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#060610"/>
+  <ellipse cx="900" cy="280" rx="420" ry="280" fill="url(#stratosGlow)"/>
+
+  <!-- Debate arcs (3 rounds) across 10 nodes on the right -->
+  <g transform="translate(972 315)" fill="none" stroke="url(#stratosArc)" stroke-width="1.4">
+    <path d="M -140,0 Q 0,-150 140,0"/>
+    <path d="M -140,0 Q 0,-100 140,0" opacity="0.7"/>
+    <path d="M -140,0 Q 0,-50 140,0" opacity="0.45"/>
+    <path d="M -140,0 Q 0,150 140,0"/>
+    <path d="M -140,0 Q 0,100 140,0" opacity="0.7"/>
+    <path d="M -140,0 Q 0,50 140,0" opacity="0.45"/>
+  </g>
+
+  <!-- 10 executive nodes on the left arc, 1 verdict node on the right -->
+  <g transform="translate(972 315)">
+    <!-- left cluster (10 execs arranged in a vertical arc) -->
+    <g fill="#0d0d18" stroke="#8b5cf6" stroke-width="1.5">
+      <circle cx="-140" cy="-180" r="10"/>
+      <circle cx="-160" cy="-140" r="10"/>
+      <circle cx="-172" cy="-90"  r="10"/>
+      <circle cx="-180" cy="-40"  r="10"/>
+      <circle cx="-180" cy="10"   r="10"/>
+      <circle cx="-175" cy="55"   r="10"/>
+      <circle cx="-165" cy="100"  r="10"/>
+      <circle cx="-150" cy="140"  r="10"/>
+      <circle cx="-130" cy="175"  r="10"/>
+      <circle cx="-105" cy="200"  r="10"/>
+    </g>
+    <!-- node glows -->
+    <g fill="#8b5cf6" opacity="0.35">
+      <circle cx="-140" cy="-180" r="18"/>
+      <circle cx="-160" cy="-140" r="18"/>
+      <circle cx="-172" cy="-90"  r="18"/>
+      <circle cx="-180" cy="-40"  r="18"/>
+      <circle cx="-180" cy="10"   r="18"/>
+      <circle cx="-175" cy="55"   r="18"/>
+      <circle cx="-165" cy="100"  r="18"/>
+      <circle cx="-150" cy="140"  r="18"/>
+      <circle cx="-130" cy="175"  r="18"/>
+      <circle cx="-105" cy="200"  r="18"/>
+    </g>
+    <!-- verdict node -->
+    <circle cx="140" cy="0" r="20" fill="#ec4899" opacity="0.3"/>
+    <circle cx="140" cy="0" r="14" fill="#0d0d18" stroke="#ec4899" stroke-width="2"/>
+    <circle cx="140" cy="0" r="5"  fill="#ec4899"/>
+  </g>
+
+  <!-- Level9 co-sign bottom right -->
+  <g transform="translate(1050 560)">
+    <rect x="0" y="0" width="40" height="40" rx="8" fill="#0d0d18" stroke="#8b5cf6" stroke-width="1" opacity="0.8"/>
+    <text x="20" y="28" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="22" fill="#ffffff" transform="rotate(-14 20 26)" style="letter-spacing:-0.04em">9</text>
+    <text x="52" y="25" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="13" fill="rgba(255,255,255,0.65)">Level9 OS</text>
+    <text x="52" y="40" font-family="SF Mono, Menlo, monospace" font-size="9" fill="rgba(255,255,255,0.35)" letter-spacing="1.5">STRATEGY LAYER</text>
+  </g>
+
+  <!-- Eyebrow + status chip -->
+  <g transform="translate(72 96)">
+    <text font-family="SF Mono, Menlo, monospace" font-size="11" fill="#a78bfa" letter-spacing="5.5">AI DECISION ENGINE</text>
+  </g>
+  <g transform="translate(72 118)">
+    <rect x="0" y="0" width="62" height="22" rx="11" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.4)" stroke-width="1"/>
+    <circle cx="12" cy="11" r="3" fill="#10b981"/>
+    <text x="22" y="15" font-family="SF Mono, Menlo, monospace" font-size="10" fill="#10b981" letter-spacing="1.6">LIVE</text>
+    <text x="80" y="16" font-family="SF Mono, Menlo, monospace" font-size="10" fill="rgba(255,255,255,0.4)" letter-spacing="3">10 EXECS · 3 ROUNDS</text>
+  </g>
+
+  <!-- Product name -->
+  <text x="72" y="278" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="132" fill="url(#stratosWord)" letter-spacing="-4">StratOS</text>
+
+  <!-- Problem + answer -->
+  <text x="72" y="352" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="24" fill="rgba(255,255,255,0.75)" letter-spacing="-0.3">Strategic decisions made in the dark by people who agree</text>
+  <text x="72" y="384" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="24" fill="rgba(255,255,255,0.75)" letter-spacing="-0.3">too easily.</text>
+
+  <text x="72" y="440" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="22" fill="#a78bfa" letter-spacing="-0.2">An AI executive room that pressure-tests every decision</text>
+  <text x="72" y="468" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="22" fill="#a78bfa" letter-spacing="-0.2">against ten dissenting perspectives.</text>
+
+  <!-- Signature line bottom-left -->
+  <g transform="translate(72 560)">
+    <text font-family="SF Mono, Menlo, monospace" font-size="10" fill="rgba(255,255,255,0.35)" letter-spacing="3">STRATEGY · ELT / BOARD</text>
+    <text y="22" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.55)">stratosonline.com</text>
+  </g>
+</svg>

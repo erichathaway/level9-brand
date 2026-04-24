@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- CommandOS static tile. Mirrors the animated Feed tile but captured as
+       a single representative frame. Terminal console with 6 visible
+       dispatch lines plus the 48-officer dot strip docked below. -->
+  <defs>
+    <linearGradient id="cmdName" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6ee7b7"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </linearGradient>
+    <radialGradient id="cmdGlow" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.32"/>
+      <stop offset="60%" stop-color="#10b981" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#060610"/>
+  <ellipse cx="900" cy="315" rx="420" ry="280" fill="url(#cmdGlow)"/>
+
+  <!-- Console window -->
+  <g transform="translate(780 130)">
+    <rect x="0" y="0" width="380" height="360" rx="10" ry="10" fill="rgba(6,6,16,0.72)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+    <!-- Top bar -->
+    <rect x="0" y="0" width="380" height="28" rx="10" ry="10" fill="rgba(16,185,129,0.08)"/>
+    <circle cx="16" cy="14" r="4" fill="#10b981" opacity="0.75"/>
+    <circle cx="30" cy="14" r="4" fill="rgba(110,231,183,0.35)"/>
+    <circle cx="44" cy="14" r="4" fill="rgba(110,231,183,0.2)"/>
+    <text x="66" y="18" font-family="SF Mono, Menlo, monospace" font-size="10" fill="rgba(255,255,255,0.55)" letter-spacing="2">commandos · dispatch feed</text>
+    <circle cx="354" cy="14" r="3.5" fill="#10b981"/>
+    <text x="362" y="17" text-anchor="end" font-family="SF Mono, Menlo, monospace" font-size="9" fill="rgba(110,231,183,0.8)" letter-spacing="2">LIVE</text>
+
+    <!-- Dispatch feed lines. 6 visible lines representing a snapshot frame. -->
+    <g font-family="SF Mono, Menlo, monospace" font-size="12" letter-spacing="0.3">
+      <text x="18" y="70">
+        <tspan fill="#6ee7b7" font-weight="600">DISPATCH</tspan>
+        <tspan fill="rgba(255,255,255,0.3)"> · </tspan>
+        <tspan fill="rgba(255,255,255,0.92)">ProjectAlpha</tspan>
+        <tspan fill="rgba(255,255,255,0.3)">  </tspan>
+        <tspan fill="#10b981">→ Agent 01</tspan>
+      </text>
+      <text x="18" y="108">
+        <tspan fill="#67e8f9" font-weight="600">Agent 01</tspan>
+        <tspan fill="rgba(255,255,255,0.3)"> · </tspan>
+        <tspan fill="rgba(255,255,255,0.92)">plan drafted</tspan>
+        <tspan fill="rgba(255,255,255,0.3)">  </tspan>
+        <tspan fill="#10b981">→ G1</tspan>
+      </text>
+      <text x="18" y="146">
+        <tspan fill="#6ee7b7" font-weight="600">GATE G1</tspan>
+        <tspan fill="rgba(255,255,255,0.3)"> · </tspan>
+        <tspan fill="rgba(255,255,255,0.92)">decision: approve</tspan>
+      </text>
+      <text x="18" y="184">
+        <tspan fill="#67e8f9" font-weight="600">Agent 20</tspan>
+        <tspan fill="rgba(255,255,255,0.3)"> · </tspan>
+        <tspan fill="rgba(255,255,255,0.92)">implementation 47%...</tspan>
+      </text>
+      <text x="18" y="222">
+        <tspan fill="#fbbf24" font-weight="600">HUMAN</tspan>
+        <tspan fill="rgba(255,255,255,0.3)"> · </tspan>
+        <tspan fill="rgba(255,255,255,0.92)">approval requested</tspan>
+        <tspan fill="rgba(255,255,255,0.3)">  </tspan>
+        <tspan fill="#10b981">· Eric</tspan>
+      </text>
+      <text x="18" y="260">
+        <tspan fill="#6ee7b7" font-weight="600">GATE G3</tspan>
+        <tspan fill="rgba(255,255,255,0.3)"> · </tspan>
+        <tspan fill="rgba(255,255,255,0.92)">decision: SHIPPED</tspan>
+        <tspan fill="rgba(255,255,255,0.3)">  </tspan>
+        <tspan fill="#10b981">· ProjectAlpha</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- 48-officer strip docked below terminal -->
+  <g transform="translate(780 538)">
+    <text x="0" y="-18" font-family="SF Mono, Menlo, monospace" font-size="10" fill="rgba(110,231,183,0.65)" letter-spacing="2.5">48 OFFICERS</text>
+    <!-- 12 cols x 4 rows dot grid, 12px spacing horizontal, 7px vertical -->
+    <g fill="#10b981">
+      <!-- row 0 -->
+      <circle cx="0"   cy="0" r="3"/><circle cx="12"  cy="0" r="3"/><circle cx="24"  cy="0" r="3"/><circle cx="36"  cy="0" r="3"/><circle cx="48"  cy="0" r="3"/><circle cx="60"  cy="0" r="3"/>
+      <circle cx="72"  cy="0" r="3"/><circle cx="84"  cy="0" r="3"/><circle cx="96"  cy="0" r="3"/><circle cx="108" cy="0" r="3"/><circle cx="120" cy="0" r="3"/><circle cx="132" cy="0" r="3"/>
+      <!-- row 1 -->
+      <circle cx="0"   cy="7" r="3"/><circle cx="12"  cy="7" r="3"/><circle cx="24"  cy="7" r="3"/><circle cx="36"  cy="7" r="3"/><circle cx="48"  cy="7" r="3"/><circle cx="60"  cy="7" r="3"/>
+      <circle cx="72"  cy="7" r="3"/><circle cx="84"  cy="7" r="3"/><circle cx="96"  cy="7" r="3"/><circle cx="108" cy="7" r="3"/><circle cx="120" cy="7" r="3"/><circle cx="132" cy="7" r="3"/>
+      <!-- row 2 -->
+      <circle cx="0"   cy="14" r="3"/><circle cx="12"  cy="14" r="3"/><circle cx="24"  cy="14" r="3"/><circle cx="36"  cy="14" r="3"/><circle cx="48"  cy="14" r="3"/><circle cx="60"  cy="14" r="3"/>
+      <circle cx="72"  cy="14" r="3"/><circle cx="84"  cy="14" r="3"/><circle cx="96"  cy="14" r="3"/><circle cx="108" cy="14" r="3"/><circle cx="120" cy="14" r="3"/><circle cx="132" cy="14" r="3"/>
+      <!-- row 3 -->
+      <circle cx="0"   cy="21" r="3"/><circle cx="12"  cy="21" r="3"/><circle cx="24"  cy="21" r="3"/><circle cx="36"  cy="21" r="3"/><circle cx="48"  cy="21" r="3"/><circle cx="60"  cy="21" r="3"/>
+      <circle cx="72"  cy="21" r="3"/><circle cx="84"  cy="21" r="3"/><circle cx="96"  cy="21" r="3"/><circle cx="108" cy="21" r="3"/><circle cx="120" cy="21" r="3"/><circle cx="132" cy="21" r="3"/>
+    </g>
+  </g>
+
+  <!-- Level9 co-sign bottom-right -->
+  <g transform="translate(1050 560)">
+    <rect x="0" y="0" width="40" height="40" rx="8" fill="#0d0d18" stroke="#10b981" stroke-width="1" opacity="0.8"/>
+    <text x="20" y="28" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="22" fill="#ffffff" transform="rotate(-14 20 26)" style="letter-spacing:-0.04em">9</text>
+    <text x="52" y="25" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="13" fill="rgba(255,255,255,0.65)">Level9 OS</text>
+    <text x="52" y="40" font-family="SF Mono, Menlo, monospace" font-size="9" fill="rgba(255,255,255,0.35)" letter-spacing="1.5">MANAGEMENT LAYER</text>
+  </g>
+
+  <!-- Eyebrow + status chip top-left -->
+  <text x="72" y="96" font-family="SF Mono, Menlo, monospace" font-size="11" fill="#6ee7b7" letter-spacing="5.5">AGENT ORCHESTRATION</text>
+  <g transform="translate(72 108)">
+    <rect x="0" y="0" width="122" height="22" rx="11" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.4)" stroke-width="1"/>
+    <circle cx="10" cy="11" r="3" fill="#f59e0b"/>
+    <text x="20" y="15" font-family="SF Mono, Menlo, monospace" font-size="10" fill="#f59e0b" letter-spacing="2">IN PRODUCTION</text>
+    <text x="140" y="15" font-family="SF Mono, Menlo, monospace" font-size="10" fill="rgba(255,255,255,0.42)" letter-spacing="3">48 OFFICERS · 3 GATES</text>
+  </g>
+
+  <!-- Product name -->
+  <g transform="translate(60 160)">
+    <text x="12" y="128" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="104" letter-spacing="-0.04em" fill="url(#cmdName)">CommandOS</text>
+  </g>
+
+  <!-- Copy block -->
+  <text x="72" y="380" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="24" fill="rgba(255,255,255,0.78)">Cross-functional projects die in handoffs. The PMO is</text>
+  <text x="72" y="410" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="24" fill="rgba(255,255,255,0.78)">expensive and slow.</text>
+  <text x="72" y="460" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="22" fill="#6ee7b7">AI middle management that plans, dispatches, reviews, and</text>
+  <text x="72" y="488" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="22" fill="#6ee7b7">ships every project.</text>
+
+  <!-- Signature line bottom-left -->
+  <g transform="translate(72 560)">
+    <text font-family="SF Mono, Menlo, monospace" font-size="10" fill="rgba(255,255,255,0.35)" letter-spacing="3">MANAGEMENT · PMO / COORDINATION</text>
+    <text y="22" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.55)">commandos.level9os.com</text>
+  </g>
+</svg>

@@ -6,8 +6,11 @@
  *   - @level9/brand/components/layout — section headers, hero patterns, cards, footers
  *   - @level9/brand/components/architecture — operating-architecture visualizations
  *     (ConsoleGraphic, ForgeCube) — canvas-rendered, canonical family motion builds
+ *   - @level9/brand/components/tiles — animated landscape + portrait product tiles
+ *     (TileFrame, VerticalTileFrame, 6 product tiles x 2 formats)
  */
 
 export * from "./motion/index";
 export * from "./layout/index";
 export * from "./architecture/index";
+export * from "./tiles/index";
