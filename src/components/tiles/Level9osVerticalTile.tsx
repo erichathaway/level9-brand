@@ -2,9 +2,9 @@
 /**
  * Level9OS umbrella vertical tile (1080x1920).
  *
- * Portrait companion to Level9osTile. The 4-pressure-point alignment cycle
- * lives in the center hero zone (480..1280); chassis ring + dots scaled up
- * from the landscape version. 6 product chips ribbon sits in the bottom band.
+ * Portrait companion to Level9osTile. Same flash + 4-pond-ripple pattern
+ * as level9os.com's HomeHeroSplash, anchored on the Coordinate dot,
+ * looping every 5s. Ripples scale up to fill the full 1080x1920 canvas.
  */
 import type { CSSProperties } from "react";
 
@@ -26,6 +26,18 @@ const HERO_CX = 540;
 const HERO_CY = 880;
 const RING_R = 320;
 
+const PULSE_X = HERO_CX + RING_R; // 860
+const PULSE_Y = HERO_CY;          // 880
+
+const RIPPLES = [
+  { delay: 0.0, dur: 4.0, peakAlpha: 0.13, maxR: 2400 },
+  { delay: 0.7, dur: 4.0, peakAlpha: 0.10, maxR: 2200 },
+  { delay: 1.4, dur: 4.0, peakAlpha: 0.075, maxR: 2000 },
+  { delay: 2.1, dur: 4.0, peakAlpha: 0.05,  maxR: 1800 },
+];
+
+const LOOP = 5;
+
 export function Level9osVerticalTile() {
   return (
     <div
@@ -40,22 +52,32 @@ export function Level9osVerticalTile() {
         isolation: "isolate",
       }}
     >
-      {/* Ambient glow */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          left: -80,
-          top: 380,
-          width: 1240,
-          height: 1000,
-          background: "radial-gradient(circle at center, #8b5cf64a 0%, #06b6d414 42%, transparent 72%)",
-          filter: "blur(4px)",
-          pointerEvents: "none",
-        }}
-      />
+      {/* Mesh background */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
+        {[
+          { color: "139,92,246", alpha: 0.42, size: 900, top: "30%", left: "62%", flow: 1, dur: 28 },
+          { color: "6,182,212",  alpha: 0.32, size: 760, top: "55%", left: "20%", flow: 2, dur: 34 },
+          { color: "236,72,153", alpha: 0.22, size: 600, top: "75%", left: "55%", flow: 3, dur: 40 },
+        ].map((b, i) => (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              width: b.size,
+              height: b.size,
+              top: b.top,
+              left: b.left,
+              borderRadius: "50%",
+              background: `radial-gradient(circle, rgba(${b.color},${b.alpha}) 0%, transparent 62%)`,
+              filter: "blur(90px)",
+              willChange: "transform",
+              animation: `vl9tile-flow-${b.flow} ${b.dur}s ease-in-out infinite`,
+            }}
+          />
+        ))}
+      </div>
 
-      {/* Hero metaphor: alignment cycle */}
+      {/* Hero animated metaphor: alignment cycle + pulse + ripples */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
         <svg width="1080" height="1920" viewBox="0 0 1080 1920" style={{ position: "absolute", inset: 0 }}>
           <defs>
@@ -68,34 +90,52 @@ export function Level9osVerticalTile() {
               <stop offset="0%"   stopColor="#a78bfa" stopOpacity="0.55" />
               <stop offset="100%" stopColor="#a78bfa" stopOpacity="0" />
             </radialGradient>
+            <radialGradient id="vl9osFlashGrad">
+              <stop offset="0%"   stopColor="#ffffff" stopOpacity="0.95" />
+              <stop offset="28%"  stopColor="#a78bfa" stopOpacity="0.6" />
+              <stop offset="55%"  stopColor="#06b6d4" stopOpacity="0.3" />
+              <stop offset="75%"  stopColor="#06b6d4" stopOpacity="0" />
+            </radialGradient>
           </defs>
+
+          {/* Pond ripples — 4 expanding stroke circles */}
+          {RIPPLES.map((rp, i) => (
+            <circle
+              key={`vrip-${i}`}
+              cx={PULSE_X}
+              cy={PULSE_Y}
+              r={0}
+              fill="none"
+              stroke="rgba(220,232,255,1)"
+              strokeWidth={48}
+              style={{
+                animation: `vl9tile-ripple ${LOOP}s ${rp.delay}s linear infinite`,
+                ['--rip-max' as string]: `${rp.maxR}px`,
+                ['--rip-peak' as string]: `${rp.peakAlpha}`,
+                mixBlendMode: "screen",
+              } as CSSProperties}
+            />
+          ))}
 
           <g transform={`translate(${HERO_CX} ${HERO_CY})`}>
             <circle r={RING_R} fill="none" stroke="url(#vl9osChassis)" strokeWidth={2.4} />
             <circle r={RING_R - 36} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={1.4} strokeDasharray="3 8" />
             <circle r={130} fill="url(#vl9osHubGlow)" />
 
-            {/* Cycling verb */}
-            {POINTS.map((p, i) => (
-              <text
-                key={p.id}
-                x={0}
-                y={20}
-                textAnchor="middle"
-                style={{
-                  ...sans,
-                  fontWeight: 900,
-                  fontSize: 76,
-                  letterSpacing: "-0.03em",
-                  fill: p.color,
-                  animation: `l9osVerb 8s ${i * 2}s ease-in-out infinite`,
-                  opacity: 0,
-                }}
-              >
-                {p.verb}
-              </text>
-            ))}
-
+            <text
+              x={0}
+              y={20}
+              textAnchor="middle"
+              style={{
+                ...sans,
+                fontWeight: 900,
+                fontSize: 76,
+                letterSpacing: "-0.03em",
+                fill: "#10b981",
+              }}
+            >
+              Coordinate.
+            </text>
             <text
               x={0}
               y={-200}
@@ -111,68 +151,77 @@ export function Level9osVerticalTile() {
               ALIGNMENT CYCLE
             </text>
 
-            {/* 4 pressure-point dots around ring */}
-            {POINTS.map((p, i) => {
+            {POINTS.map((p) => {
               const rad = (p.angle * Math.PI) / 180;
               const x = Math.cos(rad) * RING_R;
               const y = Math.sin(rad) * RING_R;
+              const isPulse = p.id === "coordinate";
               return (
-                <g key={`dot-${p.id}`}>
+                <g key={`vdot-${p.id}`}>
                   <circle
                     cx={x}
                     cy={y}
-                    r={48}
+                    r={isPulse ? 60 : 40}
                     fill={p.color}
-                    opacity={0.18}
+                    opacity={isPulse ? 0.55 : 0.18}
                     style={{
-                      animation: `l9osDotPulse 8s ${i * 2}s ease-in-out infinite`,
+                      animation: isPulse
+                        ? `vl9tile-pulseGlow ${LOOP}s ease-in-out infinite`
+                        : undefined,
                       transformOrigin: `${x}px ${y}px`,
                     }}
                   />
-                  <circle cx={x} cy={y} r={20} fill="#0d0d18" stroke={p.color} strokeWidth={3} />
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r={7}
-                    fill={p.color}
-                    style={{ animation: `l9osDotCore 8s ${i * 2}s ease-in-out infinite` }}
-                  />
+                  <circle cx={x} cy={y} r={20} fill="#0d0d18" stroke={p.color} strokeWidth={isPulse ? 3.4 : 3} />
+                  <circle cx={x} cy={y} r={isPulse ? 9 : 7} fill={p.color} />
                 </g>
               );
             })}
-
-            {/* Traveling pulse */}
-            <circle
-              r={11}
-              fill="#a78bfa"
-              style={{
-                offsetPath: `path('M ${RING_R} 0 a ${RING_R} ${RING_R} 0 1 1 -${RING_R * 2} 0 a ${RING_R} ${RING_R} 0 1 1 ${RING_R * 2} 0')`,
-                animation: "l9osTravel 8s linear infinite",
-                filter: "drop-shadow(0 0 10px #a78bfa)",
-              }}
-            />
           </g>
 
+          {/* HIT flash */}
+          <circle
+            cx={PULSE_X}
+            cy={PULSE_Y}
+            r={220}
+            fill="url(#vl9osFlashGrad)"
+            style={{
+              transformOrigin: `${PULSE_X}px ${PULSE_Y}px`,
+              animation: `vl9tile-flash ${LOOP}s ease-out infinite`,
+              mixBlendMode: "screen",
+              filter: "blur(14px)",
+            }}
+          />
+
           <style>{`
-            @keyframes l9osVerb {
-              0%, 4%   { opacity: 0; transform: scale(0.92); }
-              10%, 23% { opacity: 1; transform: scale(1); }
-              28%      { opacity: 0; transform: scale(0.92); }
-              100%     { opacity: 0; }
+            @keyframes vl9tile-flash {
+              0%   { opacity: 0; transform: scale(0.3); }
+              4%   { opacity: 1; transform: scale(2.4); }
+              16%  { opacity: 0; transform: scale(3.2); }
+              100% { opacity: 0; transform: scale(0.3); }
             }
-            @keyframes l9osDotPulse {
-              0%, 100% { transform: scale(1); opacity: 0.18; }
-              12%      { transform: scale(1.55); opacity: 0.7; }
-              24%      { transform: scale(1); opacity: 0.18; }
+            @keyframes vl9tile-ripple {
+              0%   { r: 0;     opacity: 0; }
+              4%   { opacity: var(--rip-peak); }
+              60%  { opacity: calc(var(--rip-peak) * 0.6); }
+              78%  { r: var(--rip-max); opacity: 0; }
+              100% { r: var(--rip-max); opacity: 0; }
             }
-            @keyframes l9osDotCore {
-              0%, 100% { opacity: 0.5; }
-              12%      { opacity: 1; }
-              24%      { opacity: 0.5; }
+            @keyframes vl9tile-pulseGlow {
+              0%, 100% { transform: scale(1); opacity: 0.55; }
+              4%       { transform: scale(1.6); opacity: 0.95; }
+              20%      { transform: scale(1); opacity: 0.55; }
             }
-            @keyframes l9osTravel {
-              0%   { offset-distance: 0%; }
-              100% { offset-distance: 100%; }
+            @keyframes vl9tile-flow-1 {
+              0%, 100% { transform: translate(0, 0); }
+              50%      { transform: translate(-6%, -8%); }
+            }
+            @keyframes vl9tile-flow-2 {
+              0%, 100% { transform: translate(0, 0); }
+              50%      { transform: translate(-8%, 6%); }
+            }
+            @keyframes vl9tile-flow-3 {
+              0%, 100% { transform: translate(0, 0); }
+              50%      { transform: translate(6%, -6%); }
             }
           `}</style>
         </svg>
@@ -216,7 +265,7 @@ export function Level9osVerticalTile() {
         </div>
       </div>
 
-      {/* Bottom band: domain + chips ribbon */}
+      {/* Bottom band */}
       <div style={{ position: "absolute", left: 72, bottom: 112, ...mono, fontSize: 16, letterSpacing: "0.3em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>
         Umbrella · Level9OS
       </div>

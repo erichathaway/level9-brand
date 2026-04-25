@@ -81,17 +81,16 @@ export function ErichathawayTile() {
         }}
       />
 
-      {/* Hero: canonical ForgeCube, sized to the right half. Popup disabled
-          (no hover in a screen-recorded tile) and dust skipped (we want the
-          live rotating state from frame 0). Wrapper is 540x540 centered on
-          (930, 315) — the same hero anchor every product tile uses. */}
+      {/* Hero: canonical ForgeCube on the right. Cube sits in the upper
+          right zone so the domain text + numbers strip can sit cleanly
+          UNDER the cube. Wrapper 480x430 anchored top-right area. */}
       <div
         style={{
           position: "absolute",
-          left: 660,
-          top: 45,
-          width: 540,
-          height: 540,
+          left: 690,
+          top: 20,
+          width: 480,
+          height: 430,
           pointerEvents: "none",
         }}
       >
@@ -130,8 +129,9 @@ export function ErichathawayTile() {
         </text>
       </svg>
 
-      {/* Copy block */}
-      <div style={{ position: "absolute", left: 72, top: 372, width: 580, ...sans }}>
+      {/* Copy block — pulled up so the left stack ends near where the cube
+          ends (y~450), keeping vertical balance with the right column. */}
+      <div style={{ position: "absolute", left: 72, top: 340, width: 580, ...sans }}>
         <div style={{ fontWeight: 500, fontSize: 22, lineHeight: 1.35, color: "rgba(255,255,255,0.78)", marginBottom: 18, letterSpacing: "-0.01em" }}>
           The architect behind the cube. Six AI products in production.
         </div>
@@ -140,12 +140,39 @@ export function ErichathawayTile() {
         </div>
       </div>
 
-      {/* Bottom-left: domain block + numbers strip stacked left side so it
-          doesn't collide with the cube's right-side popup zone. */}
-      <div style={{ position: "absolute", left: 72, bottom: 90, ...mono, fontSize: 10, letterSpacing: "0.3em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>
+      {/* Domain text centered under the cube. Cube center sits roughly at
+          x=930 (left 690 + width 480 / 2 = 930). */}
+      <div
+        style={{
+          position: "absolute",
+          left: 690,
+          right: 30,
+          top: 480,
+          textAlign: "center",
+          ...mono,
+          fontSize: 10,
+          letterSpacing: "0.3em",
+          color: "rgba(255,255,255,0.4)",
+          textTransform: "uppercase",
+        }}
+      >
         Personal Brand · erichathaway.com
       </div>
-      <div style={{ position: "absolute", left: 72, bottom: 28, display: "flex", alignItems: "center", gap: 10, ...mono }}>
+
+      {/* Numbers strip under the cube, centered horizontally to the cube. */}
+      <div
+        style={{
+          position: "absolute",
+          left: 690,
+          right: 30,
+          top: 510,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 10,
+          ...mono,
+        }}
+      >
         {[
           { n: "20+", l: "YEARS",    c: "#a78bfa" },
           { n: "6+",  l: "PRODUCTS", c: "#10b981" },
