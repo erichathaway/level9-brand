@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Eric Hathaway personal-brand static tile. 1200x630 (LinkedIn Experience + post + OG share).
-  Visual: isometric wireframe cube with 3 visible faces (top/front/right) and a "9" mark
-  centered on the front face. The cube IS the architect's metaphor — 6 products = 6 faces,
-  Eric is the architect behind the cube. Frozen mid-cycle with the front face highlighted amber.
+  Visual: 3D perspective-projected wireframe cube with 7 visible vertices, 12 edges
+  (3 hidden as dashed). Approximates the canonical ForgeCube on the /architect page.
+  Front-right face highlighted amber. "9" mark on the front face.
   Canonical color band: violet -> amber.
+
+  Note: animated horizontal + vertical tiles use the LIVE ForgeCube
+  component for true 3D rotation. This SVG is the static snapshot — used
+  for OG share images on erichathaway.com.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Eric Hathaway · AI Operating Architect">
   <defs>
@@ -12,9 +16,13 @@
       <stop offset="0%"   stop-color="#a78bfa"/>
       <stop offset="100%" stop-color="#f59e0b"/>
     </linearGradient>
-    <linearGradient id="ehEdge" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="ehEdgeFront" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%"   stop-color="#a78bfa" stop-opacity="0.95"/>
       <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="ehEdgeTop" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#8b5cf6" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.85"/>
     </linearGradient>
     <radialGradient id="ehCubeGlow" cx="50%" cy="50%" r="50%">
       <stop offset="0%"   stop-color="#a78bfa" stop-opacity="0.40"/>
@@ -31,54 +39,62 @@
   <rect width="1200" height="630" fill="#060610"/>
   <ellipse cx="930" cy="220" rx="520" ry="380" fill="url(#ehBgGlow)"/>
 
-  <!-- Hero: isometric wireframe cube (SIZE=150) at (930, 320).
-       Iso projection: cos30 = 0.866, sin30 = 0.5.
-       Vertices (relative to cube center):
-         ftr: ( 65, -150)   ftl: (-65, -150)   fbr: (130,  -75)   fbl: (0,  -75)
-         btr: ( 0,    0)    btl: (-130,   0)   bbr: ( 65,   75)   bbl: (-65,  75)
-       (Scaled / approximated for readability — use computed values below.) -->
+  <!-- Hero: 3D perspective wireframe cube at (930, 320).
+       8 vertices computed from a cube of half-side 110 rotated ~25 deg on Y
+       and ~-12 deg on X, perspective projected. Coordinates relative to
+       the translation origin. -->
   <g transform="translate(930 320)">
-    <ellipse cx="0" cy="0" rx="260" ry="210" fill="url(#ehCubeGlow)"/>
-    <ellipse cx="0" cy="158" rx="140" ry="20" fill="#a78bfa" opacity="0.18"/>
+    <ellipse cx="0" cy="0" rx="280" ry="220" fill="url(#ehCubeGlow)"/>
+    <ellipse cx="0" cy="170" rx="160" ry="22" fill="#a78bfa" opacity="0.20"/>
 
-    <!-- Top face: ftl, ftr, btr, btl -->
-    <polygon points="-130,0 0,-75 130,0 0,75"
-             fill="#8b5cf6" fill-opacity="0.18"
-             stroke="url(#ehEdge)" stroke-width="1.6"/>
+    <!-- Cube faces (drawn back-to-front for proper occlusion) -->
 
-    <!-- Front face: ftl, ftr, fbr, fbl — HIGHLIGHTED amber (active beat) -->
-    <polygon points="-130,0 0,75 0,225 -130,150"
+    <!-- Back face (faint, mostly hidden behind cube) -->
+    <polygon points="-130,-118 75,-145 75,55 -130,28"
+             fill="#0d0d18" fill-opacity="0.4"
+             stroke="rgba(167,139,250,0.30)" stroke-width="1.2" stroke-dasharray="4 5"/>
+
+    <!-- Top face: TBL -> TBR -> TFR -> TFL -->
+    <polygon points="-130,-118 75,-145 145,-58 -45,-30"
+             fill="#8b5cf6" fill-opacity="0.14"
+             stroke="url(#ehEdgeTop)" stroke-width="1.8"/>
+
+    <!-- Right face: TBR -> BBR -> BFR -> TFR -->
+    <polygon points="75,-145 75,55 145,142 145,-58"
+             fill="#a78bfa" fill-opacity="0.08"
+             stroke="url(#ehEdgeFront)" stroke-width="1.8"/>
+
+    <!-- Front face: TFL -> TFR -> BFR -> BFL — HIGHLIGHTED amber -->
+    <polygon points="-45,-30 145,-58 145,142 -45,170"
              fill="#f59e0b" fill-opacity="0.22"
-             stroke="url(#ehEdge)" stroke-width="1.6"/>
-
-    <!-- Right face: ftr, btr, bbr, fbr -->
-    <polygon points="0,75 130,0 130,150 0,225"
-             fill="#a78bfa" fill-opacity="0.06"
-             stroke="url(#ehEdge)" stroke-width="1.6"/>
+             stroke="url(#ehEdgeFront)" stroke-width="2.2"/>
 
     <!-- Hidden edges (back-left + bottom-back) as dashed -->
-    <line x1="0" y1="-75" x2="0" y2="75"  stroke="rgba(167,139,250,0.35)" stroke-width="1" stroke-dasharray="3 4"/>
+    <line x1="-130" y1="-118" x2="-130" y2="28"  stroke="rgba(167,139,250,0.40)" stroke-width="1" stroke-dasharray="3 4"/>
+    <line x1="-130" y1="28"   x2="-45"  y2="170" stroke="rgba(167,139,250,0.40)" stroke-width="1" stroke-dasharray="3 4"/>
+    <line x1="-130" y1="28"   x2="75"   y2="55"  stroke="rgba(167,139,250,0.40)" stroke-width="1" stroke-dasharray="3 4"/>
 
-    <!-- Vertex dots -->
-    <circle cx="-130" cy="0"   r="3.5" fill="#a78bfa"/>
-    <circle cx="0"    cy="-75" r="3.5" fill="#a78bfa"/>
-    <circle cx="130"  cy="0"   r="3.5" fill="#a78bfa"/>
-    <circle cx="0"    cy="75"  r="3.5" fill="#a78bfa"/>
-    <circle cx="-130" cy="150" r="3.5" fill="#a78bfa"/>
-    <circle cx="0"    cy="225" r="3.5" fill="#a78bfa"/>
-    <circle cx="130"  cy="150" r="3.5" fill="#a78bfa"/>
+    <!-- Vertex dots: 7 visible -->
+    <circle cx="-130" cy="-118" r="4" fill="#a78bfa"/>
+    <circle cx="75"   cy="-145" r="4" fill="#a78bfa"/>
+    <circle cx="145"  cy="-58"  r="4" fill="#a78bfa"/>
+    <circle cx="-45"  cy="-30"  r="4" fill="#a78bfa"/>
+    <circle cx="-45"  cy="170"  r="4" fill="#f59e0b"/>
+    <circle cx="145"  cy="142"  r="4" fill="#f59e0b"/>
+    <circle cx="75"   cy="55"   r="3" fill="rgba(167,139,250,0.50)"/>
+    <circle cx="-130" cy="28"   r="3" fill="rgba(167,139,250,0.40)"/>
 
-    <!-- "9" mark centered on front face -->
-    <text x="-65" y="98" text-anchor="middle"
+    <!-- "9" mark inset on the highlighted front face -->
+    <text x="50" y="82" text-anchor="middle"
           font-family="Inter, system-ui, sans-serif"
-          font-weight="900" font-size="56" letter-spacing="-2.24" fill="rgba(255,255,255,0.92)">
+          font-weight="900" font-size="84" letter-spacing="-3.36" fill="rgba(255,255,255,0.95)">
       9
     </text>
 
-    <!-- Active product label below cube -->
-    <text x="0" y="280" text-anchor="middle"
+    <!-- Active product label below cube (frozen at OutboundOS / amber beat) -->
+    <text x="0" y="240" text-anchor="middle"
           font-family="'SF Mono', Menlo, monospace"
-          font-weight="700" font-size="16" letter-spacing="5" fill="#f59e0b">
+          font-weight="700" font-size="15" letter-spacing="4.8" fill="#f59e0b">
       OUTBOUNDOS
     </text>
   </g>
@@ -122,40 +138,31 @@
     20+ years operating. 60+ countries. Now installing AI into the operating chassis.
   </text>
 
-  <!-- Bottom-left -->
-  <text x="72" y="568"
+  <!-- Bottom-left: domain block + numbers strip stacked left -->
+  <text x="72" y="540"
         font-family="'SF Mono', Menlo, monospace"
         font-size="10" letter-spacing="3" fill="rgba(255,255,255,0.35)">
-    PERSONAL BRAND
-  </text>
-  <text x="72" y="592"
-        font-family="Inter, system-ui, sans-serif"
-        font-weight="600" font-size="14" fill="rgba(255,255,255,0.58)">
-    erichathaway.com
+    PERSONAL BRAND · ERICHATHAWAY.COM
   </text>
 
-  <!-- Bottom-right: 4 number cards -->
-  <g transform="translate(770 558)">
-    <!-- 20+ YEARS · violet -->
+  <!-- Numbers strip: 4 cards -->
+  <g transform="translate(72 560)">
     <g transform="translate(0 0)">
       <rect width="78" height="44" rx="8" fill="#a78bfa10" stroke="#a78bfa45"/>
       <text x="39" y="22" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="22" letter-spacing="-0.66" fill="#a78bfa">20+</text>
       <text x="39" y="36" text-anchor="middle" font-family="'SF Mono', Menlo, monospace" font-size="8" letter-spacing="1.76" fill="#a78bfacc">YEARS</text>
     </g>
-    <!-- 6+ PRODUCTS · emerald -->
-    <g transform="translate(92 0)">
+    <g transform="translate(88 0)">
       <rect width="78" height="44" rx="8" fill="#10b98110" stroke="#10b98145"/>
       <text x="39" y="22" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="22" letter-spacing="-0.66" fill="#10b981">6+</text>
       <text x="39" y="36" text-anchor="middle" font-family="'SF Mono', Menlo, monospace" font-size="8" letter-spacing="1.76" fill="#10b981cc">PRODUCTS</text>
     </g>
-    <!-- 94 OFFICES · cyan -->
-    <g transform="translate(184 0)">
+    <g transform="translate(176 0)">
       <rect width="78" height="44" rx="8" fill="#06b6d410" stroke="#06b6d445"/>
       <text x="39" y="22" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="22" letter-spacing="-0.66" fill="#06b6d4">94</text>
       <text x="39" y="36" text-anchor="middle" font-family="'SF Mono', Menlo, monospace" font-size="8" letter-spacing="1.76" fill="#06b6d4cc">OFFICES</text>
     </g>
-    <!-- 48 OFFICERS · amber -->
-    <g transform="translate(276 0)">
+    <g transform="translate(264 0)">
       <rect width="78" height="44" rx="8" fill="#f59e0b10" stroke="#f59e0b45"/>
       <text x="39" y="22" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="22" letter-spacing="-0.66" fill="#f59e0b">48</text>
       <text x="39" y="36" text-anchor="middle" font-family="'SF Mono', Menlo, monospace" font-size="8" letter-spacing="1.76" fill="#f59e0bcc">OFFICERS</text>

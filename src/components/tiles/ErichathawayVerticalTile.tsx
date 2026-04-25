@@ -2,11 +2,12 @@
 /**
  * Eric Hathaway personal-brand vertical tile (1080x1920).
  *
- * Portrait companion to ErichathawayTile. Isometric wireframe cube sits in
- * the center hero zone (480..1280) at larger scale. Numbers strip moves
- * into the bottom band. Cycling product names anchor below the cube.
+ * Portrait companion to ErichathawayTile. The CANONICAL ForgeCube fills
+ * the center hero zone (480..1280); chrome pieces (eyebrow, name, copy,
+ * numbers strip) wrap around it. Same product-roster as ErichathawayTile.
  */
 import type { CSSProperties } from "react";
+import ForgeCube, { type ForgeProduct } from "../architecture/ForgeCube";
 
 const sans: CSSProperties = {
   fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
@@ -15,37 +16,32 @@ const mono: CSSProperties = {
   fontFamily: '"SF Mono", "Fira Code", Menlo, monospace',
 };
 
-const FACES = [
-  { id: "stratos",    name: "StratOS",     color: "#8b5cf6" },
-  { id: "commandos",  name: "CommandOS",   color: "#10b981" },
-  { id: "outboundos", name: "OutboundOS",  color: "#f59e0b" },
-  { id: "lucidorg",   name: "LucidORG",    color: "#06b6d4" },
-  { id: "playbook",   name: "Playbook",    color: "#64748b" },
-  { id: "max",        name: "MAX",         color: "#ec4899" },
+const FORGE_PRODUCTS: ForgeProduct[] = [
+  { id: "stratos",    name: "StratOS",      short: "Decision OS",         color: "#8b5cf6", rgb: [139, 92, 246], icon: "S", side: "left",
+    role: "10-person simulated exec room. 3 rounds. Kill criteria built in.",
+    specs: ["10 workflows · 3 rounds / run", "$5.89 per run", "Governance-audited recommendations"],
+    stack: ["n8n", "Supabase", "Claude Sonnet 4.6", "Next.js", "Vercel"] },
+  { id: "commandos",  name: "CommandOS",    short: "Fleet Orchestration", color: "#10b981", rgb: [16, 185, 129], icon: "C", side: "right",
+    role: "48 domain officers. 3 governance gates. Agents managing agents.",
+    specs: ["48 officers · 8 categories", "G1 / G2 / G3 governance", "Multi-LLM routing"],
+    stack: ["Claude", "GPT-4o", "Perplexity", "n8n NAS", "tmux"] },
+  { id: "playbook",   name: "COO Playbook", short: "Methodology Product", color: "#94a3b8", rgb: [148, 163, 184], icon: "P", side: "left",
+    role: "87K+ words. 24-week install. The operating layer beneath EOS and OKRs.",
+    specs: ["4-part methodology", "ECI / CxfO / Lean Ops / AHI", "9 training courses bundled"],
+    stack: ["Substack", "n8n", "ElevenLabs", "Notion"] },
+  { id: "lucidorg",   name: "LucidORG",     short: "Digital Twin",        color: "#ec4899", rgb: [236, 72, 153], icon: "O", side: "left",
+    role: "The nervous system. Measures AI vs human at every interaction point.",
+    specs: ["4 pillars · 11 metrics · 37 levers", "ECI scoring 0-1000", "Real-time friction detection"],
+    stack: ["Supabase", "TypeScript", "Recharts", "Next.js"] },
+  { id: "outboundos", name: "OutboundOS",   short: "Outbound Umbrella",   color: "#f59e0b", rgb: [245, 158, 11], icon: "O", side: "right",
+    role: "LinkupOS + ABM Engine + AutoCS. One voice, one governance trail.",
+    specs: ["3 pods · one voice profile", "Multi-channel calibrated", "Replaces marketing + outbound + CS"],
+    stack: ["Postgres triggers", "Apollo", "LinkedIn API", "Supabase"] },
+  { id: "level9",     name: "Level9",       short: "Parent Company",      color: "#06b6d4", rgb: [6, 182, 212],  icon: "L", side: "right",
+    role: "The product company. 6+ production AI systems for the operational layer.",
+    specs: ["6+ products under one chassis", "Next.js 14 · Vercel edge", "20+ years operational pattern-recognition"],
+    stack: ["Next.js 14", "TypeScript", "Tailwind", "Framer Motion"] },
 ];
-
-const HERO_CX = 540;
-const HERO_CY = 880;
-const SIZE = 280;
-
-const cos30 = Math.cos(Math.PI / 6);
-const sin30 = 0.5;
-const proj = (x: number, y: number, z: number): [number, number] => [
-  (x - z) * cos30,
-  -y + (x + z) * sin30,
-];
-const V = {
-  ftr: proj( SIZE/2,  SIZE/2,  SIZE/2),
-  ftl: proj(-SIZE/2,  SIZE/2,  SIZE/2),
-  fbr: proj( SIZE/2, -SIZE/2,  SIZE/2),
-  fbl: proj(-SIZE/2, -SIZE/2,  SIZE/2),
-  btr: proj( SIZE/2,  SIZE/2, -SIZE/2),
-  btl: proj(-SIZE/2,  SIZE/2, -SIZE/2),
-  bbr: proj( SIZE/2, -SIZE/2, -SIZE/2),
-  bbl: proj(-SIZE/2, -SIZE/2, -SIZE/2),
-};
-const facePts = (a: [number, number], b: [number, number], c: [number, number], d: [number, number]) =>
-  `${a[0]},${a[1]} ${b[0]},${b[1]} ${c[0]},${c[1]} ${d[0]},${d[1]}`;
 
 export function ErichathawayVerticalTile() {
   return (
@@ -76,127 +72,19 @@ export function ErichathawayVerticalTile() {
         }}
       />
 
-      {/* Hero metaphor: isometric wireframe cube */}
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-        <svg width="1080" height="1920" viewBox="0 0 1080 1920" style={{ position: "absolute", inset: 0 }}>
-          <defs>
-            <linearGradient id="vehEdge" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%"   stopColor="#a78bfa" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.9" />
-            </linearGradient>
-            <radialGradient id="vehCubeGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%"   stopColor="#a78bfa" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#a78bfa" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-
-          <g transform={`translate(${HERO_CX} ${HERO_CY})`}>
-            <ellipse cx={0} cy={0} rx={460} ry={380} fill="url(#vehCubeGlow)" />
-            <ellipse cx={0} cy={SIZE * 1.05} rx={250} ry={36} fill="#a78bfa" opacity={0.18} />
-
-            <g style={{ animation: "ehCubeBob 8s ease-in-out infinite", transformOrigin: "0px 0px" }}>
-              <polygon
-                points={facePts(V.ftl, V.ftr, V.btr, V.btl)}
-                fill="#a78bfa"
-                fillOpacity={0.06}
-                stroke="url(#vehEdge)"
-                strokeWidth={2.4}
-                style={{ animation: "ehFaceTop 8s ease-in-out infinite" }}
-              />
-              <polygon
-                points={facePts(V.ftl, V.ftr, V.fbr, V.fbl)}
-                fill="#a78bfa"
-                fillOpacity={0.06}
-                stroke="url(#vehEdge)"
-                strokeWidth={2.4}
-                style={{ animation: "ehFaceFront 8s ease-in-out infinite" }}
-              />
-              <polygon
-                points={facePts(V.ftr, V.btr, V.bbr, V.fbr)}
-                fill="#a78bfa"
-                fillOpacity={0.06}
-                stroke="url(#vehEdge)"
-                strokeWidth={2.4}
-                style={{ animation: "ehFaceRight 8s ease-in-out infinite" }}
-              />
-
-              <line x1={V.btl[0]} y1={V.btl[1]} x2={V.bbl[0]} y2={V.bbl[1]} stroke="rgba(167,139,250,0.35)" strokeWidth={1.4} strokeDasharray="4 6" />
-              <line x1={V.bbl[0]} y1={V.bbl[1]} x2={V.fbl[0]} y2={V.fbl[1]} stroke="rgba(167,139,250,0.35)" strokeWidth={1.4} strokeDasharray="4 6" />
-              <line x1={V.bbl[0]} y1={V.bbl[1]} x2={V.bbr[0]} y2={V.bbr[1]} stroke="rgba(167,139,250,0.35)" strokeWidth={1.4} strokeDasharray="4 6" />
-
-              {[V.ftr, V.ftl, V.fbr, V.fbl, V.btr, V.btl, V.bbr].map((v, i) => (
-                <circle key={i} cx={v[0]} cy={v[1]} r={6} fill="#a78bfa" />
-              ))}
-
-              <text
-                x={(V.ftl[0] + V.fbr[0]) / 2}
-                y={(V.ftl[1] + V.fbr[1]) / 2 + 22}
-                textAnchor="middle"
-                style={{
-                  ...sans,
-                  fontWeight: 900,
-                  fontSize: 100,
-                  fill: "rgba(255,255,255,0.9)",
-                  letterSpacing: "-0.04em",
-                }}
-              >
-                9
-              </text>
-            </g>
-
-            {/* Cycling product names below the cube */}
-            <g transform={`translate(0 ${SIZE + 130})`}>
-              {FACES.map((f, i) => (
-                <text
-                  key={f.id}
-                  x={0}
-                  y={0}
-                  textAnchor="middle"
-                  style={{
-                    ...mono,
-                    fontWeight: 700,
-                    fontSize: 30,
-                    letterSpacing: "0.32em",
-                    fill: f.color,
-                    textTransform: "uppercase",
-                    opacity: 0,
-                    animation: `ehProductCycle 8s ${(i * 1.33).toFixed(2)}s ease-in-out infinite`,
-                  }}
-                >
-                  {f.name}
-                </text>
-              ))}
-            </g>
-          </g>
-
-          <style>{`
-            @keyframes ehCubeBob {
-              0%, 100% { transform: translateY(0); }
-              50%      { transform: translateY(-10px); }
-            }
-            @keyframes ehFaceTop {
-              0%, 12%   { fill: #a78bfa; fill-opacity: 0.06; }
-              16%, 25%  { fill: #8b5cf6; fill-opacity: 0.22; }
-              30%, 100% { fill: #a78bfa; fill-opacity: 0.06; }
-            }
-            @keyframes ehFaceFront {
-              0%, 30%   { fill: #a78bfa; fill-opacity: 0.06; }
-              35%, 55%  { fill: #f59e0b; fill-opacity: 0.22; }
-              60%, 100% { fill: #a78bfa; fill-opacity: 0.06; }
-            }
-            @keyframes ehFaceRight {
-              0%, 60%   { fill: #a78bfa; fill-opacity: 0.06; }
-              65%, 85%  { fill: #06b6d4; fill-opacity: 0.22; }
-              90%, 100% { fill: #a78bfa; fill-opacity: 0.06; }
-            }
-            @keyframes ehProductCycle {
-              0%, 5%    { opacity: 0; transform: translateY(8px); }
-              10%, 16%  { opacity: 1; transform: translateY(0); }
-              22%       { opacity: 0; transform: translateY(-6px); }
-              100%      { opacity: 0; }
-            }
-          `}</style>
-        </svg>
+      {/* Hero: canonical ForgeCube fills the center hero zone (480..1280).
+          Wrapper is 900x800 centered horizontally, popup off, dust skipped. */}
+      <div
+        style={{
+          position: "absolute",
+          left: 90,
+          top: 480,
+          width: 900,
+          height: 800,
+          pointerEvents: "none",
+        }}
+      >
+        <ForgeCube products={FORGE_PRODUCTS} skipDust showPopup={false} />
       </div>
 
       {/* Top band */}
@@ -240,14 +128,11 @@ export function ErichathawayVerticalTile() {
       </div>
 
       {/* Bottom band: domain + numbers strip */}
-      <div style={{ position: "absolute", left: 72, bottom: 112, ...mono, fontSize: 16, letterSpacing: "0.3em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>
-        Personal Brand
-      </div>
-      <div style={{ position: "absolute", left: 72, bottom: 68, ...sans, fontWeight: 600, fontSize: 22, color: "rgba(255,255,255,0.58)" }}>
-        erichathaway.com
+      <div style={{ position: "absolute", left: 72, bottom: 168, ...mono, fontSize: 16, letterSpacing: "0.3em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>
+        Personal Brand · erichathaway.com
       </div>
 
-      <div style={{ position: "absolute", right: 60, bottom: 60, display: "flex", alignItems: "center", gap: 16, ...mono }}>
+      <div style={{ position: "absolute", left: 72, right: 72, bottom: 60, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, ...mono }}>
         {[
           { n: "20+", l: "YEARS",    c: "#a78bfa" },
           { n: "6+",  l: "PRODUCTS", c: "#10b981" },
@@ -257,20 +142,20 @@ export function ErichathawayVerticalTile() {
           <div
             key={s.l}
             style={{
-              padding: "14px 16px",
-              borderRadius: 12,
+              flex: 1,
+              padding: "16px 18px",
+              borderRadius: 14,
               background: `${s.c}10`,
               border: `1px solid ${s.c}45`,
-              minWidth: 110,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
-            <div style={{ ...sans, fontWeight: 900, fontSize: 36, letterSpacing: "-0.03em", color: s.c, lineHeight: 1 }}>
+            <div style={{ ...sans, fontWeight: 900, fontSize: 44, letterSpacing: "-0.03em", color: s.c, lineHeight: 1 }}>
               {s.n}
             </div>
-            <div style={{ fontSize: 11, letterSpacing: "0.22em", color: `${s.c}cc`, marginTop: 6 }}>
+            <div style={{ fontSize: 12, letterSpacing: "0.22em", color: `${s.c}cc`, marginTop: 8 }}>
               {s.l}
             </div>
           </div>
