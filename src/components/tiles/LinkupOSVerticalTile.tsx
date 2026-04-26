@@ -96,19 +96,25 @@ export function LinkupOSVerticalTile() {
               animation: "vlupSway 6s ease-in-out infinite",
             }}
           >
-            <circle cx={HERO_CX} cy={HERO_CY} r={260} fill="url(#vlupAnchorGlow)" />
+            <circle cx={HERO_CX} cy={HERO_CY} r={260} fill="url(#vlupAnchorGlow)" opacity={0.55} />
             <g
               transform={`translate(${HERO_CX} ${HERO_CY}) scale(15) rotate(180) translate(-12,-12)`}
               fill="none"
-              stroke="url(#vlupAnchorGrad)"
-              strokeWidth={2.2}
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <path d="M12 6v16" />
-              <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
-              <path d="M9 11h6" />
-              <circle cx={12} cy={4} r={2} />
+              <g stroke="#0d0d18" strokeWidth={4}>
+                <path d="M12 6v16" />
+                <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+                <path d="M9 11h6" />
+                <circle cx={12} cy={4} r={2} />
+              </g>
+              <g stroke="url(#vlupAnchorGrad)" strokeWidth={2.6}>
+                <path d="M12 6v16" />
+                <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+                <path d="M9 11h6" />
+                <circle cx={12} cy={4} r={2} fill="#f59e0b" />
+              </g>
             </g>
           </g>
         </svg>

@@ -88,7 +88,10 @@ export function BigeSessionsVerticalTile() {
         </span>
       </div>
 
-      {/* Wordmark stacked */}
+      {/* Wordmark stacked: "bigE" on top (joined, no space), "sessions" below.
+          Per Eric: merging the E with "big" so the wordmark reads as a 2-line
+          stack instead of 3, which solves the previous vertical overlap of
+          the standalone E line with the eq bars below. */}
       <div
         style={{
           position: "absolute",
@@ -101,19 +104,19 @@ export function BigeSessionsVerticalTile() {
           lineHeight: 0.95,
         }}
       >
-        <div style={{ color: "rgba(255,255,255,0.6)" }}>big</div>
-        <div
-          style={{
-            background: "linear-gradient(to bottom right, #fcd34d, #f59e0b, #ea580c)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            color: "transparent",
-            display: "inline-block",
-            marginLeft: 24,
-          }}
-        >
-          E
+        <div>
+          <span style={{ color: "rgba(255,255,255,0.6)" }}>big</span>
+          <span
+            style={{
+              background: "linear-gradient(to bottom right, #fcd34d, #f59e0b, #ea580c)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              color: "transparent",
+            }}
+          >
+            E
+          </span>
         </div>
         <div style={{ color: "rgba(255,255,255,0.55)" }}>sessions</div>
       </div>

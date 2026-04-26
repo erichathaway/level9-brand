@@ -48,14 +48,17 @@ export function BigeSessionsTile() {
         }}
       />
 
-      {/* Equalizer bar field — center-anchored, 320px tall, full canvas wide */}
+      {/* Equalizer bar field — pushed BELOW the wordmark to clear text
+          overlap. Wordmark sits 168..300; bars start at 360 and end at 555
+          to keep bottom-band domain text clear. Reduced height keeps the
+          bars from crowding the type. */}
       <div
         style={{
           position: "absolute",
           left: 60,
           right: 60,
-          top: 290,
-          height: 280,
+          top: 360,
+          height: 195,
           display: "flex",
           alignItems: "flex-end",
           justifyContent: "center",

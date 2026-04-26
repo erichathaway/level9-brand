@@ -111,25 +111,36 @@ export function LinkupOSTile() {
               animation: "lupSway 6s ease-in-out infinite",
             }}
           >
-            {/* Glow halo behind anchor */}
-            <circle cx={HERO_CX} cy={HERO_CY} r={150} fill="url(#lupAnchorGlow)" />
+            {/* Subtle glow halo BEHIND anchor; opacity dropped so the anchor
+                strokes read clearly against it (was 0.45 — too bright, washed
+                out the shaft + cross-bar). */}
+            <circle cx={HERO_CX} cy={HERO_CY} r={150} fill="url(#lupAnchorGlow)" opacity={0.55} />
 
-            {/* Anchor: Lucide path scaled 9x and rotated 180°.
-                Original Lucide viewBox 24x24, anchor center at (12,12).
-                After scale 9 + rotate(180), center sits at (HERO_CX, HERO_CY).
-                Stroke-width tuned to 2.4 (un-scaled) for visual weight at 9x. */}
+            {/* Anchor: Lucide paths scaled 9x and rotated 180° around its
+                own center. Strokes are paint-ordered so the dark obsidian
+                outline draws first, then the amber gradient stroke on top.
+                The dark outline (stroke-width 4) gives the colored stroke
+                (stroke-width 2.6) clear contrast against the warm glow. */}
             <g
               transform={`translate(${HERO_CX} ${HERO_CY}) scale(9) rotate(180) translate(-12,-12)`}
               fill="none"
-              stroke="url(#lupAnchorGrad)"
-              strokeWidth={2.2}
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <path d="M12 6v16" />
-              <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
-              <path d="M9 11h6" />
-              <circle cx={12} cy={4} r={2} />
+              {/* Dark outline pass — same paths, wider dark stroke */}
+              <g stroke="#0d0d18" strokeWidth={4}>
+                <path d="M12 6v16" />
+                <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+                <path d="M9 11h6" />
+                <circle cx={12} cy={4} r={2} />
+              </g>
+              {/* Bright amber pass on top */}
+              <g stroke="url(#lupAnchorGrad)" strokeWidth={2.6}>
+                <path d="M12 6v16" />
+                <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+                <path d="M9 11h6" />
+                <circle cx={12} cy={4} r={2} fill="#f59e0b" />
+              </g>
             </g>
           </g>
         </svg>
