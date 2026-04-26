@@ -120,7 +120,7 @@ export function ErichathawayVerticalTile() {
       {/* Copy zone */}
       <div style={{ position: "absolute", left: 72, top: 1320, width: 936, ...sans }}>
         <div style={{ fontWeight: 500, fontSize: 40, lineHeight: 1.3, color: "rgba(255,255,255,0.78)", marginBottom: 30, letterSpacing: "-0.01em" }}>
-          The architect behind the cube. Six AI products in production.
+          The architect behind the builds. Six AI products in production.
         </div>
         <div style={{ fontWeight: 600, fontSize: 34, lineHeight: 1.35, color: "#a78bfa", letterSpacing: "-0.01em" }}>
           20+ years operating. 60+ countries. Now installing AI into the chassis.
