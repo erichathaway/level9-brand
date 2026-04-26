@@ -51,7 +51,12 @@ const RIPPLES = [
   { delay: 4.2, peakAlpha: 0.0175, maxR: 500, stroke: 7  },
 ];
 
-const LOOP = 20; // seconds. Eric: "1/2 speed, 2x space between pulses"
+const LOOP = 10; // seconds. Eric: "looping speed 2x, do not speed up the waves"
+                 // Halved from 20s so a new pulse fires every 10s instead of
+                 // every 20s. Keyframe percentages below are doubled to keep
+                 // each individual wave's expansion at the same physical
+                 // duration (~5.2s peak-to-fade) — only the gap between
+                 // pulses shrinks, the wave itself is identical.
 
 export function Level9osTile() {
   return (
@@ -207,20 +212,22 @@ export function Level9osTile() {
           />
 
           <style>{`
-            /* Loop is 20s. Flash visible 0.4s -> 1.6s, then quiet 18.4s.
+            /* Loop is 10s. Flash visible 0.4s -> 1.6s, then quiet ~8.4s.
                Ripples expand smoothly from r=0 to maxR over ~5.2s
-               (26% of loop), opacity ramps peak -> 0 across the whole
-               expansion (no plateau). Then quiet until next loop. */
+               (52% of loop now that loop is 10s), opacity ramps peak -> 0
+               across the whole expansion (no plateau). Wave physics are
+               identical to the prior 20s loop — only the gap between
+               pulses shrunk by half. */
             @keyframes l9tile-flash {
               0%   { opacity: 0; transform: scale(0.3); }
-              2%   { opacity: 1; transform: scale(2.4); }
-              8%   { opacity: 0; transform: scale(3.2); }
+              4%   { opacity: 1; transform: scale(2.4); }
+              16%  { opacity: 0; transform: scale(3.2); }
               100% { opacity: 0; transform: scale(0.3); }
             }
             @keyframes l9tile-ripple {
               0%   { r: 0;             opacity: 0; }
-              3%   {                   opacity: var(--rip-peak); }
-              26%  { r: var(--rip-max); opacity: 0; }
+              6%   {                   opacity: var(--rip-peak); }
+              52%  { r: var(--rip-max); opacity: 0; }
               100% { r: var(--rip-max); opacity: 0; }
             }
             @keyframes l9tile-flow-1 {

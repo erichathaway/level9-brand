@@ -40,7 +40,7 @@ const RIPPLES = [
   { delay: 4.2, peakAlpha: 0.0175, maxR: 950,  stroke: 12 },
 ];
 
-const LOOP = 20;
+const LOOP = 10; // Eric: looping speed 2x, do not change waves themselves.
 
 export function Level9osVerticalTile() {
   return (
@@ -186,14 +186,14 @@ export function Level9osVerticalTile() {
           <style>{`
             @keyframes vl9tile-flash {
               0%   { opacity: 0; transform: scale(0.3); }
-              2%   { opacity: 1; transform: scale(2.4); }
-              8%   { opacity: 0; transform: scale(3.2); }
+              4%   { opacity: 1; transform: scale(2.4); }
+              16%  { opacity: 0; transform: scale(3.2); }
               100% { opacity: 0; transform: scale(0.3); }
             }
             @keyframes vl9tile-ripple {
               0%   { r: 0;             opacity: 0; }
-              3%   {                   opacity: var(--rip-peak); }
-              26%  { r: var(--rip-max); opacity: 0; }
+              6%   {                   opacity: var(--rip-peak); }
+              52%  { r: var(--rip-max); opacity: 0; }
               100% { r: var(--rip-max); opacity: 0; }
             }
             @keyframes vl9tile-flow-1 {
