@@ -45,3 +45,9 @@ export { Level9osTile } from "./Level9osTile";
 export { Level9osVerticalTile } from "./Level9osVerticalTile";
 export { ErichathawayTile } from "./ErichathawayTile";
 export { ErichathawayVerticalTile } from "./ErichathawayVerticalTile";
+
+// Side-projects + product-pod tiles.
+export { BigeSessionsTile } from "./BigeSessionsTile";
+export { BigeSessionsVerticalTile } from "./BigeSessionsVerticalTile";
+export { LinkupOSTile } from "./LinkupOSTile";
+export { LinkupOSVerticalTile } from "./LinkupOSVerticalTile";
