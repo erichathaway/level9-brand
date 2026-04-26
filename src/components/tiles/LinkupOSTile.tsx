@@ -127,15 +127,17 @@ export function LinkupOSTile() {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              {/* Dark outline pass — same paths, wider dark stroke */}
-              <g stroke="#0d0d18" strokeWidth={4}>
+              {/* Dark outline pass — slightly wider than the colored stroke
+                  for clean contrast halo. Thinner per Eric. */}
+              <g stroke="#0d0d18" strokeWidth={2.6}>
                 <path d="M12 6v16" />
                 <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
                 <path d="M9 11h6" />
                 <circle cx={12} cy={4} r={2} />
               </g>
-              {/* Bright amber pass on top */}
-              <g stroke="url(#lupAnchorGrad)" strokeWidth={2.6}>
+              {/* Bright amber pass on top — thinner per Eric so the anchor
+                  reads cleaner, less heavy. */}
+              <g stroke="url(#lupAnchorGrad)" strokeWidth={1.6}>
                 <path d="M12 6v16" />
                 <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
                 <path d="M9 11h6" />
