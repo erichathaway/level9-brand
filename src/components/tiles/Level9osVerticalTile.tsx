@@ -26,22 +26,21 @@ const HERO_CX = 540;
 const HERO_CY = 880;
 const RING_R = 320;
 
-// Pulse anchor: middle of the chart (ring center) per Eric.
+// Pulse anchor: dead center of the ring, under "Coordinate." text.
 const PULSE_X = HERO_CX; // 540
 const PULSE_Y = HERO_CY; // 880
 
-// Per Eric: half pulse speed (LOOP 5 -> 10), 30% slower expansion
-// (dur 4.0 -> 5.2), 30% more faded (peakAlpha * 0.7), and progressively
-// thinner stroke as they replicate (48 -> 36 -> 26 -> 18 — scaled up
-// for the 1080x1920 canvas).
+// Same Eric-spec'd pond ripple as landscape: LOOP 20s, peakAlpha halved
+// again (50% more faded), maxR scaled down for local pond feel, and
+// stroke widths in the 1 / 2/3 / 1/2 / 1/4 ratio (48 / 32 / 24 / 12).
 const RIPPLES = [
-  { delay: 0.0, dur: 5.2, peakAlpha: 0.091,  maxR: 2400, stroke: 48 },
-  { delay: 1.4, dur: 5.2, peakAlpha: 0.070,  maxR: 2200, stroke: 36 },
-  { delay: 2.8, dur: 5.2, peakAlpha: 0.0525, maxR: 2000, stroke: 26 },
-  { delay: 4.2, dur: 5.2, peakAlpha: 0.035,  maxR: 1800, stroke: 18 },
+  { delay: 0.0, peakAlpha: 0.0455, maxR: 1700, stroke: 48 },
+  { delay: 1.4, peakAlpha: 0.0350, maxR: 1450, stroke: 32 },
+  { delay: 2.8, peakAlpha: 0.0260, maxR: 1200, stroke: 24 },
+  { delay: 4.2, peakAlpha: 0.0175, maxR: 950,  stroke: 12 },
 ];
 
-const LOOP = 10;
+const LOOP = 20;
 
 export function Level9osVerticalTile() {
   return (
@@ -114,7 +113,7 @@ export function Level9osVerticalTile() {
               stroke="rgba(220,232,255,1)"
               strokeWidth={rp.stroke}
               style={{
-                animation: `vl9tile-ripple ${LOOP}s ${rp.delay}s linear infinite`,
+                animation: `vl9tile-ripple ${LOOP}s ${rp.delay}s ease-out infinite`,
                 ['--rip-max' as string]: `${rp.maxR}px`,
                 ['--rip-peak' as string]: `${rp.peakAlpha}`,
                 mixBlendMode: "screen",
@@ -187,15 +186,14 @@ export function Level9osVerticalTile() {
           <style>{`
             @keyframes vl9tile-flash {
               0%   { opacity: 0; transform: scale(0.3); }
-              4%   { opacity: 1; transform: scale(2.4); }
-              16%  { opacity: 0; transform: scale(3.2); }
+              2%   { opacity: 1; transform: scale(2.4); }
+              8%   { opacity: 0; transform: scale(3.2); }
               100% { opacity: 0; transform: scale(0.3); }
             }
             @keyframes vl9tile-ripple {
-              0%   { r: 0;     opacity: 0; }
-              4%   { opacity: var(--rip-peak); }
-              60%  { opacity: calc(var(--rip-peak) * 0.6); }
-              78%  { r: var(--rip-max); opacity: 0; }
+              0%   { r: 0;             opacity: 0; }
+              3%   {                   opacity: var(--rip-peak); }
+              26%  { r: var(--rip-max); opacity: 0; }
               100% { r: var(--rip-max); opacity: 0; }
             }
             @keyframes vl9tile-flow-1 {

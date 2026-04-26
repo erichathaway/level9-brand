@@ -30,24 +30,28 @@ const HERO_CX = 930;
 const HERO_CY = 315;
 const RING_R = 180;
 
-// Pulse anchor is the MIDDLE of the chart (chassis ring center) per Eric's
-// feedback. Was anchored on the Coordinate dot (right edge of ring); now
-// fires from dead center of the cycle.
+// Pulse anchor is dead center of the chassis ring, directly under the
+// "Coordinate." text. Way smoother + slower per Eric's pond-ripple feel.
 const PULSE_X = HERO_CX; // 930
 const PULSE_Y = HERO_CY; // 315
 
-// 4 pond ripples expand outward across the whole 1200x630 canvas.
-// Per Eric: half pulse speed (LOOP 5 -> 10), 30% slower expansion
-// (dur 4.0 -> 5.2), 30% more faded (peakAlpha * 0.7), and progressively
-// thinner stroke as they replicate (28 -> 20 -> 14 -> 10).
+// 4 pond ripples. All values tuned to Eric's spec:
+// - LOOP 20s (half-speed again, 2x space between pulses)
+// - peakAlpha values halved a second time (50% more faded)
+// - maxR scaled down (so ripples feel local to the chart, not full-canvas)
+// - Stroke width ratios: 1st = 28 (current), 2nd = 2/3 (~19),
+//   3rd = 1/2 (14), 4th = 1/4 (7)
+// Visible window of each ripple is its dur within the LOOP keyframe; with
+// dur 5.2s in a 20s loop, the whole train completes before t=10s, then
+// 10s of quiet before the next pulse. Reads as a pond ripple.
 const RIPPLES = [
-  { delay: 0.0, dur: 5.2, peakAlpha: 0.091,  maxR: 1300, stroke: 28 },
-  { delay: 1.4, dur: 5.2, peakAlpha: 0.070,  maxR: 1200, stroke: 20 },
-  { delay: 2.8, dur: 5.2, peakAlpha: 0.0525, maxR: 1100, stroke: 14 },
-  { delay: 4.2, dur: 5.2, peakAlpha: 0.035,  maxR: 1000, stroke: 10 },
+  { delay: 0.0, peakAlpha: 0.0455, maxR: 950, stroke: 28 },
+  { delay: 1.4, peakAlpha: 0.0350, maxR: 800, stroke: 19 },
+  { delay: 2.8, peakAlpha: 0.0260, maxR: 650, stroke: 14 },
+  { delay: 4.2, peakAlpha: 0.0175, maxR: 500, stroke: 7  },
 ];
 
-const LOOP = 10; // seconds (was 5; "half current speed" per Eric)
+const LOOP = 20; // seconds. Eric: "1/2 speed, 2x space between pulses"
 
 export function Level9osTile() {
   return (
@@ -124,7 +128,9 @@ export function Level9osTile() {
               stroke="rgba(220,232,255,1)"
               strokeWidth={rp.stroke}
               style={{
-                animation: `l9tile-ripple ${LOOP}s ${rp.delay}s linear infinite`,
+                // ease-out gives the physical pond-ripple feel: fast initial
+                // expansion, gradually slowing as the wave spreads.
+                animation: `l9tile-ripple ${LOOP}s ${rp.delay}s ease-out infinite`,
                 ['--rip-max' as string]: `${rp.maxR}px`,
                 ['--rip-peak' as string]: `${rp.peakAlpha}`,
                 mixBlendMode: "screen",
@@ -201,17 +207,20 @@ export function Level9osTile() {
           />
 
           <style>{`
+            /* Loop is 20s. Flash visible 0.4s -> 1.6s, then quiet 18.4s.
+               Ripples expand smoothly from r=0 to maxR over ~5.2s
+               (26% of loop), opacity ramps peak -> 0 across the whole
+               expansion (no plateau). Then quiet until next loop. */
             @keyframes l9tile-flash {
               0%   { opacity: 0; transform: scale(0.3); }
-              4%   { opacity: 1; transform: scale(2.4); }
-              16%  { opacity: 0; transform: scale(3.2); }
+              2%   { opacity: 1; transform: scale(2.4); }
+              8%   { opacity: 0; transform: scale(3.2); }
               100% { opacity: 0; transform: scale(0.3); }
             }
             @keyframes l9tile-ripple {
-              0%   { r: 0;     opacity: 0; }
-              4%   { opacity: var(--rip-peak); }
-              60%  { opacity: calc(var(--rip-peak) * 0.6); }
-              78%  { r: var(--rip-max); opacity: 0; }
+              0%   { r: 0;             opacity: 0; }
+              3%   {                   opacity: var(--rip-peak); }
+              26%  { r: var(--rip-max); opacity: 0; }
               100% { r: var(--rip-max); opacity: 0; }
             }
             @keyframes l9tile-flow-1 {
