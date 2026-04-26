@@ -5,7 +5,7 @@
  * Auto-disables on touch devices (only renders when pointer: fine matches).
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface CursorGradientProps {
   /** Glow color (use brand accent at low alpha for subtlety). */
@@ -20,6 +20,8 @@ export function CursorGradient({
 }: CursorGradientProps) {
   const [pos, setPos] = useState({ x: -1000, y: -1000 });
   const [enabled, setEnabled] = useState(false);
+  const targetRef = useRef({ x: -1000, y: -1000 });
+  const frameRef = useRef<number | null>(null);
 
   useEffect(() => {
     const mql = window.matchMedia("(pointer: fine)");
@@ -27,11 +29,21 @@ export function CursorGradient({
     const onChange = (e: MediaQueryListEvent) => setEnabled(e.matches);
     mql.addEventListener("change", onChange);
 
-    const handler = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
-    window.addEventListener("mousemove", handler);
+    // rAF-coalesce mousemove so we re-render at most once per frame even on
+    // 1000Hz mice. Same visual smoothness; ~10x fewer React renders.
+    const handler = (e: MouseEvent) => {
+      targetRef.current = { x: e.clientX, y: e.clientY };
+      if (frameRef.current !== null) return;
+      frameRef.current = requestAnimationFrame(() => {
+        frameRef.current = null;
+        setPos(targetRef.current);
+      });
+    };
+    window.addEventListener("mousemove", handler, { passive: true });
     return () => {
       window.removeEventListener("mousemove", handler);
       mql.removeEventListener("change", onChange);
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
     };
   }, []);
 

@@ -5,7 +5,7 @@
  * Premium hover state for product cards and feature blocks.
  */
 
-import { useRef, useState, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode } from "react";
 
 export interface MagneticCardProps {
   children: ReactNode;
@@ -26,24 +26,46 @@ export function MagneticCard({
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
   const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
   const [hover, setHover] = useState(false);
+  const frameRef = useRef<number | null>(null);
+  const targetRef = useRef({ rx: 0, ry: 0, gx: 50, gy: 50 });
 
+  // rAF-coalesce per-card mousemove. The DOM event still fires at native rate,
+  // but we only setState (and therefore re-render) at most once per frame.
+  // 15+ MagneticCards on one page * 1000Hz mouse = 15,000 renders/s without
+  // this; with this it caps at the display refresh rate.
   const handleMove = (e: React.MouseEvent) => {
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
-    setTilt({
+    targetRef.current = {
       ry: (x - 0.5) * maxTilt * 2,
       rx: -(y - 0.5) * maxTilt * 2,
+      gx: x * 100,
+      gy: y * 100,
+    };
+    if (frameRef.current !== null) return;
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = null;
+      const t = targetRef.current;
+      setTilt({ rx: t.rx, ry: t.ry });
+      setGlowPos({ x: t.gx, y: t.gy });
     });
-    setGlowPos({ x: x * 100, y: y * 100 });
   };
 
   const handleLeave = () => {
+    if (frameRef.current !== null) {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    }
     setTilt({ rx: 0, ry: 0 });
     setHover(false);
   };
+
+  useEffect(() => () => {
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+  }, []);
 
   return (
     <div

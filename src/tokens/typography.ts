@@ -25,6 +25,28 @@ export const fontWeight = {
   black: 900,
 } as const;
 
+/**
+ * Canonical Inter weights to load via next/font in every consumer site.
+ * Audited 2026-04-26: these are the weights actually referenced across the
+ * portfolio (font-light, font-normal, font-medium, font-semibold, font-bold,
+ * font-black). Drop weight 800 (extrabold) — never used in marketing pages.
+ *
+ * Each consumer site MUST declare the next/font call locally (Next.js
+ * framework constraint), but should source the weight list from here so
+ * sites cannot drift into loading weights they don't use.
+ */
+export const interWeights = ["300", "400", "500", "600", "700", "900"] as const;
+
+/**
+ * Canonical Playfair Display weights for sites that use the editorial serif
+ * (via .font-editorial class). Most sites only need 400 (italic flourishes)
+ * and 700 (display headings); higher weights are unused.
+ *
+ * Sites that don't use .font-editorial should NOT load Playfair at all —
+ * skip the next/font/google call entirely (saves a font fetch + ~30KB).
+ */
+export const playfairWeights = ["400", "700"] as const;
+
 /** Display sizes (clamp-based fluid type for headlines). */
 export const display = {
   hero: "clamp(2.5rem, 6vw, 5.5rem)",     // h1 hero on home pages

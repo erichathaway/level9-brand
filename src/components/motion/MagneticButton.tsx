@@ -5,7 +5,7 @@
  * Renders as <a> if href is provided, otherwise <button>.
  */
 
-import { useRef, useState, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode } from "react";
 
 export interface MagneticButtonProps {
   children: ReactNode;
@@ -29,20 +29,39 @@ export function MagneticButton({
 }: MagneticButtonProps) {
   const ref = useRef<HTMLElement>(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const frameRef = useRef<number | null>(null);
+  const targetRef = useRef({ x: 0, y: 0 });
 
+  // rAF-coalesce so we re-render at most once per frame regardless of mouse
+  // poll rate. Visual feel is identical (transitions handle smoothing).
   const handleMove = (e: React.MouseEvent) => {
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    setOffset({
+    targetRef.current = {
       x: (e.clientX - centerX) * strength,
       y: (e.clientY - centerY) * strength,
+    };
+    if (frameRef.current !== null) return;
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = null;
+      setOffset(targetRef.current);
     });
   };
 
-  const handleLeave = () => setOffset({ x: 0, y: 0 });
+  const handleLeave = () => {
+    if (frameRef.current !== null) {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    }
+    setOffset({ x: 0, y: 0 });
+  };
+
+  useEffect(() => () => {
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+  }, []);
 
   const style: React.CSSProperties = {
     transform: `translate(${offset.x}px, ${offset.y}px)`,
