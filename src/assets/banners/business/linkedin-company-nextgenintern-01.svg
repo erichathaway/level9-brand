@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The NextGen Intern company-page banner candidate 01.
+  Mission angle. Cyan + sky blue palette (canonical NextGenIntern).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1128 191" role="img" aria-label="The NextGen Intern · AI literacy starts here.">
+  <defs>
+    <linearGradient id="ngiText" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#67e8f9"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <radialGradient id="ngiBg" cx="80%" cy="50%" r="80%">
+      <stop offset="0%"   stop-color="#06b6d4" stop-opacity="0.32"/>
+      <stop offset="40%"  stop-color="#3b82f6" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#060610" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1128" height="191" fill="#060610"/>
+  <rect width="1128" height="191" fill="url(#ngiBg)"/>
+  <text x="984" y="92" text-anchor="end"
+        font-family="Inter, system-ui, sans-serif"
+        font-weight="900" font-size="44" letter-spacing="-1.4" fill="#ffffff">
+    AI literacy starts here.
+  </text>
+  <text x="984" y="138" text-anchor="end"
+        font-family="Inter, system-ui, sans-serif"
+        font-weight="700" font-size="24" letter-spacing="-0.4" fill="url(#ngiText)">
+    The next generation, ready for the next workplace.
+  </text>
+  <text x="984" y="172" text-anchor="end"
+        font-family="'SF Mono', Menlo, monospace"
+        font-size="9" letter-spacing="3" fill="rgba(255,255,255,0.32)">
+    THE NEXTGEN INTERN · NEXTGEN INTERNS LLC
+  </text>
+</svg>

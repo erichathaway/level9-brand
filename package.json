@@ -1,6 +1,6 @@
 {
   "name": "@level9/brand",
-  "version": "0.16.2",
+  "version": "0.17.0",
   "description": "Shared brand + legal system for the Level9 family of marketing sites: tokens, motion primitives, layout components, content definitions, assets, and per-LLC legal policy templates.",
   "private": false,
   "type": "module",
@@ -24,6 +24,7 @@
     "./components/tiles": "./src/components/tiles/index.ts",
     "./components/og": "./src/components/og/index.ts",
     "./assets/tiles/*": "./src/assets/tiles/*",
+    "./assets/banners/*": "./src/assets/banners/*",
     "./tailwind-preset": "./tailwind-preset.ts",
     "./content": "./src/content/index.ts",
     "./content/pressurePoints": "./src/content/pressurePoints.ts",

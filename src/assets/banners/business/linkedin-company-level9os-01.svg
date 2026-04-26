@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Level9OS company-page banner candidate 01.
+  Stack-claim angle. Full canonical violet -> cyan -> fuchsia palette.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1128 191" role="img" aria-label="Level9OS · AI for operations. Six products. One chassis.">
+  <defs>
+    <linearGradient id="l9osWord" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#a78bfa"/>
+      <stop offset="50%"  stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <radialGradient id="l9osBg" cx="80%" cy="50%" r="80%">
+      <stop offset="0%"   stop-color="#8b5cf6" stop-opacity="0.30"/>
+      <stop offset="40%"  stop-color="#06b6d4" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#060610" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1128" height="191" fill="#060610"/>
+  <rect width="1128" height="191" fill="url(#l9osBg)"/>
+  <text x="984" y="92" text-anchor="end"
+        font-family="Inter, system-ui, sans-serif"
+        font-weight="900" font-size="44" letter-spacing="-1.4" fill="#ffffff">
+    AI for operations.
+  </text>
+  <text x="984" y="138" text-anchor="end"
+        font-family="Inter, system-ui, sans-serif"
+        font-weight="700" font-size="26" letter-spacing="-0.4" fill="url(#l9osWord)">
+    Six products. One chassis.
+  </text>
+  <text x="984" y="172" text-anchor="end"
+        font-family="'SF Mono', Menlo, monospace"
+        font-size="9" letter-spacing="3" fill="rgba(255,255,255,0.32)">
+    LEVEL9OS · UMBRELLA · LEVEL9OS LLC
+  </text>
+</svg>

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" width="1584" height="396">
+  <!-- Banner 06 · INSTALL. The operator manifesto. Big quote center, sparse
+       6-step progress bar right. -->
+  <defs>
+    <linearGradient id="bg6" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#060610"/>
+      <stop offset="100%" stop-color="#0d0a10"/>
+    </linearGradient>
+    <!-- Watermark gradient matches banner 04's ALIGN treatment: opaque on
+         the left, fades across the word itself so it dies under the
+         title text on the right. -->
+    <linearGradient id="wm6" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(110,231,183,0.2)"/>
+      <stop offset="50%" stop-color="rgba(110,231,183,0.08)"/>
+      <stop offset="100%" stop-color="rgba(110,231,183,0)"/>
+    </linearGradient>
+    <linearGradient id="hl6" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#6ee7b7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1584" height="396" fill="url(#bg6)"/>
+
+  <!-- Watermark: INSTALL. left-anchored, gradient-faded across the word
+       so it dies under the title text. Font 280 (smaller than 5/7's 340)
+       because INSTALL is longer and needs to stay in the left zone. -->
+  <text x="-10" y="330" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="280" fill="url(#wm6)" letter-spacing="-0.06em">INSTALL.</text>
+
+  <!-- Center text -->
+  <g transform="translate(480 0)">
+    <text y="110" font-family="SF Mono, Menlo, monospace" font-size="15" fill="#6ee7b7" letter-spacing="6.5">OPERATOR TO OPERATOR</text>
+    <text y="200" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="72" fill="url(#hl6)" letter-spacing="-0.03em">Installing AI.</text>
+    <text y="268" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="72" fill="url(#hl6)" letter-spacing="-0.03em">Not advising on it.</text>
+    <text y="310" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="19" fill="rgba(255,255,255,0.6)">Chief AI Officer · Level9 OS · 6+ products in production</text>
+  </g>
+
+  <!-- Right: 30/90/180 install progress chart (the COO Playbook signature) -->
+  <g transform="translate(1180 96)" font-family="SF Mono, Menlo, monospace">
+    <text x="0" y="0" font-size="12" fill="rgba(255,255,255,0.42)" letter-spacing="3">INSTALL PROTOCOL</text>
+
+    <!-- Day 30 -->
+    <g transform="translate(0 28)">
+      <text y="16" font-size="10" fill="rgba(110,231,183,0.85)" letter-spacing="2">DAY 30</text>
+      <text y="34" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.88)">Diagnose · quick wins</text>
+      <rect x="0" y="44" width="340" height="8" rx="4" fill="rgba(255,255,255,0.08)"/>
+      <rect x="0" y="44" width="65"  height="8" rx="4" fill="#6ee7b7"/>
+      <circle cx="65" cy="48" r="7" fill="#060610" stroke="#6ee7b7" stroke-width="2"/>
+    </g>
+
+    <!-- Day 90 -->
+    <g transform="translate(0 100)">
+      <text y="16" font-size="10" fill="rgba(110,231,183,0.85)" letter-spacing="2">DAY 90</text>
+      <text y="34" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.88)">Install · Lean Ops + CxfO</text>
+      <rect x="0" y="44" width="340" height="8" rx="4" fill="rgba(255,255,255,0.08)"/>
+      <rect x="0" y="44" width="170" height="8" rx="4" fill="#6ee7b7"/>
+      <circle cx="170" cy="48" r="7" fill="#060610" stroke="#6ee7b7" stroke-width="2"/>
+    </g>
+
+    <!-- Day 180 -->
+    <g transform="translate(0 172)">
+      <text y="16" font-size="10" fill="rgba(110,231,183,0.85)" letter-spacing="2">DAY 180</text>
+      <text y="34" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.88)">Compound · Alignment Cycle</text>
+      <rect x="0" y="44" width="340" height="8" rx="4" fill="rgba(255,255,255,0.08)"/>
+      <rect x="0" y="44" width="340" height="8" rx="4" fill="#6ee7b7"/>
+      <circle cx="340" cy="48" r="7" fill="#060610" stroke="#6ee7b7" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- Level9 co-sign -->
+  <g transform="translate(1520 348)">
+    <rect width="32" height="32" rx="7" fill="#0d0a10" stroke="rgba(110,231,183,0.5)" stroke-width="1"/>
+    <text x="16" y="23" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="18" fill="#ffffff" transform="rotate(-14 16 21)" style="letter-spacing:-0.04em">9</text>
+  </g>
+</svg>

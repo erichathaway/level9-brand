@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  LinkupOS company-page banner candidate 01.
+  Spec: 1128x191 (LinkedIn company page banner). Logo (300x300 LinkedIn
+  chip) overlaps bottom-left ~280px wide zone; banner art sits clear of
+  that zone with text right-anchored.
+  Theme: amber/orange OutboundOS palette (LinkupOS is the LinkedIn-signal
+  pod under the OutboundOS umbrella).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1128 191" role="img" aria-label="LinkupOS · LinkedIn signal engine">
+  <defs>
+    <linearGradient id="lupoText" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"  stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fcd34d"/>
+    </linearGradient>
+    <radialGradient id="lupoBg" cx="80%" cy="50%" r="80%">
+      <stop offset="0%"   stop-color="#f59e0b" stop-opacity="0.30"/>
+      <stop offset="40%"  stop-color="#f97316" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#060610" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1128" height="191" fill="#060610"/>
+  <rect width="1128" height="191" fill="url(#lupoBg)"/>
+  <text x="984" y="92" text-anchor="end"
+        font-family="Inter, system-ui, sans-serif"
+        font-weight="900" font-size="44" letter-spacing="-1.4" fill="url(#lupoText)">
+    LinkedIn signal.
+  </text>
+  <text x="984" y="138" text-anchor="end"
+        font-family="Inter, system-ui, sans-serif"
+        font-weight="700" font-size="26" letter-spacing="-0.4" fill="#f59e0b">
+    Voice-calibrated outbound.
+  </text>
+  <text x="984" y="172" text-anchor="end"
+        font-family="'SF Mono', Menlo, monospace"
+        font-size="9" letter-spacing="3" fill="rgba(255,255,255,0.32)">
+    LINKUPOS · OUTBOUNDOS POD · LUCIDORG LLC
+  </text>
+</svg>
