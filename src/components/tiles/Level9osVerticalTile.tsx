@@ -26,17 +26,22 @@ const HERO_CX = 540;
 const HERO_CY = 880;
 const RING_R = 320;
 
-const PULSE_X = HERO_CX + RING_R; // 860
-const PULSE_Y = HERO_CY;          // 880
+// Pulse anchor: middle of the chart (ring center) per Eric.
+const PULSE_X = HERO_CX; // 540
+const PULSE_Y = HERO_CY; // 880
 
+// Per Eric: half pulse speed (LOOP 5 -> 10), 30% slower expansion
+// (dur 4.0 -> 5.2), 30% more faded (peakAlpha * 0.7), and progressively
+// thinner stroke as they replicate (48 -> 36 -> 26 -> 18 — scaled up
+// for the 1080x1920 canvas).
 const RIPPLES = [
-  { delay: 0.0, dur: 4.0, peakAlpha: 0.13, maxR: 2400 },
-  { delay: 0.7, dur: 4.0, peakAlpha: 0.10, maxR: 2200 },
-  { delay: 1.4, dur: 4.0, peakAlpha: 0.075, maxR: 2000 },
-  { delay: 2.1, dur: 4.0, peakAlpha: 0.05,  maxR: 1800 },
+  { delay: 0.0, dur: 5.2, peakAlpha: 0.091,  maxR: 2400, stroke: 48 },
+  { delay: 1.4, dur: 5.2, peakAlpha: 0.070,  maxR: 2200, stroke: 36 },
+  { delay: 2.8, dur: 5.2, peakAlpha: 0.0525, maxR: 2000, stroke: 26 },
+  { delay: 4.2, dur: 5.2, peakAlpha: 0.035,  maxR: 1800, stroke: 18 },
 ];
 
-const LOOP = 5;
+const LOOP = 10;
 
 export function Level9osVerticalTile() {
   return (
@@ -107,7 +112,7 @@ export function Level9osVerticalTile() {
               r={0}
               fill="none"
               stroke="rgba(220,232,255,1)"
-              strokeWidth={48}
+              strokeWidth={rp.stroke}
               style={{
                 animation: `vl9tile-ripple ${LOOP}s ${rp.delay}s linear infinite`,
                 ['--rip-max' as string]: `${rp.maxR}px`,
@@ -155,24 +160,11 @@ export function Level9osVerticalTile() {
               const rad = (p.angle * Math.PI) / 180;
               const x = Math.cos(rad) * RING_R;
               const y = Math.sin(rad) * RING_R;
-              const isPulse = p.id === "coordinate";
               return (
                 <g key={`vdot-${p.id}`}>
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r={isPulse ? 60 : 40}
-                    fill={p.color}
-                    opacity={isPulse ? 0.55 : 0.18}
-                    style={{
-                      animation: isPulse
-                        ? `vl9tile-pulseGlow ${LOOP}s ease-in-out infinite`
-                        : undefined,
-                      transformOrigin: `${x}px ${y}px`,
-                    }}
-                  />
-                  <circle cx={x} cy={y} r={20} fill="#0d0d18" stroke={p.color} strokeWidth={isPulse ? 3.4 : 3} />
-                  <circle cx={x} cy={y} r={isPulse ? 9 : 7} fill={p.color} />
+                  <circle cx={x} cy={y} r={40} fill={p.color} opacity={0.18} />
+                  <circle cx={x} cy={y} r={20} fill="#0d0d18" stroke={p.color} strokeWidth={3} />
+                  <circle cx={x} cy={y} r={7} fill={p.color} />
                 </g>
               );
             })}
@@ -205,11 +197,6 @@ export function Level9osVerticalTile() {
               60%  { opacity: calc(var(--rip-peak) * 0.6); }
               78%  { r: var(--rip-max); opacity: 0; }
               100% { r: var(--rip-max); opacity: 0; }
-            }
-            @keyframes vl9tile-pulseGlow {
-              0%, 100% { transform: scale(1); opacity: 0.55; }
-              4%       { transform: scale(1.6); opacity: 0.95; }
-              20%      { transform: scale(1); opacity: 0.55; }
             }
             @keyframes vl9tile-flow-1 {
               0%, 100% { transform: translate(0, 0); }

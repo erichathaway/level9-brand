@@ -30,22 +30,24 @@ const HERO_CX = 930;
 const HERO_CY = 315;
 const RING_R = 180;
 
-// Coordinate dot is the pulse anchor (angle 0, on the right of the ring).
-// Cosmetic in the canvas; the pulse fires from this absolute coordinate.
-const PULSE_X = HERO_CX + RING_R; // 1110
-const PULSE_Y = HERO_CY;          // 315
+// Pulse anchor is the MIDDLE of the chart (chassis ring center) per Eric's
+// feedback. Was anchored on the Coordinate dot (right edge of ring); now
+// fires from dead center of the cycle.
+const PULSE_X = HERO_CX; // 930
+const PULSE_Y = HERO_CY; // 315
 
-// 4 pond ripples expand outward across the whole 1200x630 canvas. Loop
-// every 5s with staggered delays so the screen always has at least one
-// active wave.
+// 4 pond ripples expand outward across the whole 1200x630 canvas.
+// Per Eric: half pulse speed (LOOP 5 -> 10), 30% slower expansion
+// (dur 4.0 -> 5.2), 30% more faded (peakAlpha * 0.7), and progressively
+// thinner stroke as they replicate (28 -> 20 -> 14 -> 10).
 const RIPPLES = [
-  { delay: 0.0, dur: 4.0, peakAlpha: 0.13, maxR: 1300 },
-  { delay: 0.7, dur: 4.0, peakAlpha: 0.10, maxR: 1200 },
-  { delay: 1.4, dur: 4.0, peakAlpha: 0.075, maxR: 1100 },
-  { delay: 2.1, dur: 4.0, peakAlpha: 0.05,  maxR: 1000 },
+  { delay: 0.0, dur: 5.2, peakAlpha: 0.091,  maxR: 1300, stroke: 28 },
+  { delay: 1.4, dur: 5.2, peakAlpha: 0.070,  maxR: 1200, stroke: 20 },
+  { delay: 2.8, dur: 5.2, peakAlpha: 0.0525, maxR: 1100, stroke: 14 },
+  { delay: 4.2, dur: 5.2, peakAlpha: 0.035,  maxR: 1000, stroke: 10 },
 ];
 
-const LOOP = 5; // seconds
+const LOOP = 10; // seconds (was 5; "half current speed" per Eric)
 
 export function Level9osTile() {
   return (
@@ -120,7 +122,7 @@ export function Level9osTile() {
               r={0}
               fill="none"
               stroke="rgba(220,232,255,1)"
-              strokeWidth={28}
+              strokeWidth={rp.stroke}
               style={{
                 animation: `l9tile-ripple ${LOOP}s ${rp.delay}s linear infinite`,
                 ['--rip-max' as string]: `${rp.maxR}px`,
@@ -168,30 +170,17 @@ export function Level9osTile() {
               ALIGNMENT CYCLE
             </text>
 
-            {/* 4 pressure-point dots around the ring. Coordinate dot has
-                an extra pulsing glow to anchor the wave origin. */}
+            {/* 4 pressure-point dots around the ring. All equal weight now
+                that the pulse anchors at ring center, not on any one dot. */}
             {POINTS.map((p) => {
               const rad = (p.angle * Math.PI) / 180;
               const x = Math.cos(rad) * RING_R;
               const y = Math.sin(rad) * RING_R;
-              const isPulse = p.id === "coordinate";
               return (
                 <g key={`dot-${p.id}`}>
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r={isPulse ? 32 : 22}
-                    fill={p.color}
-                    opacity={isPulse ? 0.55 : 0.18}
-                    style={{
-                      animation: isPulse
-                        ? `l9tile-pulseGlow ${LOOP}s ease-in-out infinite`
-                        : undefined,
-                      transformOrigin: `${x}px ${y}px`,
-                    }}
-                  />
-                  <circle cx={x} cy={y} r={11} fill="#0d0d18" stroke={p.color} strokeWidth={isPulse ? 2.4 : 2} />
-                  <circle cx={x} cy={y} r={isPulse ? 5 : 4} fill={p.color} />
+                  <circle cx={x} cy={y} r={22} fill={p.color} opacity={0.18} />
+                  <circle cx={x} cy={y} r={11} fill="#0d0d18" stroke={p.color} strokeWidth={2} />
+                  <circle cx={x} cy={y} r={4} fill={p.color} />
                 </g>
               );
             })}
@@ -224,11 +213,6 @@ export function Level9osTile() {
               60%  { opacity: calc(var(--rip-peak) * 0.6); }
               78%  { r: var(--rip-max); opacity: 0; }
               100% { r: var(--rip-max); opacity: 0; }
-            }
-            @keyframes l9tile-pulseGlow {
-              0%, 100% { transform: scale(1); opacity: 0.55; }
-              4%       { transform: scale(1.6); opacity: 0.95; }
-              20%      { transform: scale(1); opacity: 0.55; }
             }
             @keyframes l9tile-flow-1 {
               0%, 100% { transform: translate(0, 0); }
