@@ -19,3 +19,4 @@ export * from "./products";
 export * from "./playbookDomains";
 export * from "./voiceRules";
 export * from "./siteMeta";
+export * from "./tagline";
