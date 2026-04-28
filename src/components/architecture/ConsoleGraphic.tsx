@@ -123,14 +123,18 @@ export type ConsoleHighlight = {
 } | null;
 
 type Props = {
-  /* Optional external highlight driver. When non-null, overrides hover/pin
-     and forces the listed elements to glow. Used by level9os home page to
-     sync the canvas with the DecisionTrace auto-cycle. Leave undefined
-     elsewhere (architecture page) to keep hover-driven behavior. */
+  /* Optional external highlight driver. When non-null, the canvas glows
+     the listed elements when the visitor is NOT actively hovering or
+     pinning a bucket. User hover/pin always wins over this prop, so the
+     auto-cycle yields cleanly to direct exploration. */
   highlight?: ConsoleHighlight;
+  /* Fires whenever the visitor's interaction with the canvas changes
+     (hover, pin, or release). Used by parents that drive a competing
+     auto-cycle so the cycle can pause while the visitor explores. */
+  onUserActiveChange?: (active: boolean) => void;
 };
 
-export default function ConsoleGraphic({ highlight = null }: Props = {}) {
+export default function ConsoleGraphic({ highlight = null, onUserActiveChange }: Props = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef(0);
   // Primary interaction is BUCKET hover. When highlight prop is supplied,
@@ -140,9 +144,23 @@ export default function ConsoleGraphic({ highlight = null }: Props = {}) {
   const hoveredBucketRef = useRef<BucketId | null>(null);
   const pinnedBucketRef = useRef<BucketId | null>(null);
   const highlightRef = useRef<ConsoleHighlight>(null);
+  // Pre-built Sets so the render loop doesn't allocate two new Sets every
+  // frame. Updated only when the highlight prop changes (every 3.5s on the
+  // home auto-cycle, never on the architecture page).
+  const r1SetRef = useRef<Set<string> | null>(null);
+  const r4SetRef = useRef<Set<number> | null>(null);
   useEffect(() => { hoveredBucketRef.current = hoveredBucket; }, [hoveredBucket]);
   useEffect(() => { pinnedBucketRef.current = pinnedBucket; }, [pinnedBucket]);
-  useEffect(() => { highlightRef.current = highlight ?? null; }, [highlight]);
+  useEffect(() => {
+    highlightRef.current = highlight ?? null;
+    r1SetRef.current = highlight?.r1Sectors ? new Set(highlight.r1Sectors) : null;
+    r4SetRef.current = highlight?.r4Numbers ? new Set(highlight.r4Numbers) : null;
+  }, [highlight]);
+  // Notify parent whenever user-interaction state changes, so the parent
+  // can pause its own auto-cycle while the visitor explores.
+  useEffect(() => {
+    onUserActiveChange?.((hoveredBucket ?? pinnedBucket) !== null);
+  }, [hoveredBucket, pinnedBucket, onUserActiveChange]);
   const mouseRef = useRef({ x: -9999, y: -9999 });
   // Sizing refs so the hit-test (which runs in the render loop) can use the
   // same geometry as the visual rendering.
@@ -249,17 +267,22 @@ export default function ConsoleGraphic({ highlight = null }: Props = {}) {
       // Stash geometry for hit-testing outside the render loop
       geomRef.current = { cx, cy, R_OUTER, R_DOMAIN, TILT, FOCAL };
 
-      // Highlight override. When the parent passes a highlight config (the
-      // home-page DecisionTrace auto-cycle does), it wins over hover/pin and
-      // is the single source of truth for which elements glow this frame.
+      // Emphasis source priority each frame:
+      //   1. user hover/pin on the canvas itself  (always wins)
+      //   2. highlight prop from parent           (auto-cycle, when no user hover)
+      //   3. neither                              (everything renders at base)
+      // When the user is actively hovering or has pinned a bucket, ALL of the
+      // override fields go null and only their bucket emphasis applies, so
+      // the canvas behaves exactly like its standalone hover model. Cursor
+      // out → highlight prop takes back over and the auto-cycle resumes.
       const hl = highlightRef.current;
-      const isOverride = hl !== null && hl !== undefined;
-      const r1HighlightSet: Set<string> | null = isOverride && hl!.r1Sectors ? new Set(hl!.r1Sectors) : null;
-      const r4HighlightSet: Set<number> | null = isOverride && hl!.r4Numbers ? new Set(hl!.r4Numbers) : null;
-      const activeProductId: string | null = isOverride ? (hl!.product ?? null) : null;
-      const activeBucketLocal: BucketId | null = isOverride
-        ? (hl!.bucket ?? null)
-        : (hoveredBucketRef.current ?? pinnedBucketRef.current);
+      const isPropOverride = hl !== null && hl !== undefined;
+      const userBucket = hoveredBucketRef.current ?? pinnedBucketRef.current;
+      const usePropOverride = isPropOverride && userBucket === null;
+      const r1HighlightSet: Set<string> | null = usePropOverride ? r1SetRef.current : null;
+      const r4HighlightSet: Set<number> | null = usePropOverride ? r4SetRef.current : null;
+      const activeProductId: string | null = usePropOverride ? (hl!.product ?? null) : null;
+      const activeBucketLocal: BucketId | null = userBucket ?? (usePropOverride ? (hl!.bucket ?? null) : null);
 
       const T_DUST = 1600;
       const T_TOTAL = 4800;
