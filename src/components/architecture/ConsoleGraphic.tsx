@@ -123,18 +123,22 @@ export type ConsoleHighlight = {
 } | null;
 
 type Props = {
-  /* Optional external highlight driver. When non-null, the canvas glows
-     the listed elements when the visitor is NOT actively hovering or
-     pinning a bucket. User hover/pin always wins over this prop, so the
-     auto-cycle yields cleanly to direct exploration. */
+  /* Optional external highlight driver. The canvas always renders this
+     when present. Direct hover on the canvas does NOT visually override
+     it; instead, parents wire `onBucketHover` to remap the highlight to
+     match the bucket the visitor is exploring, so hover on the canvas
+     and the auto-cycle's rich highlight stay in sync. */
   highlight?: ConsoleHighlight;
-  /* Fires whenever the visitor's interaction with the canvas changes
-     (hover, pin, or release). Used by parents that drive a competing
-     auto-cycle so the cycle can pause while the visitor explores. */
+  /* Fires when the visitor starts/stops interacting with the canvas
+     (hover or pin). Parents pause their own auto-cycle here. */
   onUserActiveChange?: (active: boolean) => void;
+  /* Fires with the bucket id the visitor is currently hovering or
+     pinning, or null when they leave. Parents map the bucket to a
+     matching stage and update the highlight prop accordingly. */
+  onBucketHover?: (bucket: BucketId | null) => void;
 };
 
-export default function ConsoleGraphic({ highlight = null, onUserActiveChange }: Props = {}) {
+export default function ConsoleGraphic({ highlight = null, onUserActiveChange, onBucketHover }: Props = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef(0);
   // Primary interaction is BUCKET hover. When highlight prop is supplied,
@@ -159,8 +163,10 @@ export default function ConsoleGraphic({ highlight = null, onUserActiveChange }:
   // Notify parent whenever user-interaction state changes, so the parent
   // can pause its own auto-cycle while the visitor explores.
   useEffect(() => {
-    onUserActiveChange?.((hoveredBucket ?? pinnedBucket) !== null);
-  }, [hoveredBucket, pinnedBucket, onUserActiveChange]);
+    const active = (hoveredBucket ?? pinnedBucket) !== null;
+    onUserActiveChange?.(active);
+    onBucketHover?.(hoveredBucket ?? pinnedBucket);
+  }, [hoveredBucket, pinnedBucket, onUserActiveChange, onBucketHover]);
   const mouseRef = useRef({ x: -9999, y: -9999 });
   // Sizing refs so the hit-test (which runs in the render loop) can use the
   // same geometry as the visual rendering.
@@ -267,22 +273,20 @@ export default function ConsoleGraphic({ highlight = null, onUserActiveChange }:
       // Stash geometry for hit-testing outside the render loop
       geomRef.current = { cx, cy, R_OUTER, R_DOMAIN, TILT, FOCAL };
 
-      // Emphasis source priority each frame:
-      //   1. user hover/pin on the canvas itself  (always wins)
-      //   2. highlight prop from parent           (auto-cycle, when no user hover)
-      //   3. neither                              (everything renders at base)
-      // When the user is actively hovering or has pinned a bucket, ALL of the
-      // override fields go null and only their bucket emphasis applies, so
-      // the canvas behaves exactly like its standalone hover model. Cursor
-      // out → highlight prop takes back over and the auto-cycle resumes.
+      // The highlight prop is the single source of truth for the rich
+      // emphasis (R1 sectors, R3 product, R4 domains, packet bias). When
+      // the visitor hovers a bucket directly on the canvas, the parent
+      // remaps the highlight prop to a matching stage via onBucketHover,
+      // so cursor exploration and auto-cycle exploration produce the same
+      // visual pattern. If no highlight prop is supplied (architecture
+      // page), fall back to the standalone hover/pin model.
       const hl = highlightRef.current;
       const isPropOverride = hl !== null && hl !== undefined;
       const userBucket = hoveredBucketRef.current ?? pinnedBucketRef.current;
-      const usePropOverride = isPropOverride && userBucket === null;
-      const r1HighlightSet: Set<string> | null = usePropOverride ? r1SetRef.current : null;
-      const r4HighlightSet: Set<number> | null = usePropOverride ? r4SetRef.current : null;
-      const activeProductId: string | null = usePropOverride ? (hl!.product ?? null) : null;
-      const activeBucketLocal: BucketId | null = userBucket ?? (usePropOverride ? (hl!.bucket ?? null) : null);
+      const r1HighlightSet: Set<string> | null = isPropOverride ? r1SetRef.current : null;
+      const r4HighlightSet: Set<number> | null = isPropOverride ? r4SetRef.current : null;
+      const activeProductId: string | null = isPropOverride ? (hl!.product ?? null) : null;
+      const activeBucketLocal: BucketId | null = isPropOverride ? (hl!.bucket ?? null) : userBucket;
 
       const T_DUST = 1600;
       const T_TOTAL = 4800;
@@ -862,7 +866,10 @@ export default function ConsoleGraphic({ highlight = null, onUserActiveChange }:
         const dyFloor = -dyt / Math.sin(TILT);
         const radius = Math.sqrt(dx * dx + dyFloor * dyFloor);
         const angle = Math.atan2(dyFloor, dx);
-        if (radius > R_DOMAIN * 1.15 && radius < R_OUTER * 0.96) {
+        // Forgiving hit zone: anywhere inside the visible elliptical disc
+        // counts toward a bucket by angle. Excludes only the tiny core dot
+        // and the perimeter labels area beyond the officer pips.
+        if (radius > R_DOMAIN * 0.35 && radius < R_OUTER * 1.05) {
           for (const b of BUCKETS) {
             const ang = BUCKET_ANGLE[b.id];
             if (angle >= ang.start && angle < ang.end) {
