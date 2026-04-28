@@ -114,18 +114,35 @@ const OP_TEMPLATES = [
   { service: "Education · OB 301", verb: "lesson dispatch",    ms: 140 },
 ];
 
-export default function ConsoleGraphic() {
+export type ConsoleHighlight = {
+  bucket?: BucketId | null;
+  product?: string | null;
+  r1Sectors?: string[];
+  r4Numbers?: number[];
+  packetPairs?: [string, string][];
+} | null;
+
+type Props = {
+  /* Optional external highlight driver. When non-null, overrides hover/pin
+     and forces the listed elements to glow. Used by level9os home page to
+     sync the canvas with the DecisionTrace auto-cycle. Leave undefined
+     elsewhere (architecture page) to keep hover-driven behavior. */
+  highlight?: ConsoleHighlight;
+};
+
+export default function ConsoleGraphic({ highlight = null }: Props = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef(0);
-  // Primary interaction is BUCKET hover — the four quadrants are huge
-  // targets that are easy to aim at. When a bucket is active, all products
-  // in that bucket + all domains served by those products emphasize.
+  // Primary interaction is BUCKET hover. When highlight prop is supplied,
+  // it overrides hover/pin so the auto-cycle drives emphasis.
   const [hoveredBucket, setHoveredBucket] = useState<BucketId | null>(null);
   const [pinnedBucket, setPinnedBucket] = useState<BucketId | null>(null);
   const hoveredBucketRef = useRef<BucketId | null>(null);
   const pinnedBucketRef = useRef<BucketId | null>(null);
+  const highlightRef = useRef<ConsoleHighlight>(null);
   useEffect(() => { hoveredBucketRef.current = hoveredBucket; }, [hoveredBucket]);
   useEffect(() => { pinnedBucketRef.current = pinnedBucket; }, [pinnedBucket]);
+  useEffect(() => { highlightRef.current = highlight ?? null; }, [highlight]);
   const mouseRef = useRef({ x: -9999, y: -9999 });
   // Sizing refs so the hit-test (which runs in the render loop) can use the
   // same geometry as the visual rendering.
@@ -167,6 +184,25 @@ export default function ConsoleGraphic() {
     resize();
     const ro = new ResizeObserver(resize); ro.observe(canvas.parentElement!);
 
+    // Pause the rAF loop when canvas is offscreen — saves CPU on the rest
+    // of the page when the user has scrolled past or hasn't reached this
+    // section yet. The render function checks isVisible at the end of each
+    // frame to decide whether to reschedule.
+    let isVisible = false;
+    const visObserver = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const wasHidden = !isVisible;
+          isVisible = e.isIntersecting;
+          if (isVisible && wasHidden && rafRef.current === 0) {
+            rafRef.current = requestAnimationFrame(render);
+          }
+        }
+      },
+      { threshold: 0.05 },
+    );
+    visObserver.observe(canvas);
+
     const start = performance.now();
     const TRACER_COL: Rgb = [200, 215, 240];
     const ringTracers = [
@@ -177,7 +213,7 @@ export default function ConsoleGraphic() {
       { ring: 3 as const, angle: 0,                 speed: 0.022, color: TRACER_COL },
     ];
 
-    type Packet = { from: string; to: string; progress: number; color: Rgb; speed: number };
+    type Packet = { from: string; to: string; progress: number; color: Rgb; speed: number; bright: boolean };
     const packets: Packet[] = [];
     let packetSpawn = 0;
 
@@ -212,6 +248,18 @@ export default function ConsoleGraphic() {
       const SPIN = t * 0.00003;
       // Stash geometry for hit-testing outside the render loop
       geomRef.current = { cx, cy, R_OUTER, R_DOMAIN, TILT, FOCAL };
+
+      // Highlight override. When the parent passes a highlight config (the
+      // home-page DecisionTrace auto-cycle does), it wins over hover/pin and
+      // is the single source of truth for which elements glow this frame.
+      const hl = highlightRef.current;
+      const isOverride = hl !== null && hl !== undefined;
+      const r1HighlightSet: Set<string> | null = isOverride && hl!.r1Sectors ? new Set(hl!.r1Sectors) : null;
+      const r4HighlightSet: Set<number> | null = isOverride && hl!.r4Numbers ? new Set(hl!.r4Numbers) : null;
+      const activeProductId: string | null = isOverride ? (hl!.product ?? null) : null;
+      const activeBucketLocal: BucketId | null = isOverride
+        ? (hl!.bucket ?? null)
+        : (hoveredBucketRef.current ?? pinnedBucketRef.current);
 
       const T_DUST = 1600;
       const T_TOTAL = 4800;
@@ -319,9 +367,43 @@ export default function ConsoleGraphic() {
           const aStart = (ci / 8) * Math.PI * 2 - Math.PI / 2 + SPIN;
           const aEnd = ((ci + 1) / 8) * Math.PI * 2 - Math.PI / 2 + SPIN;
 
+          // Sector emphasis from highlight prop. r1HighlightSet=null means
+          // no override (everything renders at base). Otherwise listed
+          // sectors brighten and unlisted sectors dim.
+          const sectorEmphasis = r1HighlightSet?.has(cat.id) ?? false;
+          const sectorDimmed = r1HighlightSet !== null && !sectorEmphasis;
+          const sectorMul = sectorDimmed ? 0.35 : sectorEmphasis ? 1.25 : 1;
+
+          // Wedge underglow when emphasized. Drawn behind the dots so the
+          // existing officer pips read on top.
+          if (sectorEmphasis) {
+            const segs = 18;
+            const innerR = R_OUTER * 0.94;
+            const outerR = R_OUTER * 1.04;
+            ctx.beginPath();
+            for (let i = 0; i <= segs; i++) {
+              const a = aStart + (aEnd - aStart) * (i / segs);
+              const [px, py] = projectFloor(Math.cos(a) * outerR, Math.sin(a) * outerR, TILT, cx, cy, FOCAL);
+              if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+            }
+            for (let i = segs; i >= 0; i--) {
+              const a = aStart + (aEnd - aStart) * (i / segs);
+              const [px, py] = projectFloor(Math.cos(a) * innerR, Math.sin(a) * innerR, TILT, cx, cy, FOCAL);
+              ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            const aMidW = (aStart + aEnd) / 2;
+            const [gcx, gcy] = projectFloor(Math.cos(aMidW) * R_OUTER * 0.99, Math.sin(aMidW) * R_OUTER * 0.99, TILT, cx, cy, FOCAL);
+            const wg = ctx.createRadialGradient(gcx, gcy, 2, gcx, gcy, 70);
+            wg.addColorStop(0, `rgba(245,158,11, ${0.32 * govAppear})`);
+            wg.addColorStop(1, `rgba(245,158,11, 0)`);
+            ctx.fillStyle = wg;
+            ctx.fill();
+          }
+
           const [dx1, dy1] = projectFloor(Math.cos(aStart) * R_OUTER * 0.94, Math.sin(aStart) * R_OUTER * 0.94, TILT, cx, cy, FOCAL);
           const [dx2, dy2] = projectFloor(Math.cos(aStart) * R_OUTER * 1.03, Math.sin(aStart) * R_OUTER * 1.03, TILT, cx, cy, FOCAL);
-          ctx.strokeStyle = `rgba(245,158,11, ${0.6 * govAppear})`;
+          ctx.strokeStyle = `rgba(245,158,11, ${0.6 * govAppear * sectorMul})`;
           ctx.lineWidth = 0.7;
           ctx.beginPath(); ctx.moveTo(dx1, dy1); ctx.lineTo(dx2, dy2); ctx.stroke();
 
@@ -329,13 +411,14 @@ export default function ConsoleGraphic() {
             const a = aStart + (d + 0.5) / cat.count * (aEnd - aStart);
             const [px, py] = projectFloor(Math.cos(a) * R_OUTER * 0.985, Math.sin(a) * R_OUTER * 0.985, TILT, cx, cy, FOCAL);
             const appear = Math.min(1, Math.max(0, govAppear * 2 - officerIdx * 0.006));
-            const glow = ctx.createRadialGradient(px, py, 0, px, py, 4);
-            glow.addColorStop(0, `rgba(245,158,11, ${0.18 * appear})`);
+            const haloR = sectorEmphasis ? 7 : 4;
+            const glow = ctx.createRadialGradient(px, py, 0, px, py, haloR);
+            glow.addColorStop(0, `rgba(245,158,11, ${(sectorEmphasis ? 0.45 : 0.18) * appear * sectorMul})`);
             glow.addColorStop(1, `rgba(245,158,11, 0)`);
             ctx.fillStyle = glow;
-            ctx.beginPath(); ctx.arc(px, py, 4, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = `rgba(245,158,11, ${0.75 * appear})`;
-            ctx.beginPath(); ctx.arc(px, py, 1.3, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(px, py, haloR, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = `rgba(245,158,11, ${0.75 * appear * sectorMul})`;
+            ctx.beginPath(); ctx.arc(px, py, sectorEmphasis ? 1.7 : 1.3, 0, Math.PI * 2); ctx.fill();
             officerIdx++;
           }
 
@@ -343,13 +426,15 @@ export default function ConsoleGraphic() {
           const labelR = R_OUTER * 1.11;
           const [lx, ly] = projectFloor(Math.cos(aMid) * labelR, Math.sin(aMid) * labelR, TILT, cx, cy, FOCAL);
           ctx.save();
-          ctx.font = `700 10.5px "JetBrains Mono", monospace`;
+          ctx.font = `700 ${sectorEmphasis ? 11.5 : 10.5}px "JetBrains Mono", monospace`;
           ctx.textAlign = "center"; ctx.textBaseline = "middle";
-          ctx.fillStyle = `rgba(255,255,255, ${0.9 * govAppear})`;
-          ctx.shadowBlur = 0;
+          ctx.fillStyle = `rgba(255,255,255, ${(sectorDimmed ? 0.45 : 0.9) * govAppear})`;
+          ctx.shadowColor = "rgba(245,158,11,0.9)";
+          ctx.shadowBlur = sectorEmphasis ? 6 : 0;
           ctx.fillText(cat.name.toUpperCase(), lx, ly - 6);
+          ctx.shadowBlur = 0;
           ctx.font = `500 9.5px "JetBrains Mono", monospace`;
-          ctx.fillStyle = `rgba(245,158,11, ${0.75 * govAppear})`;
+          ctx.fillStyle = `rgba(245,158,11, ${0.75 * govAppear * sectorMul})`;
           ctx.fillText(`${cat.count} officers`, lx, ly + 8);
           ctx.restore();
         }
@@ -397,11 +482,9 @@ export default function ConsoleGraphic() {
         for (const b of BUCKETS) {
           const ang = BUCKET_ANGLE[b.id];
           const aMid = ang.mid;
-          // Active bucket = hover OR pin. The whole interaction model centers
-          // on bucket hover now (big easy-to-hit targets).
-          const activeBucket = hoveredBucketRef.current ?? pinnedBucketRef.current;
-          const isActiveBucket = activeBucket === b.id;
-          const dimmed = activeBucket !== null && !isActiveBucket;
+          // Active bucket = highlight prop (when overriding) else hover or pin.
+          const isActiveBucket = activeBucketLocal === b.id;
+          const dimmed = activeBucketLocal !== null && !isActiveBucket;
           const emphasis = isActiveBucket;
 
           const segs = 32;
@@ -518,39 +601,43 @@ export default function ConsoleGraphic() {
           const [px, py] = projectFloor(Math.cos(a) * r, Math.sin(a) * r, TILT, cx, cy, FOCAL);
           productScreen.set(p.id, [px, py]);
 
-          const activeBucket = hoveredBucketRef.current ?? pinnedBucketRef.current;
-          const isInActiveBucket = activeBucket !== null && p.bucket === activeBucket;
-          const dimmed = activeBucket !== null && !isInActiveBucket;
-          const emphasis = isInActiveBucket;
+          const isInActiveBucket = activeBucketLocal !== null && p.bucket === activeBucketLocal;
+          const isHighlightedProduct = activeProductId === p.id;
+          // Primary emphasis = the explicitly highlighted product.
+          // Secondary emphasis = sibling products in the active bucket.
+          const primary = isHighlightedProduct;
+          const secondary = isInActiveBucket && !primary;
+          const emphasis = primary || secondary;
+          const dimmed = (activeBucketLocal !== null || activeProductId !== null) && !emphasis;
 
-          const haloR = (emphasis ? 22 : 16) * prodAppear;
-          const baseA = dimmed ? 0.10 : emphasis ? 0.55 : 0.22;
+          const haloR = (primary ? 22 : secondary ? 20 : 16) * prodAppear;
+          const baseA = dimmed ? 0.10 : primary ? 0.42 : secondary ? 0.45 : 0.22;
           const g = ctx.createRadialGradient(px, py, 0, px, py, haloR);
           g.addColorStop(0, `rgba(${p.rgb.join(",")}, ${baseA * prodAppear})`);
           g.addColorStop(1, `rgba(${p.rgb.join(",")}, 0)`);
           ctx.fillStyle = g;
           ctx.beginPath(); ctx.arc(px, py, haloR, 0, Math.PI * 2); ctx.fill();
 
-          const coreR = (emphasis ? 11 : 9) * prodAppear;
+          const coreR = (primary ? 11 : secondary ? 10.5 : 9) * prodAppear;
           ctx.beginPath(); ctx.arc(px, py, coreR, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${p.rgb.join(",")}, ${(emphasis ? 0.28 : 0.14) * prodAppear})`;
+          ctx.fillStyle = `rgba(${p.rgb.join(",")}, ${(primary ? 0.24 : secondary ? 0.22 : 0.14) * prodAppear})`;
           ctx.fill();
-          ctx.strokeStyle = `rgba(${p.rgb.join(",")}, ${(emphasis ? 0.95 : 0.65) * prodAppear * (dimmed ? 0.5 : 1)})`;
-          ctx.lineWidth = emphasis ? 1.3 : 0.85;
+          ctx.strokeStyle = `rgba(${p.rgb.join(",")}, ${(primary ? 0.95 : secondary ? 0.85 : 0.65) * prodAppear * (dimmed ? 0.5 : 1)})`;
+          ctx.lineWidth = primary ? 1.3 : secondary ? 1.1 : 0.85;
           ctx.stroke();
 
           ctx.save();
-          ctx.font = `800 ${emphasis ? 13 : 11}px Inter, sans-serif`;
+          ctx.font = `800 ${primary ? 12.5 : secondary ? 12 : 11}px Inter, sans-serif`;
           ctx.textAlign = "center"; ctx.textBaseline = "middle";
-          ctx.fillStyle = `rgba(${p.rgb.join(",")}, ${(dimmed ? 0.4 : emphasis ? 1 : 0.82) * prodAppear})`;
-          ctx.shadowColor = p.color; ctx.shadowBlur = emphasis ? 6 : 0;
+          ctx.fillStyle = `rgba(${p.rgb.join(",")}, ${(dimmed ? 0.4 : primary ? 1 : secondary ? 0.95 : 0.82) * prodAppear})`;
+          ctx.shadowColor = p.color; ctx.shadowBlur = primary ? 4 : secondary ? 3 : 0;
           ctx.fillText(p.icon, px, py);
           ctx.restore();
 
           const nameR = R_PRODUCT * 1.19;
           const [nx, ny] = projectFloor(Math.cos(a) * nameR, Math.sin(a) * nameR, TILT, cx, cy, FOCAL);
           ctx.save();
-          ctx.font = `700 10.5px "JetBrains Mono", monospace`;
+          ctx.font = `${primary ? 800 : 700} ${primary ? 11.5 : 10.5}px "JetBrains Mono", monospace`;
           ctx.textAlign = "center"; ctx.textBaseline = "middle";
           ctx.fillStyle = `rgba(${p.rgb.join(",")}, ${(dimmed ? 0.45 : 1) * prodAppear})`;
           ctx.fillText(p.name, nx, ny);
@@ -560,9 +647,8 @@ export default function ConsoleGraphic() {
             const offset = (di - (p.domains.length - 1) / 2) * 9;
             const bxx = px + offset;
             const byy = py + coreR + 9;
-            const activeB = hoveredBucketRef.current ?? pinnedBucketRef.current;
-            const domBucketServes = activeB !== null && PRODUCTS.some(pp => pp.bucket === activeB && pp.domains.includes(dn));
-            const isHoverDom = domBucketServes;
+            const domBucketServes = activeBucketLocal !== null && PRODUCTS.some(pp => pp.bucket === activeBucketLocal && pp.domains.includes(dn));
+            const isHoverDom = domBucketServes || (r4HighlightSet?.has(dn) ?? false);
             ctx.save();
             ctx.font = `700 7px "JetBrains Mono", monospace`;
             ctx.textAlign = "center";
@@ -592,44 +678,52 @@ export default function ConsoleGraphic() {
         const [sx1, sy1] = projectFloor(Math.cos(a) * 6, Math.sin(a) * 6, TILT, cx, cy, FOCAL);
         const [sx2, sy2] = projectFloor(Math.cos(a) * R_DOMAIN, Math.sin(a) * R_DOMAIN, TILT, cx, cy, FOCAL);
 
-        const activeBucket = hoveredBucketRef.current ?? pinnedBucketRef.current;
-        // A domain is served by the active bucket if ANY product in that
-        // bucket includes this domain in its .domains list.
-        const productsInActive = activeBucket !== null ? PRODUCTS.filter((p) => p.bucket === activeBucket) : [];
+        // Emphasis source priority: r4HighlightSet (when override active)
+        // overrides the served-by-bucket logic. Otherwise fall back to
+        // hover/pin bucket-served behavior.
+        const productsInActive = activeBucketLocal !== null ? PRODUCTS.filter((p) => p.bucket === activeBucketLocal) : [];
         const isServedByActiveBucket = productsInActive.some((p) => p.domains.includes(d.n));
-        const isHover = false; // direct domain hover disabled; emphasis comes from bucket hover
-        const dimmed = activeBucket !== null && !isServedByActiveBucket;
-        const emphasizedByServe = isServedByActiveBucket;
+        let emphasizedByServe: boolean;
+        let dimmed: boolean;
+        if (r4HighlightSet !== null) {
+          emphasizedByServe = r4HighlightSet.has(d.n);
+          dimmed = !emphasizedByServe;
+        } else if (activeBucketLocal !== null) {
+          emphasizedByServe = isServedByActiveBucket;
+          dimmed = !isServedByActiveBucket;
+        } else {
+          emphasizedByServe = false;
+          dimmed = false;
+        }
         const appearI = Math.min(1, Math.max(0, domAppear - i * 0.04) * 1.5);
 
-        // Spoke brightness — isHover > emphasizedByServe > normal > dimmed
-        const spokeAlpha = (isHover ? 1 : emphasizedByServe ? 0.9 : 0.65) * (dimmed ? 0.3 : 1) * appearI;
+        const spokeAlpha = (emphasizedByServe ? 0.9 : 0.65) * (dimmed ? 0.3 : 1) * appearI;
         ctx.strokeStyle = `rgba(${d.rgb.join(",")}, ${spokeAlpha})`;
-        ctx.lineWidth = isHover ? 2.2 : emphasizedByServe ? 1.6 : 1.1;
+        ctx.lineWidth = emphasizedByServe ? 1.6 : 1.1;
         ctx.beginPath(); ctx.moveTo(sx1, sy1); ctx.lineTo(sx2, sy2); ctx.stroke();
 
         const [bpx, bpy] = projectFloor(Math.cos(a) * R_DOMAIN * 1.08, Math.sin(a) * R_DOMAIN * 1.08, TILT, cx, cy, FOCAL);
-        const badgeR = (isHover ? 11 : emphasizedByServe ? 10 : 8.5) * appearI;
+        const badgeR = (emphasizedByServe ? 11 : 8.5) * appearI;
 
         const g2 = ctx.createRadialGradient(bpx, bpy, 0, bpx, bpy, badgeR * 2);
-        const haloAlpha = (isHover ? 0.42 : emphasizedByServe ? 0.32 : 0.16) * appearI;
+        const haloAlpha = (emphasizedByServe ? 0.42 : 0.16) * appearI;
         g2.addColorStop(0, `rgba(${d.rgb.join(",")}, ${haloAlpha})`);
         g2.addColorStop(1, `rgba(${d.rgb.join(",")}, 0)`);
         ctx.fillStyle = g2;
         ctx.beginPath(); ctx.arc(bpx, bpy, badgeR * 2, 0, Math.PI * 2); ctx.fill();
 
         ctx.beginPath(); ctx.arc(bpx, bpy, badgeR, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${d.rgb.join(",")}, ${(isHover ? 0.6 : 0.28) * (dimmed ? 0.3 : 1) * appearI})`;
+        ctx.fillStyle = `rgba(${d.rgb.join(",")}, ${(emphasizedByServe ? 0.55 : 0.28) * (dimmed ? 0.3 : 1) * appearI})`;
         ctx.fill();
         ctx.strokeStyle = `rgba(${d.rgb.join(",")}, ${(dimmed ? 0.3 : 0.85) * appearI})`;
         ctx.lineWidth = 0.9;
         ctx.stroke();
 
         ctx.save();
-        ctx.font = `700 ${isHover ? 11 : 9.5}px Inter, sans-serif`;
+        ctx.font = `700 ${emphasizedByServe ? 11 : 9.5}px Inter, sans-serif`;
         ctx.textAlign = "center"; ctx.textBaseline = "middle";
         ctx.fillStyle = `rgba(255,255,255, ${(dimmed ? 0.45 : 0.92) * appearI})`;
-        ctx.shadowColor = d.color; ctx.shadowBlur = isHover ? 5 : 0;
+        ctx.shadowColor = d.color; ctx.shadowBlur = emphasizedByServe ? 5 : 0;
         ctx.fillText(String(d.n), bpx, bpy);
         ctx.restore();
 
@@ -664,13 +758,31 @@ export default function ConsoleGraphic() {
         }
       }
 
-      /* Ambient cross-core packets */
+      /* Ambient cross-core packets. When the parent passes packetPairs in
+         the highlight prop, bias new spawns toward those pairs (bright +
+         larger). Falls back to a random pair otherwise. */
       if (domAppear > 0.5 && now - packetSpawn > 240) {
         packetSpawn = now;
-        const from = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
-        const candidates = PRODUCTS.filter((x) => x.id !== from.id);
-        const to = candidates[Math.floor(Math.random() * candidates.length)];
-        packets.push({ from: from.id, to: to.id, progress: 0, color: from.rgb, speed: 0.012 + Math.random() * 0.008 });
+        const pairs = isOverride ? hl!.packetPairs : undefined;
+        let fromId: string;
+        let toId: string;
+        let bright = false;
+        if (pairs && pairs.length > 0) {
+          const [fId, tId] = pairs[Math.floor(Math.random() * pairs.length)];
+          fromId = fId;
+          toId = tId;
+          bright = true;
+        } else {
+          const fromP = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
+          const candidates = PRODUCTS.filter((x) => x.id !== fromP.id);
+          const toP = candidates[Math.floor(Math.random() * candidates.length)];
+          fromId = fromP.id;
+          toId = toP.id;
+        }
+        const fromProd = PRODUCTS.find((x) => x.id === fromId);
+        if (fromProd) {
+          packets.push({ from: fromId, to: toId, progress: 0, color: fromProd.rgb, speed: 0.012 + Math.random() * 0.008, bright });
+        }
       }
       for (let pi = packets.length - 1; pi >= 0; pi--) {
         const pk = packets[pi];
@@ -685,14 +797,15 @@ export default function ConsoleGraphic() {
         const a = pk.progress;
         const px = Math.pow(1 - a, 2) * fx + 2 * (1 - a) * a * cxP + a * a * tx;
         const py = Math.pow(1 - a, 2) * fy + 2 * (1 - a) * a * cyP + a * a * ty;
-        const pAlpha = 0.75 * (1 - Math.abs(a - 0.5) * 1.5);
-        const g = ctx.createRadialGradient(px, py, 0, px, py, 9);
+        const pAlpha = (pk.bright ? 1 : 0.75) * (1 - Math.abs(a - 0.5) * 1.5);
+        const haloR = pk.bright ? 13 : 9;
+        const g = ctx.createRadialGradient(px, py, 0, px, py, haloR);
         g.addColorStop(0, `rgba(${pk.color.join(",")}, ${Math.max(0, pAlpha)})`);
         g.addColorStop(1, `rgba(${pk.color.join(",")}, 0)`);
         ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(px, py, 9, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(px, py, haloR, 0, Math.PI * 2); ctx.fill();
         ctx.fillStyle = `rgba(255,255,255, ${Math.max(0, pAlpha * 0.9)})`;
-        ctx.beginPath(); ctx.arc(px, py, 1.3, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(px, py, pk.bright ? 1.7 : 1.3, 0, Math.PI * 2); ctx.fill();
       }
 
       /* Chain highlight disabled in bucket-hover model — bucket emphasis
@@ -738,11 +851,15 @@ export default function ConsoleGraphic() {
       }
       if (bestBucket !== hoveredBucketRef.current) setHoveredBucket(bestBucket);
 
-      rafRef.current = requestAnimationFrame(render);
+      if (isVisible) {
+        rafRef.current = requestAnimationFrame(render);
+      } else {
+        rafRef.current = 0;
+      }
     };
 
     rafRef.current = requestAnimationFrame(render);
-    return () => { cancelAnimationFrame(rafRef.current); ro.disconnect(); };
+    return () => { cancelAnimationFrame(rafRef.current); ro.disconnect(); visObserver.disconnect(); };
   // Deps intentionally [] — hover state is read via refs inside render() so
   // the effect doesn't re-run on every rollover (which would reset the start
   // timestamp and replay the opening dust phase). State setters still run

@@ -22,5 +22,5 @@
  *   import { ConsoleGraphic, ForgeCube, type ForgeProduct } from "@level9/brand/components/architecture";
  */
 
-export { default as ConsoleGraphic } from "./ConsoleGraphic";
+export { default as ConsoleGraphic, type ConsoleHighlight } from "./ConsoleGraphic";
 export { default as ForgeCube, type ForgeProduct } from "./ForgeCube";

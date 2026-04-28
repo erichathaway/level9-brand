@@ -113,6 +113,22 @@ export default function ForgeCube({ products, href, className, skipDust = false,
     resize();
     const ro = new ResizeObserver(resize); ro.observe(canvas.parentElement!);
 
+    // Pause rAF when offscreen — saves CPU when scrolled past the hero.
+    let isVisible = false;
+    const visObserver = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const wasHidden = !isVisible;
+          isVisible = e.isIntersecting;
+          if (isVisible && wasHidden && rafRef.current === 0) {
+            rafRef.current = requestAnimationFrame(render);
+          }
+        }
+      },
+      { threshold: 0.05 },
+    );
+    visObserver.observe(canvas);
+
     // scale cube to canvas — 42% of shortest dim works well
     const initialRect = canvas.parentElement!.getBoundingClientRect();
     const CUBE_SIZE = Math.min(initialRect.width, initialRect.height) * 0.42;
@@ -312,11 +328,15 @@ export default function ForgeCube({ products, href, className, skipDust = false,
         if (best !== hoveredFace) setHoveredFace(best);
       }
 
-      rafRef.current = requestAnimationFrame(render);
+      if (isVisible) {
+        rafRef.current = requestAnimationFrame(render);
+      } else {
+        rafRef.current = 0;
+      }
     };
 
     rafRef.current = requestAnimationFrame(render);
-    return () => { cancelAnimationFrame(rafRef.current); ro.disconnect(); };
+    return () => { cancelAnimationFrame(rafRef.current); ro.disconnect(); visObserver.disconnect(); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, skipDust]);
 
