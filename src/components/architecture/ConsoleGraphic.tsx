@@ -897,16 +897,6 @@ export default function ConsoleGraphic({ highlight = null, onUserActiveChange, o
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Active bucket = hover OR pinned. Hover wins for preview, pinned
-  // persists when the cursor leaves. The card binds to active.
-  const activeBucketId = hoveredBucket ?? pinnedBucket;
-  const bucket = activeBucketId ? BUCKETS.find((b) => b.id === activeBucketId) ?? null : null;
-  const bucketProducts = bucket ? PRODUCTS.filter((p) => p.bucket === bucket.id) : [];
-  const bucketDomainNs = bucket
-    ? Array.from(new Set(bucketProducts.flatMap((p) => p.domains))).sort((a, b) => a - b)
-    : [];
-  const bucketIsPinned = pinnedBucket !== null && pinnedBucket === activeBucketId;
-
   // Click-to-pin: if cursor is currently over a bucket, toggle that pin.
   // If over blank space, clear.
   const handleClick = () => {
@@ -954,72 +944,6 @@ export default function ConsoleGraphic({ highlight = null, onUserActiveChange, o
         </div>
       </div>
 
-      {/* Bucket card — shown on hover OR pin. Top-left corner so it's
-       *  balanced against the ops log in top-right. Wider (w-80) so the
-       *  product+domain chip lists fit on one row. */}
-      {bucket && (
-        <div className="absolute top-3 left-3 z-20 w-80 max-w-[90%] pointer-events-none">
-          <div className="rounded-xl border p-4 backdrop-blur-md"
-            style={{
-              borderColor: `${bucket.color}${bucketIsPinned ? "88" : "55"}`,
-              background: `linear-gradient(135deg, rgba(0,0,0,0.92), ${bucket.color}0d)`,
-              boxShadow: `0 16px 50px ${bucket.color}35`,
-            }}>
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-[9px] font-mono tracking-[0.35em] uppercase" style={{ color: bucket.color }}>
-                {bucket.n} · PRESSURE POINT
-              </div>
-              {bucketIsPinned && (
-                <span className="text-[8px] font-mono tracking-widest uppercase px-1.5 py-0.5 rounded border"
-                  style={{ color: bucket.color, borderColor: `${bucket.color}66` }}>PINNED</span>
-              )}
-            </div>
-            <div className="text-lg font-black text-white/95 leading-tight mb-1">{bucket.name}</div>
-            <div className="text-[10px] font-mono text-white/55 mb-3 italic">
-              breaks {bucket.breaks.toLowerCase()}
-            </div>
-
-            <div className="pt-3 border-t border-white/[0.08] mb-3">
-              <div className="text-[9px] font-mono tracking-widest uppercase text-white/45 mb-1.5">
-                {bucketProducts.length} product{bucketProducts.length === 1 ? "" : "s"}
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {bucketProducts.map((p) => (
-                  <span key={p.id}
-                    className="text-[10px] font-mono px-2 py-0.5 rounded border flex items-center gap-1"
-                    style={{ borderColor: `${p.color}50`, color: `${p.color}ee`, background: `${p.color}10` }}>
-                    <span className="font-black">{p.icon}</span>
-                    <span>{p.name}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-white/[0.08]">
-              <div className="text-[9px] font-mono tracking-widest uppercase text-white/45 mb-1.5">
-                serves {bucketDomainNs.length} domain{bucketDomainNs.length === 1 ? "" : "s"}
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {bucketDomainNs.map((dn) => {
-                  const d = DOMAINS.find((x) => x.n === dn)!;
-                  return (
-                    <span key={dn}
-                      className="text-[10px] font-mono px-2 py-0.5 rounded border flex items-center gap-1"
-                      style={{ borderColor: `${d.color}50`, color: `${d.color}ee`, background: `${d.color}10` }}>
-                      <span className="font-black">{dn}</span>
-                      <span>{d.name}</span>
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="pt-3 mt-3 border-t border-white/[0.06] text-[9px] font-mono tracking-widest uppercase text-white/35">
-              {bucketIsPinned ? "click again to unpin" : "click to pin"}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
