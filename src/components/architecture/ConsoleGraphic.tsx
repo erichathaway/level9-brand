@@ -790,7 +790,7 @@ export default function ConsoleGraphic({ highlight = null, onUserActiveChange, o
          larger). Falls back to a random pair otherwise. */
       if (domAppear > 0.5 && now - packetSpawn > 240) {
         packetSpawn = now;
-        const pairs = usePropOverride ? hl!.packetPairs : undefined;
+        const pairs = isPropOverride ? hl!.packetPairs : undefined;
         let fromId: string;
         let toId: string;
         let bright = false;
