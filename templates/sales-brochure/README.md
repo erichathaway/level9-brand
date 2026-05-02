@@ -3,20 +3,19 @@
 **Owner:** Eric Hathaway . Founder, Level9
 **Last updated:** 2026-05-02
 **Status:** Canonical template. Reference implementation lives at https://erichathaway.com/brochure
-**Source files:** `brief.template.html` + `build.template.html` (this directory)
+**Source files:** `brief.template.html` + `build.template.html` + `product-spec.template.html` (this directory)
 
 ---
 
 ## What this is
 
-The two-piece sales brochure system, finalized and shipped to production for Level9OS LLC. This is the canonical template for **all future Level9 sales brochures**, including the per-product brochures planned for the six commercial AI products (LinkUpOS, LucidORG, StratOS, COO Playbook, CommandOS, NextGen Interns).
-
-Two pieces, one story. They print standalone. They print together.
+The Level9 brochure system, finalized and shipped to production. Three canonical templates, two purposes: the **firm-level kit** (brief + build) tells the Level9OS story, and the **per-product spec** is reused for each commercial AI product (LinkUpOS, LucidORG, StratOS, COO Playbook, CommandOS, NextGen Interns).
 
 | File | Pages | Audience | Purpose |
 |---|---|---|---|
-| `brief.template.html` | 2 | CEO . COO . Founder | The 90-second pitch. Problem statement, three engagement options, governance posture, diagnostic CTA. Survives hand-off to a skeptical CFO. |
-| `build.template.html` | 7 | COO . Head of Ops . Technical buyer | Deep dive. Intro matrix, four pressure-point pages with motion graphics (Decide / Coordinate / Execute / Measure), Governance + Playbook chapters, and the 6-stat + 3-card Proof Sheet on Page 10. |
+| `brief.template.html` | 2 | CEO . COO . Founder | The 90-second pitch. Problem statement, three engagement options, governance posture, diagnostic CTA. Survives hand-off to a skeptical CFO. **Firm-level. One per family.** |
+| `build.template.html` | 7 | COO . Head of Ops . Technical buyer | Deep dive supplement. Intro matrix, four pressure-point pages with motion graphics (Decide / Coordinate / Execute / Measure), Governance + Playbook chapters, and the 6-stat + 3-card Proof Sheet. **Firm-level. One per family.** |
+| `product-spec.template.html` | 3 | CTO . Head of Eng . Technical evaluator | Per-product technical specification. Build scope + I/O + impact, full architecture diagram with Supabase / n8n / Vercel tier breakdown, two-path implementation grid (off-the-shelf + embed) with governance band. **Per product. One per product.** |
 
 ---
 
@@ -37,6 +36,12 @@ Two pieces, one story. They print standalone. They print together.
 8. **Page 8 . Governance.** Vault chamber + governance posture.
 9. **Page 9 . Playbook.** COO Playbook chapters + lever taxonomy.
 10. **Page 10 . Proof Sheet.** 6-stat hero band + 3 fact cards (Capabilities / Stack / Pedigree) + authority strip + founder attribution.
+
+### `product-spec.template.html` (3 pages)
+
+1. **Page 1 . Product Brief.** Kicker + headline + sub. 4-cell meta band (Product / Operator / Status / Audience). 2x2 scope grid: Intro / Build Scope / Inputs+Outputs (split into two bullet columns) / Impact (paragraph + 6-stat 3x2 grid).
+2. **Page 2 . Architecture.** Kicker + headline + sub. Six-tier dark stack band (Data / Surface / Workflows / Agents / Models / Observe). SVG signal-to-action flow diagram (sources -> n8n orchestrator -> agents+models -> action+audit). Three-column tier breakdown (Data / Function / Surface) with 6 rows each (Tables / Posture / Schemas / Audit / Secrets / Backup ; Host / Engines / Triggers / Pattern / Recovery / Cost ; App / Surfaces / State / Auth / Realtime / Edge).
+3. **Page 3 . Implementation + Governance.** Kicker + headline + sub. Two-path grid (Off-the-shelf turn-key vs. Embed in your stack), each with anchored price + 8 bullets + best-for footer. 4-cell governance band (Spine / Audit / Vault / Compliance roadmap). Quiet diagnostic CTA.
 
 ---
 
@@ -123,6 +128,65 @@ grep -nE "fonts.googleapis|@import|font-family:" <product>-brief.html <product>-
 
 ### Step 5 . Page-fit check
 Every page must fit 8.5 x 11 with no clipping. The Page 10 Proof Sheet is the hardest page to keep balanced (three cards must fill the grid evenly without overflowing the authority strip + founder attribution at the bottom). Use the live reference at `erichathaway.com/brochure/build.html` Page 10 as the gold standard.
+
+---
+
+## How to derive a per-product technical spec (`product-spec.template.html`)
+
+Each commercial AI product gets its own 3-page technical specification, derived from `product-spec.template.html`. The reference implementation is `linkupos-spec.html` at `erichathaway.com/brochure/linkupos-spec.html`.
+
+### Step 1 . Copy the template
+```bash
+cp product-spec.template.html /path/to/consumer/<product>-spec.html
+```
+
+### Step 2 . Replace high-value placeholders (`{{...}}`)
+Search-and-replace these tokens:
+- `{{PRODUCT_NAME}}` . full product name, e.g. "LinkUpOS" or "StratOS"
+- `{{PRODUCT_CHIP_LETTER}}` . single letter for the dark header chip, e.g. "L"
+- `{{PRODUCT_NAME_PREFIX}}` . the first part of the name styled in ink, e.g. "Link" for LinkUpOS
+- `{{PRODUCT_NAME_HIGHLIGHT}}` . the violet middle chunk, e.g. "Up" for LinkUpOS
+- `{{PRODUCT_NAME_SUFFIX}}` . the closing chunk in ink, e.g. "OS" for LinkUpOS
+- `{{OPERATING_LLC}}` . the LLC that operates the product (resolve via `legal/attribution.ts`). LucidORG LLC for LinkUpOS / LucidORG / StratOS / COO Playbook. NextGen Interns LLC for the NextGen platform.
+- `{{PRODUCT_DOMAIN}}` . the product's web domain
+- `{{CONTACT_EMAIL}}` . the contact email for that product
+- `{{BACK_LINK_HREF}}` + `{{BACK_LINK_LABEL}}` . consumer-site back navigation
+- `{{PATH_01_PRICE}}` + `{{PATH_01_PRICE_UNIT}}` . off-the-shelf pricing (e.g. "$25 to $150" + "/pp /mo . tiered")
+- `{{PATH_02_PRICE}}` + `{{PATH_02_PRICE_UNIT}}` . embed pricing (e.g. "$99" + "/pp /mo . flat rate")
+
+### Step 3 . Swap product-specific content
+The technical spec is fully product-specific. Every section needs a real product-by-product rewrite. The template structure stays identical; only the content swaps.
+
+**Page 1**
+- Headline + sub copy (kicker, h1, pagehead-sub).
+- Card 01 (Intro): paragraph + 4-bullet quick characterization of the product.
+- Card 02 (Build Scope): "What ships" name + 6-bullet engine list specific to the product.
+- Card 03 (Inputs / Outputs): two 7-bullet columns of concrete inputs and outputs for the product.
+- Card 04 (Impact): paragraph + 6-stat 3x2 grid of product KPIs.
+
+**Page 2**
+- Headline + sub copy.
+- Stack band: 6 tiers with the product's actual implementations (Data / Surface / Workflows / Agents / Models / Observe). Keep the structure; swap the implementations.
+- SVG flow diagram: this is the most product-specific element. Either edit the boxes inline (Sources row, agent lanes, action+audit row) to match the product's flow, OR replace the SVG entirely if the architecture is meaningfully different. Maintain the four-row pattern: Sources -> Orchestrator -> Agents+Models -> Action+Audit.
+- Three tier columns (Data / Function / Surface): keep the 6-row pattern per column. Swap Tables / Posture / Schemas / Audit / Secrets / Backup (Data column) and equivalents (Function: Host / Engines / Triggers / Pattern / Recovery / Cost ; Surface: App / Surfaces / State / Auth / Realtime / Edge) to match the product's reality.
+
+**Page 3**
+- Headline + sub copy. If the product has only one path (rare), drop to a single-column impl-grid; if it has three paths (Custom Build available, e.g. OutboundOS), restore the third column from the LinkUpOS pre-pass-2 commit history and adjust `.impl-grid` back to `1fr 1fr 1fr`.
+- Two paths: Off-the-shelf and Embed. Each gets a name, price, 8 bullets, and a "Best for" footer.
+- Governance band: 4 cells. The Spine cell stays the same (it's the brand-level governance promise). Audit / Vault / Compliance cells stay structurally identical (AEGIS / RLS / GDPR + EU AI Act + SOC 2 roadmap) unless the product has product-specific compliance posture.
+- CTA: keep the diagnostic offer; update the email subject in the `mailto:` href to match the product (e.g. `?subject=LinkUpOS%20Diagnostic`).
+
+### Step 4 . Audit before shipping
+Same pre-ship audit as the brief / build templates:
+```bash
+grep -cP "\xe2\x80\x94" <product>-spec.html  # em dashes -> 0
+grep -cP "\xe2\x80\x93" <product>-spec.html  # en dashes -> 0
+grep -nE "<em|<i\s|<i>|font-style:\s*italic" <product>-spec.html  # only styled <em> in headlines
+grep -nE "font-family:" <product>-spec.html | grep -vE "Inter|JetBrains"  # empty
+```
+
+### Step 5 . Page-fit check
+Three pages, each must fit 8.5 x 11 with no clipping. Page 1's bottom whitespace is the canary: if Card 03 (I/O) or Card 04 (Impact) leaves dead space, expand the bullet count or stat grid. Page 2's tier columns are the second canary: if any of the three columns leaves bottom whitespace, add a row or bump the `tier-val` font size. Page 3's two-path grid + governance band + CTA must all fit; the CTA going off-page is the failure signal.
 
 ---
 

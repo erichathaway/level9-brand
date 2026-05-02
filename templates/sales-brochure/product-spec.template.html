@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PRODUCT_NAME}} . Technical Specification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #faf8f5;
+    --paper-warm: #f3eee3;
+    --ink: #0c0e1a;
+    --ink-soft: rgba(12, 14, 26, 0.66);
+    --ink-mute: rgba(12, 14, 26, 0.42);
+    --ink-faint: rgba(12, 14, 26, 0.22);
+    --rule: rgba(12, 14, 26, 0.10);
+    --hairline: rgba(12, 14, 26, 0.05);
+    --violet: #6d28d9;
+    --violet-bright: #8b5cf6;
+    --violet-soft: #ede9fe;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #14141d; font-family: 'Inter', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  .viewer { min-height: 100vh; padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 28px; }
+  .toolbar { color: rgba(250,248,245,0.55); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; display: flex; gap: 24px; align-items: center; }
+  .toolbar a { color: rgba(250,248,245,0.55); text-decoration: none; padding: 8px 14px; border: 1px solid rgba(250,248,245,0.18); border-radius: 4px; transition: all 0.2s; }
+  .toolbar a:hover { color: var(--paper); border-color: var(--paper); }
+
+  .page {
+    width: 8.5in; height: 11in; background: var(--paper);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+    position: relative; overflow: hidden;
+    page-break-after: always;
+    display: flex; flex-direction: column;
+  }
+
+  /* SLIM HEADER */
+  .pheader { padding: 0.45in 0.6in 0 0.6in; display: grid; grid-template-columns: auto auto; gap: 24px; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .ph-mark { display: flex; align-items: center; gap: 11px; }
+  .ph-chip { width: 28px; height: 28px; background: var(--ink); color: white; border-radius: 6px; display: grid; place-items: center; font-weight: 900; font-size: 16px; line-height: 1; position: relative; }
+  .ph-chip::after { content: ''; position: absolute; inset: 0; border-radius: 6px; border: 1px solid var(--violet); opacity: 0.7; }
+  .ph-name { font-weight: 800; font-size: 15px; letter-spacing: -0.012em; color: var(--ink); line-height: 1; }
+  .ph-name span { color: var(--violet); }
+  .ph-meta { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.28em; color: var(--ink-mute); text-transform: uppercase; font-weight: 600; }
+
+  /* SLIM FOOTER */
+  .pfooter { padding: 0.22in 0.6in 0.35in 0.6in; display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--ink-mute); text-transform: uppercase; flex-shrink: 0; }
+  .pfooter strong { color: var(--ink); font-weight: 700; }
+
+  /* SHARED PAGE BODY */
+  .pbody { padding: 0.35in 0.6in 0 0.6in; flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+  /* HEAD KICKER + H1 */
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.36em; color: var(--violet); text-transform: uppercase; font-weight: 700; }
+  .kicker strong { color: var(--ink); font-weight: 800; }
+  .pagehead { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .pagehead h1 { font-weight: 900; font-size: 38px; line-height: 1.0; letter-spacing: -0.026em; color: var(--ink); }
+  .pagehead h1 em { font-style: normal; color: var(--violet); }
+  .pagehead h1 .stop { color: var(--violet); }
+  .pagehead-sub { font-size: 12.5px; line-height: 1.45; color: var(--ink-soft); max-width: 6.6in; font-weight: 500; }
+  .pagehead-sub strong { color: var(--ink); font-weight: 700; }
+
+  /* PAGE 1 — 2x2 SCOPE GRID */
+  .scope-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; flex: 1; min-height: 0; margin-bottom: 14px; }
+  .scope-cell { padding: 14px 16px 16px 16px; background: white; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  .scope-num { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.26em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .scope-tag { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; color: var(--violet); text-transform: uppercase; font-weight: 700; }
+  .scope-name { font-weight: 800; font-size: 17px; letter-spacing: -0.014em; color: var(--ink); line-height: 1.1; }
+  .scope-body { font-size: 10.5px; line-height: 1.5; color: var(--ink); padding-top: 2px; }
+  .scope-body strong { font-weight: 700; }
+  .scope-body p + p { margin-top: 6px; }
+  .scope-body ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; padding-top: 4px; }
+  .scope-body li { padding-left: 12px; position: relative; font-size: 10px; line-height: 1.4; }
+  .scope-body li::before { content: ''; position: absolute; left: 0; top: 6px; width: 4px; height: 4px; background: var(--violet); border-radius: 50%; }
+  .scope-body li strong { font-weight: 700; }
+  .scope-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 6px; }
+  .scope-stats.six { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; row-gap: 8px; }
+  .scope-stat { display: flex; flex-direction: column; gap: 2px; padding-top: 6px; border-top: 1px solid var(--hairline); }
+  .scope-stat-num { font-weight: 900; font-size: 18px; color: var(--violet); letter-spacing: -0.02em; line-height: 1; }
+  .scope-stat-num small { font-size: 11px; color: var(--ink-mute); padding-left: 1px; font-weight: 600; }
+  .scope-stat-lbl { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.18em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+
+  /* IO SPLIT (Card 03 inputs/outputs) */
+  .io-split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding-top: 4px; }
+  .io-col { display: flex; flex-direction: column; gap: 4px; }
+  .io-h { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; color: var(--violet); text-transform: uppercase; font-weight: 700; padding-bottom: 4px; border-bottom: 1px solid var(--hairline); margin-bottom: 2px; }
+  .io-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+  .io-col li { padding-left: 11px; position: relative; font-size: 9.5px; line-height: 1.35; color: var(--ink); }
+  .io-col li::before { content: ''; position: absolute; left: 0; top: 5px; width: 4px; height: 4px; background: var(--violet); border-radius: 50%; }
+
+  /* PAGE 1 META BAND */
+  .meta-band { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 8px 0; margin-bottom: 10px; }
+  .meta-cell { padding: 0 14px; display: flex; flex-direction: column; gap: 3px; }
+  .meta-cell + .meta-cell { border-left: 1px solid var(--rule); }
+  .meta-key { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .meta-val { font-size: 11px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+  .meta-val span { color: var(--violet); }
+
+  /* PAGE 2 — STACK BAND */
+  .stack-band { background: var(--ink); color: var(--paper); border-radius: 8px; padding: 12px 18px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 14px; }
+  .stack-band > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .stack-band > div + div { border-left: 1px solid rgba(255,255,255,0.10); padding-left: 12px; }
+  .stack-tier { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; color: rgba(250,248,245,0.55); text-transform: uppercase; font-weight: 700; }
+  .stack-impl { font-size: 9.5px; line-height: 1.35; color: var(--paper); font-weight: 600; }
+  .stack-impl span { color: var(--violet-bright); }
+
+  /* PAGE 2 — FLOW DIAGRAM */
+  .flow-wrap { background: white; border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; margin-bottom: 14px; }
+  .flow-title { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.26em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; padding-bottom: 8px; border-bottom: 1px solid var(--hairline); margin-bottom: 10px; }
+  .flow-title strong { color: var(--violet); font-weight: 800; }
+
+  /* PAGE 2 — TIER BREAKDOWN */
+  .tier-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; flex: 1; min-height: 0; }
+  .tier-col { padding: 12px 14px 14px 14px; background: white; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+  .tier-pill { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; padding: 3px 8px; border-radius: 99px; background: var(--ink); color: white; font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; }
+  .tier-pill span { color: var(--violet-bright); }
+  .tier-name { font-weight: 800; font-size: 14px; color: var(--ink); letter-spacing: -0.012em; padding-top: 2px; }
+  .tier-list { display: flex; flex-direction: column; gap: 0; }
+  .tier-row { display: grid; grid-template-columns: 60px 1fr; gap: 6px; padding: 3px 0; border-top: 1px solid var(--hairline); align-items: baseline; }
+  .tier-row:first-of-type { border-top: none; padding-top: 4px; }
+  .tier-key { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.16em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .tier-val { font-size: 10px; line-height: 1.4; color: var(--ink); }
+  .tier-val strong { font-weight: 700; }
+
+  /* PAGE 3 — IMPLEMENTATION PATHS */
+  .impl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; flex: 1; min-height: 0; }
+  .impl-col { padding: 14px 16px 16px 16px; background: white; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; position: relative; }
+  .impl-col::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--violet); border-radius: 6px 6px 0 0; }
+  .impl-num { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.26em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .impl-tag { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; color: var(--violet); text-transform: uppercase; font-weight: 700; }
+  .impl-name { font-weight: 800; font-size: 17px; color: var(--ink); letter-spacing: -0.014em; line-height: 1.1; padding-bottom: 2px; }
+  .impl-price { display: flex; align-items: baseline; gap: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--hairline); }
+  .impl-price-num { font-weight: 900; font-size: 22px; color: var(--ink); letter-spacing: -0.02em; line-height: 1; }
+  .impl-price-unit { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.18em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .impl-list { display: flex; flex-direction: column; gap: 6px; padding-top: 6px; }
+  .impl-list-item { padding-left: 12px; position: relative; font-size: 10.5px; line-height: 1.45; color: var(--ink); }
+  .impl-list-item::before { content: ''; position: absolute; left: 0; top: 5px; width: 4px; height: 4px; background: var(--violet); border-radius: 50%; }
+  .impl-list-item strong { font-weight: 700; }
+  .impl-foot { margin-top: auto; padding-top: 8px; border-top: 1px solid var(--hairline); font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.18em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .impl-foot strong { color: var(--ink); }
+
+  /* PAGE 3 — GOVERNANCE BAND */
+  .gov-band { background: var(--ink); color: var(--paper); border-radius: 8px; padding: 14px 18px; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 18px; margin-bottom: 12px; }
+  .gov-band > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .gov-band > div + div { border-left: 1px solid rgba(255,255,255,0.12); padding-left: 18px; }
+  .gov-tier { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.24em; color: var(--violet-bright); text-transform: uppercase; font-weight: 700; }
+  .gov-name { font-weight: 800; font-size: 13px; color: var(--paper); letter-spacing: -0.01em; padding-top: 1px; }
+  .gov-val { font-size: 9.5px; line-height: 1.35; color: rgba(250,248,245,0.78); padding-top: 2px; }
+  .gov-val strong { color: var(--paper); font-weight: 700; }
+
+  /* PAGE 3 — CTA */
+  .cta-wrap { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding-top: 10px; border-top: 1px solid var(--rule); }
+  .cta-h { font-weight: 800; font-size: 17px; color: var(--ink); letter-spacing: -0.014em; line-height: 1.2; }
+  .cta-h em { font-style: normal; color: var(--violet); }
+  .cta-sub { font-size: 10.5px; color: var(--ink-soft); padding-top: 3px; line-height: 1.4; }
+  .cta-link { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.22em; color: var(--violet); text-transform: uppercase; font-weight: 700; padding: 9px 14px; border: 1.5px solid var(--violet); border-radius: 4px; text-decoration: none; }
+
+  /* PRINT */
+  @media print {
+    @page { size: letter; margin: 0; }
+    html, body { background: white !important; }
+    .viewer { padding: 0; gap: 0; min-height: 0; background: white !important; }
+    .toolbar { display: none !important; }
+    .page { box-shadow: none !important; height: 11in; }
+  }
+</style>
+</head>
+<body>
+<div class="viewer">
+  <!-- TEMPLATE TOOLBAR. Replace span text + back-link href per consumer site. -->
+  <div class="toolbar">
+    <span>{{PRODUCT_NAME}} . Technical Specification . 3 pages</span>
+    <a href="javascript:window.print()">Print to PDF</a>
+    <a href="{{BACK_LINK_HREF}}">{{BACK_LINK_LABEL}}</a>
+  </div>
+
+  <!-- ========================= PAGE 1 — PRODUCT BRIEF ========================= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">{{PRODUCT_CHIP_LETTER}}</div><div class="ph-name">{{PRODUCT_NAME_PREFIX}}<span>{{PRODUCT_NAME_HIGHLIGHT}}</span>{{PRODUCT_NAME_SUFFIX}}</div></div>
+      <div class="ph-meta">Technical Spec . 04.2026 . Page 01</div>
+    </header>
+
+    <div class="pbody">
+      <div class="pagehead">
+        <div class="kicker">Product Spec . <strong>Signal Engine for Outbound + Content + Relationships</strong></div>
+        <h1>The signal engine for the <em>operator who lives on LinkedIn<span class="stop">.</span></em></h1>
+        <div class="pagehead-sub">LinkUpOS turns LinkedIn from a chore into an operating surface. <strong>Inbound signal monitoring, outbound personalization, content scheduling, and relationship telemetry</strong> all run from one calibrated voice profile. 30 orchestrated workflows. One unified Daily Briefing. Multi-LLM routing per task.</div>
+      </div>
+
+      <div class="meta-band">
+        <div class="meta-cell">
+          <div class="meta-key">Product</div>
+          <div class="meta-val">LinkUpOS</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-key">Operator</div>
+          <div class="meta-val">LucidORG <span>LLC</span></div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-key">Status</div>
+          <div class="meta-val">Production. <span>2026.</span></div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-key">Audience</div>
+          <div class="meta-val">PE/VC MPs . Tech leaders . SMB</div>
+        </div>
+      </div>
+
+      <div class="scope-grid">
+        <!-- 01 INTRO -->
+        <div class="scope-cell">
+          <div class="scope-num">01</div>
+          <div class="scope-tag">Intro . What it is</div>
+          <div class="scope-name">A signal engine, not a posting tool.</div>
+          <div class="scope-body">
+            <p>LinkUpOS watches your network for relevance, turns inbound signal into ranked opportunities, drafts outbound in your voice, and posts content on schedule. It runs as 30 orchestrated workflows on n8n with a Next.js dashboard on Vercel and a Supabase data plane.</p>
+            <ul>
+              <li><strong>Voice-calibrated.</strong> One profile, three motions: comment, post, message.</li>
+              <li><strong>Tier-gated personalization.</strong> Sonnet 4.6 daily, Opus 4.7 for high-value comments.</li>
+              <li><strong>Daily Briefing.</strong> Six morning emails replaced by one prioritized digest.</li>
+              <li><strong>Append-only telemetry.</strong> Every signal, draft, and post logged.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 02 BUILD SCOPE -->
+        <div class="scope-cell">
+          <div class="scope-num">02</div>
+          <div class="scope-tag">Build Scope . What ships</div>
+          <div class="scope-name">Six engines. One operating console.</div>
+          <div class="scope-body">
+            <ul>
+              <li><strong>Signal Engine.</strong> Inbound monitor + relevance scoring across feed, comments, DMs.</li>
+              <li><strong>Outbound Engine.</strong> Apollo prospects, voice-calibrated drafts, tier-gated send.</li>
+              <li><strong>Content Engine.</strong> POV docs to posts, narrative arcs, scheduled queue.</li>
+              <li><strong>Relationship Engine.</strong> CRM-grade telemetry. Strategy calls. Funding events.</li>
+              <li><strong>Intel Engine.</strong> Weekly roll-ups. Company pages. Topic metadata.</li>
+              <li><strong>Brand Engine.</strong> Theme tagging. Voice drift detection. Library.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 03 INPUT / OUTPUT -->
+        <div class="scope-cell">
+          <div class="scope-num">03</div>
+          <div class="scope-tag">Inputs . Outputs</div>
+          <div class="scope-name">Signal in. Action out. Logged.</div>
+          <div class="scope-body io-split">
+            <div class="io-col">
+              <div class="io-h">Inputs</div>
+              <ul>
+                <li>Apollo prospect CSVs (10k+ contacts)</li>
+                <li>LinkedIn feed scrape (60-90/day)</li>
+                <li>Comments + DM stream</li>
+                <li>POV documents + narrative arcs</li>
+                <li>Voice profile JSON</li>
+                <li>Brand themes + drift baseline</li>
+                <li>Funding events (Crunchbase / PitchBook)</li>
+              </ul>
+            </div>
+            <div class="io-col">
+              <div class="io-h">Outputs</div>
+              <ul>
+                <li>Personalized comments (Opus drafted)</li>
+                <li>Outbound DMs (Sonnet drafted)</li>
+                <li>Scheduled posts in queue</li>
+                <li>Daily Briefing email (one digest)</li>
+                <li>Weekly Intel Report (PDF + Notion)</li>
+                <li>CRM-grade relationship metrics</li>
+                <li>Append-only audit log of every action</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 IMPACT -->
+        <div class="scope-cell">
+          <div class="scope-num">04</div>
+          <div class="scope-tag">Impact . Why it matters</div>
+          <div class="scope-name">Hours back. Reach up. Voice intact.</div>
+          <div class="scope-body">
+            <p>The operator who used to spend two hours scrolling, drafting, and second-guessing now spends fifteen minutes triaging a single Briefing. The voice is theirs because the model was trained on theirs. The output is auditable because every step writes a row.</p>
+            <div class="scope-stats six">
+              <div class="scope-stat"><div class="scope-stat-num">30</div><div class="scope-stat-lbl">Workflows</div></div>
+              <div class="scope-stat"><div class="scope-stat-num">6:1</div><div class="scope-stat-lbl">Email Reduction</div></div>
+              <div class="scope-stat"><div class="scope-stat-num">$5</div><div class="scope-stat-lbl">/mo Compute</div></div>
+              <div class="scope-stat"><div class="scope-stat-num">120</div><div class="scope-stat-lbl">Prospects /wk</div></div>
+              <div class="scope-stat"><div class="scope-stat-num">6</div><div class="scope-stat-lbl">Posts /wk</div></div>
+              <div class="scope-stat"><div class="scope-stat-num">15<small>m</small></div><div class="scope-stat-lbl">Operator /day</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="pfooter">
+      <div><strong>{{OPERATING_LLC}}</strong> . {{PRODUCT_NAME}} . Technical Specification</div>
+      <div>{{PRODUCT_DOMAIN}} . {{CONTACT_EMAIL}} . 1</div>
+    </footer>
+  </div>
+
+  <!-- ========================= PAGE 2 — ARCHITECTURE ========================= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">{{PRODUCT_CHIP_LETTER}}</div><div class="ph-name">{{PRODUCT_NAME_PREFIX}}<span>{{PRODUCT_NAME_HIGHLIGHT}}</span>{{PRODUCT_NAME_SUFFIX}}</div></div>
+      <div class="ph-meta">Technical Spec . 04.2026 . Page 02</div>
+    </header>
+
+    <div class="pbody">
+      <div class="pagehead">
+        <div class="kicker">Architecture . <strong>The Build, End to End</strong></div>
+        <h1>How it <em>runs<span class="stop">.</span></em></h1>
+        <div class="pagehead-sub">Three planes. Six tiers. One audited path from external signal to logged action. Postgres + RLS at the data plane. n8n on Synology NAS at the function plane. Vercel + Next.js at the surface plane. <strong>Multi-LLM routing</strong> per task, with model choice tied to task tier.</div>
+      </div>
+
+      <div class="stack-band">
+        <div><div class="stack-tier">Data</div><div class="stack-impl">Supabase <span>(Postgres + RLS + Vector)</span></div></div>
+        <div><div class="stack-tier">Surface</div><div class="stack-impl">Next.js 16 <span>(RSC)</span> on Vercel</div></div>
+        <div><div class="stack-tier">Workflows</div><div class="stack-impl">n8n <span>(NAS, Postgres-backed)</span></div></div>
+        <div><div class="stack-tier">Agents</div><div class="stack-impl">MCP <span>+ Anthropic SDK</span></div></div>
+        <div><div class="stack-tier">Models</div><div class="stack-impl">Sonnet 4.6 <span>+ Opus 4.7 + GPT-5</span></div></div>
+        <div><div class="stack-tier">Observe</div><div class="stack-impl">OpenTelemetry <span>+ AEGIS audit</span></div></div>
+      </div>
+
+      <div class="flow-wrap">
+        <div class="flow-title">Signal-to-Action Flow . <strong>External signal → orchestrator → agent → audit → action</strong></div>
+        <svg viewBox="0 0 740 180" style="width:100%; height:auto; display:block;" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#6d28d9"/>
+            </marker>
+            <style>
+              .nbox { fill: #faf8f5; stroke: #0c0e1a; stroke-width: 1.2; }
+              .nbox-v { fill: #ede9fe; stroke: #6d28d9; stroke-width: 1.4; }
+              .nbox-d { fill: #0c0e1a; stroke: #0c0e1a; }
+              .ntxt { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 10px; fill: #0c0e1a; text-anchor: middle; }
+              .ntxt-w { fill: #faf8f5; }
+              .ntxt-v { fill: #6d28d9; }
+              .ntxt-s { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 6.5px; fill: rgba(12,14,26,0.55); text-anchor: middle; letter-spacing: 0.12em; text-transform: uppercase; }
+              .nline { stroke: #6d28d9; stroke-width: 1.4; fill: none; }
+              .nlbl { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 6.5px; fill: #6d28d9; text-anchor: middle; letter-spacing: 0.1em; text-transform: uppercase; }
+            </style>
+          </defs>
+
+          <!-- Layer labels -->
+          <text x="14" y="24" class="ntxt-s" text-anchor="start">Sources</text>
+          <text x="14" y="74" class="ntxt-s" text-anchor="start">Orchestrator</text>
+          <text x="14" y="124" class="ntxt-s" text-anchor="start">Agents + Models</text>
+          <text x="14" y="170" class="ntxt-s" text-anchor="start">Action + Audit</text>
+
+          <!-- Row 1: Sources -->
+          <rect class="nbox" x="120" y="8" width="120" height="28" rx="3"/>
+          <text class="ntxt" x="180" y="26">Apollo + LinkedIn</text>
+          <rect class="nbox" x="260" y="8" width="100" height="28" rx="3"/>
+          <text class="ntxt" x="310" y="26">POV Docs</text>
+          <rect class="nbox" x="380" y="8" width="120" height="28" rx="3"/>
+          <text class="ntxt" x="440" y="26">Voice Profile</text>
+          <rect class="nbox" x="520" y="8" width="120" height="28" rx="3"/>
+          <text class="ntxt" x="580" y="26">Brand Themes</text>
+
+          <!-- Row 2: Orchestrator (n8n) -->
+          <rect class="nbox-d" x="120" y="58" width="520" height="32" rx="4"/>
+          <text class="ntxt ntxt-w" x="380" y="78">n8n Orchestrator . 30 workflows . Postgres-backed</text>
+
+          <!-- Row 3: Agents + Models -->
+          <rect class="nbox-v" x="120" y="108" width="120" height="32" rx="4"/>
+          <text class="ntxt ntxt-v" x="180" y="120">Signal Agent</text>
+          <text class="ntxt-s" x="180" y="133">Sonnet 4.6</text>
+          <rect class="nbox-v" x="260" y="108" width="100" height="32" rx="4"/>
+          <text class="ntxt ntxt-v" x="310" y="120">Outbound</text>
+          <text class="ntxt-s" x="310" y="133">Opus 4.7</text>
+          <rect class="nbox-v" x="380" y="108" width="120" height="32" rx="4"/>
+          <text class="ntxt ntxt-v" x="440" y="120">Content Engine</text>
+          <text class="ntxt-s" x="440" y="133">Sonnet + GPT-5</text>
+          <rect class="nbox-v" x="520" y="108" width="120" height="32" rx="4"/>
+          <text class="ntxt ntxt-v" x="580" y="120">Intel + Brand</text>
+          <text class="ntxt-s" x="580" y="133">Perplexity Sonar</text>
+
+          <!-- Row 4: Action + Audit -->
+          <rect class="nbox" x="120" y="158" width="220" height="14" rx="2"/>
+          <text class="ntxt" x="230" y="168" style="font-size:8.5px;">Daily Briefing . Posts . Comments . DMs</text>
+          <rect class="nbox-d" x="350" y="158" width="290" height="14" rx="2"/>
+          <text class="ntxt ntxt-w" x="495" y="168" style="font-size:8.5px;">Supabase . AEGIS audit log . append-only . RLS-locked</text>
+
+          <!-- Connectors -->
+          <line class="nline" x1="180" y1="36" x2="180" y2="58" marker-end="url(#arr)"/>
+          <line class="nline" x1="310" y1="36" x2="310" y2="58" marker-end="url(#arr)"/>
+          <line class="nline" x1="440" y1="36" x2="440" y2="58" marker-end="url(#arr)"/>
+          <line class="nline" x1="580" y1="36" x2="580" y2="58" marker-end="url(#arr)"/>
+
+          <line class="nline" x1="180" y1="90" x2="180" y2="108" marker-end="url(#arr)"/>
+          <line class="nline" x1="310" y1="90" x2="310" y2="108" marker-end="url(#arr)"/>
+          <line class="nline" x1="440" y1="90" x2="440" y2="108" marker-end="url(#arr)"/>
+          <line class="nline" x1="580" y1="90" x2="580" y2="108" marker-end="url(#arr)"/>
+
+          <line class="nline" x1="230" y1="140" x2="230" y2="158" marker-end="url(#arr)"/>
+          <line class="nline" x1="495" y1="140" x2="495" y2="158" marker-end="url(#arr)"/>
+        </svg>
+      </div>
+
+      <div class="tier-grid">
+        <div class="tier-col">
+          <div class="tier-pill">Data <span>. Supabase</span></div>
+          <div class="tier-name">The plane of record.</div>
+          <div class="tier-list">
+            <div class="tier-row"><div class="tier-key">Tables</div><div class="tier-val">prospects . posting_queue . content_library . narrative_arcs . pov_documents . brand_themes . relationship_metrics . funding_events . strategy_calls . company_pages . linkedin_comment_replies</div></div>
+            <div class="tier-row"><div class="tier-key">Posture</div><div class="tier-val">RLS-locked. Vector-enabled (pgvector). Realtime channels. Daily snapshots.</div></div>
+            <div class="tier-row"><div class="tier-key">Schemas</div><div class="tier-val">Domain-isolated namespaces. Migrations versioned in repo. Zero-downtime rollouts.</div></div>
+            <div class="tier-row"><div class="tier-key">Audit</div><div class="tier-val">Append-only AEGIS log. Every agent action and dollar spent. Exportable.</div></div>
+            <div class="tier-row"><div class="tier-key">Secrets</div><div class="tier-val">cmd_secrets table . get_secret() RPC . daily expiry alerts. 29 keys tracked.</div></div>
+            <div class="tier-row"><div class="tier-key">Backup</div><div class="tier-val">Daily logical dumps. Point-in-time recovery 7 days. Replica-ready.</div></div>
+          </div>
+        </div>
+
+        <div class="tier-col">
+          <div class="tier-pill">Function <span>. n8n</span></div>
+          <div class="tier-name">The plane of orchestration.</div>
+          <div class="tier-list">
+            <div class="tier-row"><div class="tier-key">Host</div><div class="tier-val">Synology NAS. Docker. Postgres-backed. Tailscale-private.</div></div>
+            <div class="tier-row"><div class="tier-key">Engines</div><div class="tier-val">Signal . Outbound . Content . Relationship . Intel . Brand . Briefing.</div></div>
+            <div class="tier-row"><div class="tier-key">Triggers</div><div class="tier-val">Cron . Webhook . Realtime channels . Manual replay. Sub-workflow chains.</div></div>
+            <div class="tier-row"><div class="tier-key">Pattern</div><div class="tier-val">Idempotent throws. Optional-flag config. Cron-staleness monitor. AE-Orch 300s timeout.</div></div>
+            <div class="tier-row"><div class="tier-key">Recovery</div><div class="tier-val">Sub-workflow retries. Dead-letter queue. Workflow-Activity-Monitor alerting.</div></div>
+            <div class="tier-row"><div class="tier-key">Cost</div><div class="tier-val">~$5/mo at single-operator scale. Multi-tenant clean.</div></div>
+          </div>
+        </div>
+
+        <div class="tier-col">
+          <div class="tier-pill">Surface <span>. Vercel</span></div>
+          <div class="tier-name">The plane of operator.</div>
+          <div class="tier-list">
+            <div class="tier-row"><div class="tier-key">App</div><div class="tier-val">Next.js 16 (App Router + RSC) . React 19 . TypeScript . Tailwind 4.</div></div>
+            <div class="tier-row"><div class="tier-key">Surfaces</div><div class="tier-val">Daily Briefing . Outreach Compose . Posting Queue . Intel Reports . Voice Profile.</div></div>
+            <div class="tier-row"><div class="tier-key">State</div><div class="tier-val">React Query. Server-side first paint. Optimistic mutations.</div></div>
+            <div class="tier-row"><div class="tier-key">Auth</div><div class="tier-val">Supabase auth. RLS-enforced per-row visibility. SSO on Embed path.</div></div>
+            <div class="tier-row"><div class="tier-key">Realtime</div><div class="tier-val">Supabase channels. Live posting queue. Live Briefing updates.</div></div>
+            <div class="tier-row"><div class="tier-key">Edge</div><div class="tier-val">Cloudflare in front. /api/draft-linkedin-reply . /api/export.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="pfooter">
+      <div><strong>{{OPERATING_LLC}}</strong> . {{PRODUCT_NAME}} . Architecture</div>
+      <div>{{PRODUCT_DOMAIN}} . {{CONTACT_EMAIL}} . 2</div>
+    </footer>
+  </div>
+
+  <!-- ========================= PAGE 3 — IMPLEMENTATION + GOVERNANCE ========================= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">{{PRODUCT_CHIP_LETTER}}</div><div class="ph-name">{{PRODUCT_NAME_PREFIX}}<span>{{PRODUCT_NAME_HIGHLIGHT}}</span>{{PRODUCT_NAME_SUFFIX}}</div></div>
+      <div class="ph-meta">Technical Spec . 04.2026 . Page 03</div>
+    </header>
+
+    <div class="pbody">
+      <div class="pagehead">
+        <div class="kicker">Implementation Paths . <strong>Governance Posture</strong></div>
+        <h1>Two ways to <em>deploy<span class="stop">.</span></em></h1>
+        <div class="pagehead-sub">LinkUpOS ships in two postures. Pick the one that matches your tolerance for ops. <strong>Off-the-shelf</strong> for operators wanting speed. <strong>Embed</strong> for firms that want it inside their own stack at a discount. Both inherit the same governance spine: audit-first, vault-locked, voice-calibrated to you.</div>
+      </div>
+
+      <div class="impl-grid">
+        <!-- 01 OFF THE SHELF -->
+        <div class="impl-col">
+          <div class="impl-num">Path 01</div>
+          <div class="impl-tag">Off the Shelf . Turn-key Service</div>
+          <div class="impl-name">Run as a service. We host. You operate.</div>
+          <div class="impl-price"><span class="impl-price-num">{{PATH_01_PRICE}}</span><span class="impl-price-unit">{{PATH_01_PRICE_UNIT}}</span></div>
+          <div class="impl-list">
+            <div class="impl-list-item"><strong>Hosted by us.</strong> Our Supabase. Our n8n. Our Vercel. Zero ops on your side.</div>
+            <div class="impl-list-item"><strong>Voice profile in 48 hours.</strong> Calibrated from your last 90 days on LinkedIn.</div>
+            <div class="impl-list-item"><strong>Daily Briefing live in 5 days.</strong> One digest. Six engines. Tier-gated personalization.</div>
+            <div class="impl-list-item"><strong>Per-person tiered pricing.</strong> $25/pp at the volume floor. $150/pp at the high-touch ceiling.</div>
+            <div class="impl-list-item"><strong>Includes Opus drafting on top tier.</strong> Standard tiers route Sonnet 4.6 daily, Opus 4.7 on flagged signals.</div>
+            <div class="impl-list-item"><strong>Multi-seat from day one.</strong> Team admin console. Per-operator voice profiles.</div>
+            <div class="impl-list-item"><strong>Kill switch + export.</strong> Pause, archive, or export your full data plane at any time.</div>
+            <div class="impl-list-item"><strong>Monthly. No annual lock.</strong> Stay because it works, not because of contract.</div>
+          </div>
+          <div class="impl-foot">Best for <strong>Operators and teams wanting speed without ops.</strong></div>
+        </div>
+
+        <!-- 02 EMBED -->
+        <div class="impl-col">
+          <div class="impl-num">Path 02</div>
+          <div class="impl-tag">Embed . API + Webhook in Your Stack</div>
+          <div class="impl-name">Run inside your stack. You host. We license.</div>
+          <div class="impl-price"><span class="impl-price-num">{{PATH_02_PRICE}}</span><span class="impl-price-unit">{{PATH_02_PRICE_UNIT}}</span></div>
+          <div class="impl-list">
+            <div class="impl-list-item"><strong>Flat per-person pricing.</strong> $99/pp/mo regardless of volume. You absorb the infra cost, we keep the rate predictable.</div>
+            <div class="impl-list-item"><strong>API + webhook contract.</strong> POST signals, GET drafts, webhook on actions. Versioned endpoints.</div>
+            <div class="impl-list-item"><strong>Your data plane.</strong> Bring your Postgres. We deploy schema + RLS policies + vault namespace.</div>
+            <div class="impl-list-item"><strong>Your auth.</strong> SSO / OAuth / SAML. We map cleanly to your existing user table.</div>
+            <div class="impl-list-item"><strong>Voice profile served.</strong> Endpoint your app calls per draft. Per-tenant isolation guaranteed.</div>
+            <div class="impl-list-item"><strong>Audit ledger streamed.</strong> AEGIS log piped to your observability stack (OTel / Sentry / Datadog).</div>
+            <div class="impl-list-item"><strong>Setup engagement included.</strong> 4-week embed sprint. Schema + RLS + first end-to-end signal flow.</div>
+            <div class="impl-list-item"><strong>Quarterly model upgrades.</strong> You get new model routing as we ship it. No surcharge.</div>
+          </div>
+          <div class="impl-foot">Best for <strong>Firms with their own UI, auth, and infra discipline.</strong></div>
+        </div>
+      </div>
+
+      <div class="gov-band">
+        <div>
+          <div class="gov-tier">Governance Spine</div>
+          <div class="gov-name">Same posture, every path.</div>
+          <div class="gov-val">Voice profile, vault, audit ledger, and kill-switch travel with you regardless of which path you pick. The spine is the product. The wrapper is how it ships.</div>
+        </div>
+        <div>
+          <div class="gov-tier">Audit</div>
+          <div class="gov-name">AEGIS-aligned</div>
+          <div class="gov-val"><strong>Append-only</strong> log of every agent action, draft, post, and dollar spent. Exportable.</div>
+        </div>
+        <div>
+          <div class="gov-tier">Vault</div>
+          <div class="gov-name">RLS-locked</div>
+          <div class="gov-val"><strong>cmd_secrets</strong> table. Per-service scoped. Daily expiry alerts. Zero inline secrets.</div>
+        </div>
+        <div>
+          <div class="gov-tier">Compliance</div>
+          <div class="gov-name">Roadmap honest</div>
+          <div class="gov-val">GDPR-aware . EU AI Act ready . <strong>SOC 2 + ISO 27001 + ISO 42001 on roadmap</strong>.</div>
+        </div>
+      </div>
+
+      <div class="cta-wrap">
+        <div>
+          <div class="cta-h">Start with the <em>90-minute Operating Diagnostic.</em></div>
+          <div class="cta-sub">No deck. No follow-up pressure. We map your current outbound + content + relationship motion against the LinkUpOS spine and tell you which path is right.</div>
+        </div>
+        <a class="cta-link" href="mailto:eric@erichathaway.com?subject=LinkUpOS%20Diagnostic">Book the diagnostic</a>
+      </div>
+    </div>
+
+    <footer class="pfooter">
+      <div><strong>{{OPERATING_LLC}}</strong> . {{PRODUCT_NAME}} . Implementation + Governance</div>
+      <div>{{PRODUCT_DOMAIN}} . {{CONTACT_EMAIL}} . 3</div>
+    </footer>
+  </div>
+
+</div>
+</body>
+</html>
