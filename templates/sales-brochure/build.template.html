@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{BROCHURE_LABEL}} . How We Build . 7-page Supplement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #faf8f5;
+    --paper-warm: #f3eee3;
+    --ink: #0c0e1a;
+    --ink-soft: rgba(12, 14, 26, 0.66);
+    --ink-mute: rgba(12, 14, 26, 0.42);
+    --rule: rgba(12, 14, 26, 0.10);
+    --hairline: rgba(12, 14, 26, 0.05);
+    --violet: #6d28d9;
+    --violet-bright: #8b5cf6;
+    --violet-soft: #ede9fe;
+    --tile-bg: #060610;
+    --vault-red: #ef4444;
+    --vault-amber: #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #14141d; font-family: 'Inter', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  .viewer { min-height: 100vh; padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 28px; }
+  .toolbar { color: rgba(250,248,245,0.55); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; display: flex; gap: 24px; align-items: center; }
+  .toolbar a { color: rgba(250,248,245,0.55); text-decoration: none; padding: 8px 14px; border: 1px solid rgba(250,248,245,0.18); border-radius: 4px; transition: all 0.2s; }
+  .toolbar a:hover { color: var(--paper); border-color: var(--paper); }
+  .page { width: 8.5in; height: 11in; background: var(--paper); box-shadow: 0 30px 80px rgba(0,0,0,0.55); position: relative; overflow: hidden; page-break-after: always; display: flex; flex-direction: column; }
+
+  /* HEADER + FOOTER */
+  .pheader { padding: 0.5in 0.7in 0 0.7in; display: grid; grid-template-columns: auto auto; gap: 24px; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .ph-mark { display: flex; align-items: center; gap: 11px; }
+  .ph-chip { width: 28px; height: 28px; background: var(--ink); color: white; border-radius: 6px; display: grid; place-items: center; font-weight: 900; font-size: 16px; line-height: 1; position: relative; }
+  .ph-chip::after { content: ''; position: absolute; inset: 0; border-radius: 6px; border: 1px solid var(--violet); opacity: 0.7; }
+  .ph-name { font-weight: 800; font-size: 15px; letter-spacing: -0.012em; color: var(--ink); line-height: 1; }
+  .ph-name span { color: var(--violet); }
+  .ph-meta { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.28em; color: var(--ink-mute); text-transform: uppercase; font-weight: 600; }
+  .pfooter { padding: 0.28in 0.7in 0.4in 0.7in; display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--ink-mute); text-transform: uppercase; flex-shrink: 0; }
+  .pfooter strong { color: var(--ink); font-weight: 700; }
+
+  /* PAGE 3 INTRO */
+  .p-intro-body { padding: 0.42in 0.7in 0 0.7in; flex: 1; display: flex; flex-direction: column; gap: 0; }
+  .intro-kicker { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.36em; color: var(--violet); text-transform: uppercase; font-weight: 700; padding-bottom: 16px; }
+  .intro h1 { font-weight: 900; font-size: 42px; line-height: 1.0; letter-spacing: -0.026em; color: var(--ink); max-width: 7in; }
+  .intro h1 em { font-style: normal; color: var(--violet); }
+  .intro h1 .stop { color: var(--violet); }
+  .intro-sub { margin-top: 12px; font-weight: 600; font-size: 15px; line-height: 1.4; color: var(--ink); letter-spacing: -0.012em; max-width: 6.5in; }
+  .intro-sub span { color: var(--violet); font-weight: 700; }
+  .intro-deck { margin-top: 12px; font-size: 12.5px; line-height: 1.55; color: var(--ink-soft); max-width: 6.2in; padding-bottom: 18px; }
+  .intro-deck strong { color: var(--ink); font-weight: 700; }
+  .matrix { display: grid; grid-template-columns: 1.1in 1fr 1fr 1fr; border: 2px solid var(--ink); }
+  .matrix-h { background: var(--ink); color: var(--paper); padding: 8px 12px; font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.26em; text-transform: uppercase; font-weight: 700; line-height: 1.4; border-right: 1px solid rgba(255,255,255,0.10); }
+  .matrix-h:nth-child(4) { border-right: none; }
+  .matrix-h.corner { color: var(--violet-bright); }
+  .matrix-row-h { background: var(--ink); color: var(--paper); padding: 12px 12px; border-top: 1px solid rgba(255,255,255,0.10); display: flex; flex-direction: column; gap: 4px; justify-content: center; }
+  .matrix-row-h .num { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.24em; color: var(--violet-bright); font-weight: 700; text-transform: uppercase; }
+  .matrix-row-h .verb { font-weight: 900; font-size: 17px; letter-spacing: -0.014em; line-height: 1; }
+  .matrix-row-h .breaks { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.18em; color: rgba(250,248,245,0.55); text-transform: uppercase; font-weight: 600; padding-top: 2px; }
+  .matrix-cell { background: var(--paper-warm); padding: 12px 14px; border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); display: flex; flex-direction: column; gap: 6px; min-height: 76px; }
+  .matrix-cell:nth-child(4n) { border-right: none; }
+  .matrix-cell .pain { font-weight: 600; font-size: 11px; line-height: 1.4; color: var(--ink); letter-spacing: -0.005em; }
+  .matrix-cell .pain.quote { color: var(--violet); }
+
+  /* INTRO IMPACT STRIP — fills the whitespace below the matrix */
+  .impact-strip { margin-top: 18px; background: var(--ink); color: var(--paper); border-radius: 8px; padding: 18px 22px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .impact-cell { display: flex; flex-direction: column; gap: 4px; }
+  .impact-cell + .impact-cell { border-left: 1px solid rgba(255,255,255,0.10); padding-left: 24px; }
+  .impact-num { font-weight: 900; font-size: 28px; letter-spacing: -0.025em; color: var(--violet-bright); line-height: 1; }
+  .impact-num small { font-size: 13px; color: rgba(250,248,245,0.55); padding-left: 3px; font-weight: 500; }
+  .impact-lbl { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.24em; color: rgba(250,248,245,0.55); text-transform: uppercase; font-weight: 700; padding-top: 4px; }
+  .impact-line { font-size: 10.5px; line-height: 1.45; color: rgba(250,248,245,0.78); padding-top: 4px; }
+  .matrix-footnote { margin-top: 12px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.32em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .matrix-footnote span { color: var(--violet); }
+
+  /* BUCKET PAGES + GOV + PB BODY */
+  .p-bucket-body { padding: 0.4in 0.7in 0 0.7in; flex: 1; display: flex; flex-direction: column; gap: 0; }
+  .bucket-kicker-line { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.36em; color: var(--violet); text-transform: uppercase; font-weight: 700; padding-bottom: 14px; }
+  .bucket-kicker-line strong { color: var(--ink); font-weight: 700; }
+
+  /* TILE BAND — full faithful TileFrame port at 1200x630, scaled */
+  .tile-band { width: 7.1in; height: calc(7.1in * 630 / 1200); margin-bottom: 14px; border-radius: 8px; overflow: hidden; position: relative; background: var(--tile-bg); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); }
+  .tile-canvas { position: absolute; top: 0; left: 0; width: 1200px; height: 630px; background: var(--tile-bg); transform-origin: top left; transform: scale(calc(7.1 * 96 / 1200)); color: white; overflow: hidden; }
+  .tile-canvas .glow { position: absolute; right: -120px; top: -60px; width: 860px; height: 720px; filter: blur(4px); pointer-events: none; }
+  .tile-canvas .hero-svg { position: absolute; inset: 0; pointer-events: none; }
+  .tile-canvas .eyebrow { position: absolute; left: 72px; top: 88px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; opacity: 0.9; }
+  .tile-canvas .chips { position: absolute; left: 72px; top: 118px; display: flex; align-items: center; gap: 16px; }
+  .tile-canvas .status { display: flex; align-items: center; gap: 8px; padding: 4px 12px 4px 10px; border-radius: 999px; }
+  .tile-canvas .status .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .tile-canvas .status .lbl { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; }
+  .tile-canvas .metric { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.3em; color: rgba(255,255,255,0.42); }
+  .tile-canvas .wordmark { position: absolute; left: 60px; top: 160px; width: 640px; height: 168px; }
+  .tile-canvas .copy { position: absolute; left: 72px; top: 350px; width: 600px; }
+  .tile-canvas .copy .problem { font-weight: 500; font-size: 22px; line-height: 1.3; color: rgba(255,255,255,0.78); margin-bottom: 18px; letter-spacing: -0.01em; }
+  .tile-canvas .copy .answer { font-weight: 600; font-size: 20px; line-height: 1.35; letter-spacing: -0.01em; }
+  .tile-canvas .layer { position: absolute; left: 72px; bottom: 52px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.3em; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+  .tile-canvas .domain { position: absolute; left: 72px; bottom: 28px; font-weight: 600; font-size: 14px; color: rgba(255,255,255,0.58); }
+  .tile-canvas .cosign { position: absolute; right: 40px; bottom: 30px; display: flex; align-items: center; gap: 12px; }
+  .tile-canvas .cosign .badge { width: 40px; height: 40px; border-radius: 8px; background: #0d0d18; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 22px; color: white; transform: rotate(-14deg); letter-spacing: -0.04em; opacity: 0.85; }
+  .tile-canvas .cosign .label .top { font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.68); }
+  .tile-canvas .cosign .label .bot { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; color: rgba(255,255,255,0.35); }
+
+  /* PROBLEM line */
+  .bucket-problem { font-weight: 600; font-size: 12.5px; line-height: 1.45; color: var(--ink); letter-spacing: -0.012em; max-width: 6.8in; padding-bottom: 12px; border-bottom: 1px solid var(--rule); margin-bottom: 12px; }
+  .bucket-problem span { color: var(--violet); font-weight: 700; }
+
+  /* OPTIONS GRID */
+  .options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 10px; flex: 1; min-height: 0; }
+  .option { padding: 12px 14px 14px 14px; background: white; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 6px; min-height: 0; overflow: hidden; }
+  .option.recommended { background: var(--violet-soft); border-color: var(--violet); }
+  .option-num { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.24em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .option-tag { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; color: var(--violet); text-transform: uppercase; font-weight: 700; line-height: 1.5; }
+  .option-name { font-weight: 800; font-size: 14.5px; letter-spacing: -0.012em; line-height: 1.1; color: var(--ink); }
+  .option-line { font-size: 10.5px; line-height: 1.45; color: var(--ink-soft); }
+  .option-line strong { color: var(--ink); font-weight: 700; }
+  /* What you get bullet list — fills the whitespace */
+  .option-bullets { padding-top: 4px; padding-bottom: 4px; }
+  .option-bullets-h { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; color: var(--ink); text-transform: uppercase; font-weight: 700; padding-bottom: 6px; }
+  .option-bullets ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+  .option-bullets li { font-size: 9.5px; line-height: 1.45; color: var(--ink); display: grid; grid-template-columns: 10px 1fr; gap: 6px; align-items: baseline; }
+  .option-bullets li::before { content: ''; width: 4px; height: 4px; background: var(--violet); border-radius: 50%; align-self: center; }
+  .option-founder { margin-top: auto; padding-top: 8px; border-top: 1px solid var(--rule); font-size: 10px; line-height: 1.45; color: var(--ink); font-weight: 600; }
+  .option-founder small { display: block; font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; padding-bottom: 4px; }
+  .install-note { margin-top: auto; padding: 8px 0 0 0; border-top: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.28em; color: var(--ink-mute); text-transform: uppercase; text-align: center; font-weight: 600; }
+  .install-note span { color: var(--violet); font-weight: 700; }
+
+  /* GOVERNANCE / PLAYBOOK BODY */
+  .p-feature-body { padding: 0.4in 0.7in 0 0.7in; flex: 1; display: flex; flex-direction: column; gap: 0; }
+  .feature-problem { font-weight: 600; font-size: 12.5px; line-height: 1.45; color: var(--ink); letter-spacing: -0.012em; max-width: 6.8in; padding-bottom: 12px; border-bottom: 1px solid var(--rule); margin-bottom: 14px; }
+  .feature-problem span { color: var(--violet); font-weight: 700; }
+
+  /* GOV 6-card grid */
+  .gov-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; flex: 1; min-height: 0; }
+  .gov-card { padding: 12px 14px 14px 14px; background: white; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+  .gov-card-num { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.24em; color: var(--violet); text-transform: uppercase; font-weight: 700; }
+  .gov-card-name { font-weight: 800; font-size: 14.5px; letter-spacing: -0.012em; color: var(--ink); line-height: 1.1; }
+  .gov-card-line { font-size: 10.5px; line-height: 1.45; color: var(--ink-soft); margin-top: auto; }
+  .gov-card-line strong { color: var(--ink); font-weight: 700; }
+
+  .gov-band { margin-top: auto; background: var(--ink); color: var(--paper); border-radius: 8px; padding: 14px 20px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+  .gov-band-h { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.32em; color: rgba(250,248,245,0.55); text-transform: uppercase; font-weight: 700; padding-bottom: 4px; }
+  .gov-band-line { font-weight: 700; font-size: 13px; color: var(--paper); letter-spacing: -0.005em; line-height: 1.4; }
+  .gov-band-sub { font-size: 10.5px; color: rgba(250,248,245,0.78); padding-top: 4px; line-height: 1.4; }
+  .gov-band-roadmap { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--violet-bright); text-transform: uppercase; text-align: right; font-weight: 700; line-height: 1.7; }
+
+  /* PLAYBOOK timeline + framework cards */
+  .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); margin-bottom: 12px; }
+  .ts { padding: 14px 16px 16px 16px; border-right: 1px solid var(--rule); background: white; display: flex; flex-direction: column; gap: 6px; }
+  .ts:last-child { border-right: none; }
+  .ts-num { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.26em; color: var(--violet); text-transform: uppercase; font-weight: 700; }
+  .ts-name { font-weight: 900; font-size: 20px; letter-spacing: -0.018em; color: var(--ink); line-height: 1.05; }
+  .ts-name .stop { color: var(--violet); }
+  .ts-dur { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: var(--ink); font-weight: 700; padding-bottom: 2px; }
+  .ts-line { font-size: 10.5px; line-height: 1.45; color: var(--ink-soft); }
+  .ts-line strong { color: var(--ink); font-weight: 700; }
+  .ts-deliv { margin-top: auto; padding-top: 8px; border-top: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.16em; color: var(--ink); text-transform: uppercase; line-height: 1.55; }
+  .ts-deliv strong { color: var(--violet); font-weight: 700; }
+
+  .pb-frameworks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+  .pb-stat { padding: 12px 14px; background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 6px; }
+  .pb-stat-num { font-weight: 900; font-size: 24px; letter-spacing: -0.025em; color: var(--violet); line-height: 1; }
+  .pb-stat-num small { font-size: 12px; color: var(--ink-mute); font-weight: 500; padding-left: 4px; }
+  .pb-stat-lbl { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.22em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; padding-top: 5px; }
+  .pb-stat-line { font-size: 10px; line-height: 1.4; color: var(--ink-soft); padding-top: 4px; }
+
+  .pb-band { margin-top: auto; background: var(--ink); color: var(--paper); border-radius: 8px; padding: 14px 20px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+  .pb-band-h { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.32em; color: rgba(250,248,245,0.55); text-transform: uppercase; font-weight: 700; padding-bottom: 4px; }
+  .pb-band-line { font-weight: 700; font-size: 14px; color: var(--paper); letter-spacing: -0.012em; line-height: 1.35; }
+  .pb-band-line span { color: var(--violet-bright); }
+  .pb-band-sub { font-size: 10.5px; color: rgba(250,248,245,0.78); padding-top: 4px; }
+  .pb-band-url { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.18em; color: var(--violet-bright); text-transform: uppercase; font-weight: 700; text-align: right; }
+
+  /* MOTION */
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  .a-rise { opacity: 0; animation: rise 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
+  .a-fade { opacity: 0; animation: fade 0.6s ease-out forwards; }
+  .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.25s; } .d3 { animation-delay: 0.4s; }
+  .d4 { animation-delay: 0.55s; } .d5 { animation-delay: 0.7s; } .d6 { animation-delay: 0.85s; }
+  .d7 { animation-delay: 1.0s; }
+
+  /* TILE KEYFRAMES (verbatim ports) */
+  @keyframes stratosArc { 0%, 20% { opacity: 0.15; } 40%, 60% { opacity: 0.85; } 80%, 100% { opacity: 0.15; } }
+  @keyframes stratosNode { 0%, 100% { transform: scale(1); opacity: 0.25; } 30% { transform: scale(1.4); opacity: 0.6; } 60% { transform: scale(1); opacity: 0.25; } }
+  @keyframes stratosPulse { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+  @keyframes stratosVerdict { 0%, 55% { opacity: 0.2; } 65% { opacity: 1; } 100% { opacity: 0.2; } }
+  @keyframes cmdFeedLine { 0% { transform: translate(0px, 330px); opacity: 0; } 3% { opacity: 1; } 97% { opacity: 0.85; } 100% { transform: translate(0px, 58px); opacity: 0; } }
+  @keyframes cmdFeedDot { 0%, 100% { opacity: 0.35; transform: scale(1); } 50% { opacity: 1; transform: scale(1.35); } }
+  @keyframes cmdFeedBlink { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+  @keyframes obNodeBlink { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+  @keyframes obPulseRing { 0% { r: 40; opacity: 0.55; } 100% { r: 220; opacity: 0; } }
+  @keyframes lucScanLine { 0% { transform: translateX(0); opacity: 0; } 5% { opacity: 0.85; } 70% { transform: translateX(480px); opacity: 0.85; } 72% { transform: translateX(480px); opacity: 0; } 100% { transform: translateX(480px); opacity: 0; } }
+  @keyframes lucMarker1 { 0%, 25% { opacity: 0; transform: scale(0.8); transform-origin: 825px 215px; } 35% { opacity: 1; transform: scale(1); transform-origin: 825px 215px; } 100% { opacity: 1; transform: scale(1); transform-origin: 825px 215px; } }
+  @keyframes lucMarker2 { 0%, 50% { opacity: 0; transform: scale(0.8); transform-origin: 975px 418px; } 60% { opacity: 1; transform: scale(1); transform-origin: 975px 418px; } 100% { opacity: 1; transform: scale(1); transform-origin: 975px 418px; } }
+
+  /* PLAYBOOK keyframes (ported) */
+  @keyframes pbBar30Fill { 0% { width: 0; } 20% { width: 77px; } 95% { width: 77px; } 100% { width: 0; } }
+  @keyframes pbBar90Fill { 0%, 20% { width: 0; } 45% { width: 194px; } 95% { width: 194px; } 100% { width: 0; } }
+  @keyframes pbBar180Fill { 0%, 45% { width: 0; } 75% { width: 380px; } 95% { width: 380px; } 100% { width: 0; } }
+  @keyframes pbMark30 { 0% { cx: 0; opacity: 0; } 20% { cx: 77px; opacity: 1; } 95% { cx: 77px; opacity: 1; } 100% { cx: 0; opacity: 0; } }
+  @keyframes pbMark90 { 0%, 20% { cx: 0; opacity: 0; } 45% { cx: 194px; opacity: 1; } 95% { cx: 194px; opacity: 1; } 100% { cx: 0; opacity: 0; } }
+  @keyframes pbMark180 { 0%, 45% { cx: 0; opacity: 0; } 75% { cx: 380px; opacity: 1; } 95% { cx: 380px; opacity: 1; } 100% { cx: 0; opacity: 0; } }
+
+  /* VAULT keyframes (custom for governance hero) */
+  @keyframes vaultRing { 0%, 100% { stroke-opacity: 0.18; } 50% { stroke-opacity: 0.85; } }
+  @keyframes vaultRadar { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  @keyframes vaultPulse { 0% { r: 30; opacity: 0.6; } 100% { r: 220; opacity: 0; } }
+  @keyframes vaultLockBlink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  /* matrix entrance */
+  @keyframes cellRise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .matrix-cell { opacity: 0; animation: cellRise 0.6s ease-out forwards; }
+  .matrix-cell:nth-child(8n+5)  { animation-delay: 0.30s; }
+  .matrix-cell:nth-child(8n+6)  { animation-delay: 0.36s; }
+  .matrix-cell:nth-child(8n+7)  { animation-delay: 0.42s; }
+  .matrix-cell:nth-child(8n+9)  { animation-delay: 0.48s; }
+  .matrix-cell:nth-child(8n+10) { animation-delay: 0.54s; }
+  .matrix-cell:nth-child(8n+11) { animation-delay: 0.60s; }
+  .matrix-cell:nth-child(8n+13) { animation-delay: 0.66s; }
+  .matrix-cell:nth-child(8n+14) { animation-delay: 0.72s; }
+  .matrix-cell:nth-child(8n+15) { animation-delay: 0.78s; }
+  .matrix-cell:nth-child(8n+17) { animation-delay: 0.84s; }
+  .matrix-cell:nth-child(8n+18) { animation-delay: 0.90s; }
+  .matrix-cell:nth-child(8n+19) { animation-delay: 0.96s; }
+
+  /* ============ PAGE 10 (THE PROOF SHEET) ============ */
+  .p-proof-body { padding: 0.4in 0.7in 0 0.7in; flex: 1; display: flex; flex-direction: column; gap: 0; }
+
+  .proof-head h1 { font-weight: 900; font-size: 34px; line-height: 1.0; letter-spacing: -0.028em; color: var(--ink); }
+  .proof-head h1 em { font-style: normal; color: var(--violet); }
+  .proof-head h1 .stop { color: var(--violet); }
+  .proof-sub { margin-top: 6px; font-weight: 600; font-size: 12.5px; line-height: 1.35; color: var(--ink); letter-spacing: -0.012em; max-width: 6.5in; }
+  .proof-sub span { color: var(--violet); font-weight: 700; }
+
+  /* HERO STRIP — Full-width proof stats. Cube removed. */
+  .proof-hero { margin-top: 10px; }
+  .proof-stats { background: var(--ink); color: var(--paper); border-radius: 8px; padding: 12px 20px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; align-content: center; }
+  .proof-stats > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .proof-stats > div + div { border-left: 1px solid rgba(255,255,255,0.10); padding-left: 14px; }
+  .proof-stat-num { font-weight: 900; font-size: 24px; letter-spacing: -0.025em; color: var(--violet-bright); line-height: 1; }
+  .proof-stat-num small { font-size: 11px; color: rgba(250,248,245,0.55); padding-left: 2px; font-weight: 500; }
+  .proof-stat-lbl { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; color: rgba(250,248,245,0.55); text-transform: uppercase; font-weight: 700; padding-top: 3px; }
+  .proof-stat-line { font-size: 9px; line-height: 1.35; color: rgba(250,248,245,0.78); padding-top: 3px; }
+  .proof-stat-line strong { color: var(--paper); font-weight: 700; }
+
+  /* CHAMBER (proper dark, original colors) */
+  .proof-chamber { width: 2.4in; height: 2.4in; position: relative; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), 0 10px 28px -8px rgba(0,0,0,0.22), 0 4px 10px -4px rgba(0,0,0,0.14); align-self: start; }
+  .proof-chamber-back { position: absolute; top: calc(50/620*100%); left: calc(50/620*100%); width: calc(520/620*100%); height: calc(520/620*100%); overflow: hidden; z-index: 1; background: radial-gradient(ellipse 90% 80% at 22% 18%, #565a66 0%, #3c4049 28%, #25282f 60%, #14161c 100%); }
+  .proof-chamber-back::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 140% 140% at 50% 50%, transparent 50%, rgba(0,0,0,0.40) 100%); pointer-events: none; }
+  .proof-chamber-back canvas { position: relative; z-index: 1; display: block; width: 100%; height: 100%; }
+  .proof-chamber-walls { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+
+  /* 3-CARD FACT GRID (matches the option-grid pattern from pages 4-7) */
+  .proof-grid { margin-top: 8px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1; min-height: 0; }
+  .proof-card { padding: 12px 14px 14px 14px; background: white; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+  .proof-card-num { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.24em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .proof-card-tag { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; line-height: 1.4; }
+  .proof-card.violet .proof-card-tag { color: var(--violet); }
+  .proof-card.emerald .proof-card-tag { color: #047857; }
+  .proof-card.amber .proof-card-tag { color: #b45309; }
+  .proof-card-name { font-weight: 800; font-size: 15px; letter-spacing: -0.014em; line-height: 1.1; color: var(--ink); padding-bottom: 2px; }
+  .proof-card-list { display: flex; flex-direction: column; gap: 0; padding-top: 2px; }
+  .proof-card-list-row { display: grid; grid-template-columns: 62px 1fr; gap: 7px; padding: 3px 0; border-top: 1px solid var(--hairline); align-items: baseline; }
+  .proof-card-list-row:first-child { border-top: none; padding-top: 2px; }
+  .proof-card-list-key { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.14em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .proof-card-list-val { font-size: 9px; line-height: 1.35; color: var(--ink); }
+  .proof-card-list-val strong { font-weight: 700; }
+  /* Single-column list variant (bullets) — flex avoids the multi-text-node grid bug */
+  .proof-card-bullets { padding-top: 4px; }
+  .proof-card-bullets ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .proof-card-bullets li { font-size: 10.5px; line-height: 1.45; color: var(--ink); padding-left: 14px; position: relative; }
+  .proof-card-bullets li::before { content: ''; position: absolute; left: 0; top: 6px; width: 5px; height: 5px; background: var(--violet); border-radius: 50%; }
+  .proof-card.emerald .proof-card-bullets li::before { background: #047857; }
+  .proof-card.amber .proof-card-bullets li::before { background: #b45309; }
+  .proof-card-bullets li strong { font-weight: 700; }
+
+  /* ADJACENT AUTHORITY STRIP — slim, 4 mini cells */
+  .authority-strip { margin-top: 6px; padding: 7px 12px; background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 6px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .authority-cell { display: flex; flex-direction: column; gap: 1px; }
+  .authority-cell + .authority-cell { border-left: 1px solid var(--rule); padding-left: 10px; }
+  .authority-tag { font-family: 'JetBrains Mono', monospace; font-size: 6.5px; letter-spacing: 0.22em; color: var(--violet); text-transform: uppercase; font-weight: 700; }
+  .authority-org { font-weight: 700; font-size: 10px; color: var(--ink); letter-spacing: -0.005em; line-height: 1.2; padding-top: 1px; }
+  .authority-note { font-size: 8.5px; color: var(--ink-soft); line-height: 1.25; padding-top: 1px; }
+
+  /* Eric attribution line — slim */
+  .proof-eric { margin-top: 6px; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding-top: 6px; border-top: 1px solid var(--rule); }
+  .proof-eric-h { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.28em; color: var(--ink-mute); text-transform: uppercase; font-weight: 700; }
+  .proof-eric-name { font-weight: 800; font-size: 12.5px; color: var(--ink); letter-spacing: -0.012em; display: inline; }
+  .proof-eric-line { font-size: 10px; line-height: 1.35; color: var(--ink); padding-top: 1px; font-weight: 600; }
+  .proof-eric-link { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; color: var(--violet); text-transform: uppercase; font-weight: 700; }
+
+  @media print {
+    @page { size: letter; margin: 0; }
+    html, body { background: white !important; }
+    .viewer { padding: 0; gap: 0; min-height: 0; background: white !important; }
+    .toolbar { display: none !important; }
+    .page { box-shadow: none !important; height: 11in; }
+    .a-rise, .a-fade { opacity: 1 !important; transform: none !important; animation: none !important; }
+    .matrix-cell { opacity: 1 !important; transform: none !important; animation: none !important; }
+    .tile-band * { animation-play-state: paused !important; }
+  }
+</style>
+</head>
+<body>
+<div class="viewer">
+  <!-- TEMPLATE TOOLBAR. Replace span text + back-link href per consumer site. -->
+  <div class="toolbar">
+    <span>{{BROCHURE_LABEL}} . How We Build . 7-page Supplement</span>
+    <a href="javascript:window.print()">Print to PDF</a>
+    <a href="{{BACK_LINK_HREF}}">{{BACK_LINK_LABEL}}</a>
+  </div>
+
+  <!-- ========= PAGE 3 (INTRO) ========= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">9</div><div class="ph-name">Level<span>9</span></div></div>
+      <div class="ph-meta">Sales Brief . 04.2026 . Continued</div>
+    </header>
+    <div class="p-intro-body">
+      <div class="intro-kicker a-fade d1">How We Build . The Method</div>
+      <div class="intro">
+        <h1 class="a-rise d2">The four pressure points.<br>Three ways to <em>engage<span class="stop">.</span></em></h1>
+        <p class="intro-sub a-rise d3">Built from the founder's seat through <span>30 years of operations.</span> Sized to your company. Anchored in problems we have solved before.</p>
+        <p class="intro-deck a-rise d4">The next four pages walk each pressure point. For each, you see the problem we solve, the three options for getting there, and the founder experience that informs the build. <strong>Same three options across every bucket. Different problems at every company size.</strong></p>
+      </div>
+
+      <div class="matrix">
+        <div class="matrix-h corner">PRESSURE / SIZE</div>
+        <div class="matrix-h">Startup . Solo Founder</div>
+        <div class="matrix-h">SMB . Mid-Market</div>
+        <div class="matrix-h">Enterprise . Regional</div>
+        <div class="matrix-row-h"><div class="num">01</div><div class="verb">Decide.</div><div class="breaks">Breaks misalignment</div></div>
+        <div class="matrix-cell"><div class="pain quote">"I want an ELT and can't afford one."</div></div>
+        <div class="matrix-cell"><div class="pain">Groupthink in your 60-min ELT meetings.</div></div>
+        <div class="matrix-cell"><div class="pain">Regional decisions escalating to global unnecessarily.</div></div>
+        <div class="matrix-row-h"><div class="num">02</div><div class="verb">Coordinate.</div><div class="breaks">Breaks drag</div></div>
+        <div class="matrix-cell"><div class="pain quote">"I am the project manager."</div></div>
+        <div class="matrix-cell"><div class="pain quote">"Too many arms to cover with one build."</div></div>
+        <div class="matrix-cell"><div class="pain">Regional PMO bottlenecking local execution.</div></div>
+        <div class="matrix-row-h"><div class="num">03</div><div class="verb">Execute.</div><div class="breaks">Breaks cost</div></div>
+        <div class="matrix-cell"><div class="pain quote">"I am doing outbound at midnight."</div></div>
+        <div class="matrix-cell"><div class="pain">SDR plateau. AE bandwidth maxed.</div></div>
+        <div class="matrix-cell"><div class="pain">Territory-specific outbound that global SDR misses.</div></div>
+        <div class="matrix-row-h"><div class="num">04</div><div class="verb">Measure.</div><div class="breaks">Breaks reactive leadership</div></div>
+        <div class="matrix-cell"><div class="pain">No instrumentation. Gut-driven.</div></div>
+        <div class="matrix-cell"><div class="pain">Dashboards show outputs, not friction.</div></div>
+        <div class="matrix-cell"><div class="pain">Global metrics do not fit regional context.</div></div>
+      </div>
+
+      <div class="impact-strip a-fade d6">
+        <div class="impact-cell">
+          <div class="impact-num">680<small>+</small></div>
+          <div class="impact-lbl">ECI Post-Install</div>
+          <div class="impact-line">From an industry baseline of 420.</div>
+        </div>
+        <div class="impact-cell">
+          <div class="impact-num">+2.4<small>pp</small></div>
+          <div class="impact-lbl">EBITDA Margin Lift</div>
+          <div class="impact-line">Year 1 conservative band.</div>
+        </div>
+        <div class="impact-cell">
+          <div class="impact-num">90<small>day</small></div>
+          <div class="impact-lbl">Median Install</div>
+          <div class="impact-line">Diagnose, install, transfer.</div>
+        </div>
+        <div class="impact-cell">
+          <div class="impact-num">30<small>day</small></div>
+          <div class="impact-lbl">Exit Always</div>
+          <div class="impact-line">We earn the next phase.</div>
+        </div>
+      </div>
+
+      <div class="matrix-footnote a-fade d7">Find your row. <span>We have built for it.</span></div>
+    </div>
+    <footer class="pfooter">
+      <div><strong>Level9OS LLC</strong> . How We Build . The Method</div>
+      <div>level9os.com . erichathaway@gmail.com . 3</div>
+    </footer>
+  </div>
+
+  <!-- ========= PAGE 4 (DECIDE / StratOS) ========= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">9</div><div class="ph-name">Level<span>9</span></div></div>
+      <div class="ph-meta">Sales Brief . 04.2026 . Continued</div>
+    </header>
+    <div class="p-bucket-body">
+      <div class="bucket-kicker-line a-fade d1">Pressure Point <strong>01 . Decide.</strong> Breaks Misalignment</div>
+
+      <div class="tile-band a-fade d2">
+        <div class="tile-canvas">
+          <div class="glow" style="background: radial-gradient(circle at center, #a78bfa55 0%, #a78bfa18 40%, transparent 70%);"></div>
+          <svg class="hero-svg" width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="stratosArc" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#8b5cf6" stop-opacity="0"/><stop offset="50%" stop-color="#a78bfa" stop-opacity="0.9"/><stop offset="100%" stop-color="#ec4899" stop-opacity="0"/></linearGradient>
+              <radialGradient id="stratosVerdictGlow"><stop offset="0%" stop-color="#ec4899" stop-opacity="0.8"/><stop offset="100%" stop-color="#ec4899" stop-opacity="0"/></radialGradient>
+            </defs>
+            <g transform="translate(1026 315)">
+              <path d="M -220,0 Q 0,200 0,0" fill="none" stroke="url(#stratosArc)" stroke-width="1.6" opacity="0.5" style="animation: stratosArc 4.5s 0s ease-in-out infinite;"/>
+              <path d="M -220,0 Q 0,-200 0,0" fill="none" stroke="url(#stratosArc)" stroke-width="1.6" opacity="0.5" style="animation: stratosArc 4.5s 0s ease-in-out infinite;"/>
+              <path d="M -220,0 Q 0,150 0,0" fill="none" stroke="url(#stratosArc)" stroke-width="1.6" opacity="0.5" style="animation: stratosArc 4.5s 0.4s ease-in-out infinite;"/>
+              <path d="M -220,0 Q 0,-150 0,0" fill="none" stroke="url(#stratosArc)" stroke-width="1.6" opacity="0.5" style="animation: stratosArc 4.5s 0.4s ease-in-out infinite;"/>
+              <path d="M -220,0 Q 0,100 0,0" fill="none" stroke="url(#stratosArc)" stroke-width="1.6" opacity="0.5" style="animation: stratosArc 4.5s 0.8s ease-in-out infinite;"/>
+              <path d="M -220,0 Q 0,-100 0,0" fill="none" stroke="url(#stratosArc)" stroke-width="1.6" opacity="0.5" style="animation: stratosArc 4.5s 0.8s ease-in-out infinite;"/>
+              <g><circle cx="-170" cy="-190" r="16" fill="#8b5cf6" opacity="0.25" style="animation: stratosNode 4.5s 0s ease-in-out infinite; transform-origin: -170px -190px;"/><circle cx="-170" cy="-190" r="9" fill="#0d0d18" stroke="#a78bfa" stroke-width="1.5"/></g>
+              <g><circle cx="-195" cy="-145" r="16" fill="#8b5cf6" opacity="0.25" style="animation: stratosNode 4.5s 0.12s ease-in-out infinite; transform-origin: -195px -145px;"/><circle cx="-195" cy="-145" r="9" fill="#0d0d18" stroke="#a78bfa" stroke-width="1.5"/></g>
+              <g><circle cx="-210" cy="-95" r="16" fill="#8b5cf6" opacity="0.25" style="animation: stratosNode 4.5s 0.24s ease-in-out infinite; transform-origin: -210px -95px;"/><circle cx="-210" cy="-95" r="9" fill="#0d0d18" stroke="#a78bfa" stroke-width="1.5"/></g>
+              <g><circle cx="-218" cy="-40" r="16" fill="#8b5cf6" opacity="0.25" style="animation: stratosNode 4.5s 0.36s ease-in-out infinite; transform-origin: -218px -40px;"/><circle cx="-218" cy="-40" r="9" fill="#0d0d18" stroke="#a78bfa" stroke-width="1.5"/></g>
+              <g><circle cx="-218" cy="18" r="16" fill="#8b5cf6" opacity="0.25" style="animation: stratosNode 4.5s 0.48s ease-in-out infinite; transform-origin: -218px 18px;"/><circle cx="-218" cy="18" r="9" fill="#0d0d18" stroke="#a78bfa" stroke-width="1.5"/></g>
+              <g><circle cx="-212" cy="70" r="16" fill="#8b5cf6" opacity="0.25" style="animation: stratosNode 4.5s 0.60s ease-in-out infinite; transform-origin: -212px 70px;"/><circle cx="-212" cy="70" r="9" fill="#0d0d18" stroke="#a78bfa" stroke-width="1.5"/></g>
+              <g><circle cx="-200" cy="118" r="16" fill="#8b5cf6" opacity="0.25" style="animation: stratosNode 4.5s 0.72s ease-in-out infinite; transform-origin: -200px 118px;"/><circle cx="-200" cy="118" r="9" fill="#0d0d18" stroke="#a78bfa" stroke-width="1.5"/></g>
+              <g><circle cx="-182" cy="160" r="16" fill="#8b5cf6" opacity="0.25" style="animation: stratosNode 4.5s 0.84s ease-in-out infinite; transform-origin: -182px 160px;"/><circle cx="-182" cy="160" r="9" fill="#0d0d18" stroke="#a78bfa" stroke-width="1.5"/></g>
+              <g><circle cx="-158" cy="195" r="16" fill="#8b5cf6" opacity="0.25" style="animation: stratosNode 4.5s 0.96s ease-in-out infinite; transform-origin: -158px 195px;"/><circle cx="-158" cy="195" r="9" fill="#0d0d18" stroke="#a78bfa" stroke-width="1.5"/></g>
+              <g><circle cx="-130" cy="222" r="16" fill="#8b5cf6" opacity="0.25" style="animation: stratosNode 4.5s 1.08s ease-in-out infinite; transform-origin: -130px 222px;"/><circle cx="-130" cy="222" r="9" fill="#0d0d18" stroke="#a78bfa" stroke-width="1.5"/></g>
+              <circle r="5" fill="#ec4899" style="offset-path: path('M -220,0 Q 0,-180 0,0'); animation: stratosPulse 4.5s 0s ease-in-out infinite; filter: drop-shadow(0 0 6px #ec4899);"/>
+              <circle r="5" fill="#ec4899" style="offset-path: path('M -220,0 Q 0,0 0,0'); animation: stratosPulse 4.5s 0.5s ease-in-out infinite; filter: drop-shadow(0 0 6px #ec4899);"/>
+              <circle r="5" fill="#ec4899" style="offset-path: path('M -220,0 Q 0,180 0,0'); animation: stratosPulse 4.5s 1s ease-in-out infinite; filter: drop-shadow(0 0 6px #ec4899);"/>
+              <circle cx="0" cy="0" r="40" fill="url(#stratosVerdictGlow)" style="animation: stratosVerdict 4.5s ease-in-out infinite; transform-origin: 0px 0px;"/>
+              <circle cx="0" cy="0" r="18" fill="#0d0d18" stroke="#ec4899" stroke-width="2.5"/>
+              <circle cx="0" cy="0" r="6" fill="#ec4899"/>
+            </g>
+          </svg>
+          <div class="eyebrow" style="color: #a78bfa;">AI DECISION ENGINE</div>
+          <div class="chips">
+            <div class="status" style="background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.4);"><span class="dot" style="background: #10b981; box-shadow: 0 0 8px #10b981;"></span><span class="lbl" style="color: #10b981;">LIVE</span></div>
+            <span class="metric">10 EXECS . 3 ROUNDS</span>
+          </div>
+          <svg class="wordmark" width="640" height="168" viewBox="0 0 640 168">
+            <defs><linearGradient id="word-stratos" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a78bfa"/><stop offset="100%" stop-color="#ec4899"/></linearGradient></defs>
+            <text x="12" y="128" style="font-family: Inter, sans-serif; font-weight: 900; font-size: 120px; letter-spacing: -0.04em; fill: url(#word-stratos);">StratOS</text>
+          </svg>
+          <div class="copy">
+            <div class="problem">Strategic decisions made in the dark by people who agree too easily.</div>
+            <div class="answer" style="color: #a78bfa;">An AI executive room that pressure-tests every decision against ten dissenting perspectives, before it costs real money.</div>
+          </div>
+          <div class="layer">STRATEGY . ELT / BOARD</div>
+          <div class="domain">stratos.lucidorg.com</div>
+          <div class="cosign">
+            <div class="badge" style="border: 1px solid #a78bfa;">9</div>
+            <div class="label"><div class="top">Level9 OS</div><div class="bot">STRATEGY LAYER</div></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="bucket-problem a-rise d3"><span>Strategic decisions made in the dark by people who agree too easily.</span> The team voted yes because the senior person voted yes. The dissent that mattered most never got into the room.</p>
+
+      <div class="options-grid">
+        <div class="option a-rise d4">
+          <div class="option-num">Option 01</div>
+          <div class="option-tag">Startup . SMB . Lean Teams</div>
+          <div class="option-name">Lease the room.</div>
+          <div class="option-line">Ten AI executives. Three rounds. Groupthink detection. <strong>Replaces the offsite with a 30-min audited brief.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>Live access at stratos.lucidorg.com</li>
+              <li>10 execs . 3 structured rounds</li>
+              <li>Audited brief per call</li>
+              <li>Multi-model decisioning</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"I was a founder who wanted an ELT and couldn't afford one. So I built the room."</div>
+        </div>
+        <div class="option recommended a-rise d5">
+          <div class="option-num">Option 02 . Most Selected</div>
+          <div class="option-tag">Mid-Market . $30M-$250M ARR</div>
+          <div class="option-name">Embed and customize.</div>
+          <div class="option-line">Senior operators embedded. Room calibrated to your industry, cadences, strategic frame. <strong>Pressure-test real high-stakes calls.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>Operator embedded 2-3 days/week</li>
+              <li>Custom industry calibration</li>
+              <li>Real call rehearsals</li>
+              <li>Trained operators on Day 90</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"High-growth has too many arms for one build. I bring 15 years of SMB operating to the embed."</div>
+        </div>
+        <div class="option a-rise d6">
+          <div class="option-num">Option 03</div>
+          <div class="option-tag">Enterprise . Regional</div>
+          <div class="option-name">Custom build.</div>
+          <div class="option-line">Bespoke decision room calibrated to regional context, dedicated AI budget, your governance framework. <strong>The Forge informs but does not constrain.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>Bespoke decision instrument</li>
+              <li>Regional context calibration</li>
+              <li>Your governance integration</li>
+              <li>Full source on completion</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"Regional builds for teams that need specific instruments. Not global. Regional."</div>
+        </div>
+      </div>
+
+      <div class="install-note a-fade d7">Options 01 and 02 install via the <span>COO Playbook.</span> Operators interface via <span>MAX.</span></div>
+    </div>
+    <footer class="pfooter">
+      <div><strong>Level9OS LLC</strong> . Decide . StratOS</div>
+      <div>level9os.com . erichathaway@gmail.com . 4</div>
+    </footer>
+  </div>
+
+  <!-- ========= PAGE 5 (COORDINATE / CommandOS) ========= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">9</div><div class="ph-name">Level<span>9</span></div></div>
+      <div class="ph-meta">Sales Brief . 04.2026 . Continued</div>
+    </header>
+    <div class="p-bucket-body">
+      <div class="bucket-kicker-line a-fade d1">Pressure Point <strong>02 . Coordinate.</strong> Breaks Drag</div>
+
+      <div class="tile-band a-fade d2">
+        <div class="tile-canvas">
+          <div class="glow" style="background: radial-gradient(circle at center, #6ee7b755 0%, #6ee7b718 40%, transparent 70%);"></div>
+          <svg class="hero-svg" width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="cmdFeedFade" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#060610" stop-opacity="1"/><stop offset="12%" stop-color="#060610" stop-opacity="0"/><stop offset="88%" stop-color="#060610" stop-opacity="0"/><stop offset="100%" stop-color="#060610" stop-opacity="1"/></linearGradient>
+              <clipPath id="cmdFeedClip"><rect x="0" y="40" width="380" height="310"/></clipPath>
+            </defs>
+            <g transform="translate(780 130)">
+              <rect x="0" y="0" width="380" height="360" rx="10" ry="10" fill="rgba(6,6,16,0.72)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+              <rect x="0" y="0" width="380" height="28" rx="10" ry="10" fill="rgba(16,185,129,0.08)"/>
+              <circle cx="16" cy="14" r="4" fill="#10b981" opacity="0.75"/><circle cx="30" cy="14" r="4" fill="rgba(110,231,183,0.35)"/><circle cx="44" cy="14" r="4" fill="rgba(110,231,183,0.2)"/>
+              <text x="66" y="18" font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(255,255,255,0.55)" letter-spacing="2">commandos . dispatch feed</text>
+              <circle cx="354" cy="14" r="3.5" fill="#10b981" style="animation: cmdFeedBlink 1.2s ease-in-out infinite;"/>
+              <text x="362" y="17" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(110,231,183,0.8)" letter-spacing="2" text-anchor="end">LIVE</text>
+              <g clip-path="url(#cmdFeedClip)">
+                <text x="18" y="0" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.3" style="animation: cmdFeedLine 10s 0s linear infinite;"><tspan fill="#6ee7b7" font-weight="600">DISPATCH</tspan><tspan fill="rgba(255,255,255,0.3)"> . </tspan><tspan fill="rgba(255,255,255,0.92)">ProjectAlpha</tspan><tspan fill="rgba(255,255,255,0.3)">  </tspan><tspan fill="#10b981">. Agent 01</tspan></text>
+                <text x="18" y="0" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.3" style="animation: cmdFeedLine 10s 1.0s linear infinite;"><tspan fill="#67e8f9" font-weight="600">Agent 01</tspan><tspan fill="rgba(255,255,255,0.3)"> . </tspan><tspan fill="rgba(255,255,255,0.92)">plan drafted</tspan><tspan fill="rgba(255,255,255,0.3)">  </tspan><tspan fill="#10b981">. G1</tspan></text>
+                <text x="18" y="0" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.3" style="animation: cmdFeedLine 10s 2.0s linear infinite;"><tspan fill="#6ee7b7" font-weight="600">GATE G1</tspan><tspan fill="rgba(255,255,255,0.3)"> . </tspan><tspan fill="rgba(255,255,255,0.92)">decision: approve</tspan></text>
+                <text x="18" y="0" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.3" style="animation: cmdFeedLine 10s 3.0s linear infinite;"><tspan fill="#67e8f9" font-weight="600">Agent 20</tspan><tspan fill="rgba(255,255,255,0.3)"> . </tspan><tspan fill="rgba(255,255,255,0.92)">implementation 47%...</tspan></text>
+                <text x="18" y="0" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.3" style="animation: cmdFeedLine 10s 4.0s linear infinite;"><tspan fill="#67e8f9" font-weight="600">Agent 20</tspan><tspan fill="rgba(255,255,255,0.3)"> . </tspan><tspan fill="rgba(255,255,255,0.92)">complete</tspan><tspan fill="rgba(255,255,255,0.3)">  </tspan><tspan fill="#10b981">. G2</tspan></text>
+                <text x="18" y="0" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.3" style="animation: cmdFeedLine 10s 5.0s linear infinite;"><tspan fill="#6ee7b7" font-weight="600">GATE G2</tspan><tspan fill="rgba(255,255,255,0.3)"> . </tspan><tspan fill="rgba(255,255,255,0.92)">decision: revise</tspan></text>
+                <text x="18" y="0" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.3" style="animation: cmdFeedLine 10s 6.0s linear infinite;"><tspan fill="#67e8f9" font-weight="600">Agent 39</tspan><tspan fill="rgba(255,255,255,0.3)"> . </tspan><tspan fill="rgba(255,255,255,0.92)">notes . Agent 20</tspan><tspan fill="rgba(255,255,255,0.3)">  </tspan><tspan fill="#10b981">revised</tspan></text>
+                <text x="18" y="0" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.3" style="animation: cmdFeedLine 10s 7.0s linear infinite;"><tspan fill="#fbbf24" font-weight="600">HUMAN</tspan><tspan fill="rgba(255,255,255,0.3)"> . </tspan><tspan fill="rgba(255,255,255,0.92)">approval requested</tspan><tspan fill="rgba(255,255,255,0.3)">  </tspan><tspan fill="#10b981">. Eric</tspan></text>
+                <text x="18" y="0" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.3" style="animation: cmdFeedLine 10s 8.0s linear infinite;"><tspan fill="#fbbf24" font-weight="600">HUMAN</tspan><tspan fill="rgba(255,255,255,0.3)"> . </tspan><tspan fill="rgba(255,255,255,0.92)">Eric approved</tspan></text>
+                <text x="18" y="0" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.3" style="animation: cmdFeedLine 10s 9.0s linear infinite;"><tspan fill="#6ee7b7" font-weight="600">GATE G3</tspan><tspan fill="rgba(255,255,255,0.3)"> . </tspan><tspan fill="rgba(255,255,255,0.92)">decision: SHIPPED</tspan><tspan fill="rgba(255,255,255,0.3)">  </tspan><tspan fill="#10b981">. ProjectAlpha</tspan></text>
+              </g>
+              <rect x="0" y="28" width="380" height="332" fill="url(#cmdFeedFade)" pointer-events="none"/>
+            </g>
+            <g transform="translate(780 538)">
+              <text x="0" y="-18" font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(110,231,183,0.65)" letter-spacing="2.5">48 OFFICERS</text>
+              <g id="officer-dots-c5"></g>
+            </g>
+          </svg>
+          <div class="eyebrow" style="color: #6ee7b7;">AGENT ORCHESTRATION</div>
+          <div class="chips">
+            <div class="status" style="background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.4);"><span class="dot" style="background: #f59e0b; box-shadow: 0 0 8px #f59e0b;"></span><span class="lbl" style="color: #f59e0b;">IN PRODUCTION</span></div>
+            <span class="metric">48 OFFICERS . 3 GATES</span>
+          </div>
+          <svg class="wordmark" width="640" height="168" viewBox="0 0 640 168">
+            <defs><linearGradient id="word-commandos" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#6ee7b7"/><stop offset="100%" stop-color="#0d9488"/></linearGradient></defs>
+            <text x="12" y="128" style="font-family: Inter, sans-serif; font-weight: 900; font-size: 104px; letter-spacing: -0.04em; fill: url(#word-commandos);">CommandOS</text>
+          </svg>
+          <div class="copy">
+            <div class="problem">Cross-functional projects die in handoffs. The PMO is expensive and slow.</div>
+            <div class="answer" style="color: #6ee7b7;">AI middle management that plans, dispatches, reviews, and ships every project. Forty-eight domain officers. Three governance gates.</div>
+          </div>
+          <div class="layer">MANAGEMENT . PMO / COORDINATION</div>
+          <div class="domain">commandos.level9os.com</div>
+          <div class="cosign">
+            <div class="badge" style="border: 1px solid #6ee7b7;">9</div>
+            <div class="label"><div class="top">Level9 OS</div><div class="bot">MANAGEMENT LAYER</div></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="bucket-problem a-rise d3"><span>Cross-functional projects die in handoffs.</span> The thing marketing committed to engineering on Monday is a different thing by Wednesday. Your PMO is expensive, slow, and somehow still surprised.</p>
+
+      <div class="options-grid">
+        <div class="option a-rise d4">
+          <div class="option-num">Option 01</div>
+          <div class="option-tag">Startup . SMB . Lean Teams</div>
+          <div class="option-name">Coordinate without the PMO tax.</div>
+          <div class="option-line">48 officers. Three gates. Multi-LLM routing. <strong>AI middle management for projects you can't afford a PM for.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>48 domain officers, deployable</li>
+              <li>Three-gate review system</li>
+              <li>Multi-LLM routing</li>
+              <li>Real-time fleet observability</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"I was a one-person project office for too long. The system I needed didn't exist. I built it."</div>
+        </div>
+        <div class="option recommended a-rise d5">
+          <div class="option-num">Option 02 . Most Selected</div>
+          <div class="option-tag">Mid-Market . $30M-$250M ARR</div>
+          <div class="option-name">Customize the fleet.</div>
+          <div class="option-line">Officer fleet tuned to your handoffs. Marketing-Eng, Sales-CS, Eng-Ops. <strong>Your team owns the running fleet on Day 90.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>Custom officer mix per workflow</li>
+              <li>Custom gates for your processes</li>
+              <li>COO Trust Engine integration</li>
+              <li>Trained fleet operators</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"Too many arms to cover with one build. Done this 4 times in high-growth. The pattern transfers."</div>
+        </div>
+        <div class="option a-rise d6">
+          <div class="option-num">Option 03</div>
+          <div class="option-tag">Enterprise . Regional</div>
+          <div class="option-name">Region-specific officer fleet.</div>
+          <div class="option-line">Custom fleets calibrated to local language, processes, governance. <strong>Runs autonomously without escalating cross-region.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>Per-region fleet architecture</li>
+              <li>Local language + governance</li>
+              <li>Cross-region escalation rules</li>
+              <li>Full source on completion</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"Regional ops directors with budget but no global PMO bandwidth. Built this twice."</div>
+        </div>
+      </div>
+
+      <div class="install-note a-fade d7">Options 01 and 02 install via the <span>COO Playbook.</span> Operators interface via <span>MAX.</span></div>
+    </div>
+    <footer class="pfooter">
+      <div><strong>Level9OS LLC</strong> . Coordinate . CommandOS</div>
+      <div>level9os.com . erichathaway@gmail.com . 5</div>
+    </footer>
+  </div>
+
+  <!-- ========= PAGE 6 (EXECUTE / OutboundOS) ========= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">9</div><div class="ph-name">Level<span>9</span></div></div>
+      <div class="ph-meta">Sales Brief . 04.2026 . Continued</div>
+    </header>
+    <div class="p-bucket-body">
+      <div class="bucket-kicker-line a-fade d1">Pressure Point <strong>03 . Execute.</strong> Breaks Cost</div>
+
+      <div class="tile-band a-fade d2">
+        <div class="tile-canvas">
+          <div class="glow" style="background: radial-gradient(circle at center, #fbbf2455 0%, #fbbf2418 40%, transparent 70%);"></div>
+          <svg class="hero-svg" width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="obHub"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#ea580c"/></radialGradient></defs>
+            <g transform="translate(930 315)">
+              <circle r="40" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.55" style="animation: obPulseRing 4.5s 0s ease-out infinite; transform-origin: 0px 0px;"/>
+              <circle r="40" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.55" style="animation: obPulseRing 4.5s 1.5s ease-out infinite; transform-origin: 0px 0px;"/>
+              <circle r="40" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.55" style="animation: obPulseRing 4.5s 3s ease-out infinite; transform-origin: 0px 0px;"/>
+              <ellipse cx="0" cy="0" rx="105" ry="42" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.45"/>
+              <ellipse cx="0" cy="0" rx="155" ry="62" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.35"/>
+              <ellipse cx="0" cy="0" rx="200" ry="80" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.25"/>
+              <g><animateMotion dur="10s" repeatCount="indefinite" rotate="0" path="M 105 0 A 105 42 0 1 1 -105 0 A 105 42 0 1 1 105 0" begin="0s"/><circle r="18" fill="#f59e0b" opacity="0.22"/><circle r="11" fill="#060610" stroke="#f59e0b" stroke-width="2.5"/><circle r="4" fill="#f59e0b" style="animation: obNodeBlink 2s 0s ease-in-out infinite;"/><text y="-28" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="12" fill="rgba(255,255,255,0.85)">LinkupOS</text><text y="-42" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#f59e0b" opacity="0.85" letter-spacing="1.5">LINKEDIN SIGNAL</text></g>
+              <g><animateMotion dur="14s" repeatCount="indefinite" rotate="0" path="M 155 0 A 155 62 0 1 1 -155 0 A 155 62 0 1 1 155 0" begin="-4s"/><circle r="18" fill="#fb923c" opacity="0.22"/><circle r="11" fill="#060610" stroke="#fb923c" stroke-width="2.5"/><circle r="4" fill="#fb923c" style="animation: obNodeBlink 2s 0.4s ease-in-out infinite;"/><text y="-28" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="12" fill="rgba(255,255,255,0.85)">ABM Engine</text><text y="-42" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#fb923c" opacity="0.85" letter-spacing="1.5">MULTI-CHANNEL OUTBOUND</text></g>
+              <g><animateMotion dur="18s" repeatCount="indefinite" rotate="0" path="M 200 0 A 200 80 0 1 1 -200 0 A 200 80 0 1 1 200 0" begin="-12s"/><circle r="18" fill="#f97316" opacity="0.22"/><circle r="11" fill="#060610" stroke="#f97316" stroke-width="2.5"/><circle r="4" fill="#f97316" style="animation: obNodeBlink 2s 0.8s ease-in-out infinite;"/><text y="-28" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="12" fill="rgba(255,255,255,0.85)">AutoCS</text><text y="-42" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#f97316" opacity="0.85" letter-spacing="1.5">CUSTOMER CARE</text></g>
+              <circle r="56" fill="#f59e0b" opacity="0.14"/><circle r="40" fill="url(#obHub)"/><circle r="40" fill="#060610" opacity="0.55"/>
+              <text y="-2" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#fbbf24" letter-spacing="2.2">VOICE</text>
+              <text y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#fbbf24" letter-spacing="2.2">PROFILE</text>
+            </g>
+          </svg>
+          <div class="eyebrow" style="color: #fbbf24;">AUTONOMOUS POD UMBRELLA</div>
+          <div class="chips">
+            <div class="status" style="background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.4);"><span class="dot" style="background: #10b981; box-shadow: 0 0 8px #10b981;"></span><span class="lbl" style="color: #10b981;">LIVE</span></div>
+            <span class="metric">3 PODS . ONE VOICE PROFILE</span>
+          </div>
+          <svg class="wordmark" width="640" height="168" viewBox="0 0 640 168">
+            <defs><linearGradient id="word-outboundos" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#ea580c"/></linearGradient></defs>
+            <text x="12" y="128" style="font-family: Inter, sans-serif; font-weight: 900; font-size: 104px; letter-spacing: -0.04em; fill: url(#word-outboundos);">OutboundOS</text>
+          </svg>
+          <div class="copy">
+            <div class="problem">Functional teams burn budget on outbound, prospecting, and customer care work that could run itself.</div>
+            <div class="answer" style="color: #fbbf24;">One umbrella over four autonomous pods: LinkedIn signal, multi-channel outbound, ABM prospecting, customer care.</div>
+          </div>
+          <div class="layer">EXECUTION . OUTBOUND + CARE UMBRELLA</div>
+          <div class="domain">linkupos.com . abm . autocs</div>
+          <div class="cosign">
+            <div class="badge" style="border: 1px solid #fbbf24;">9</div>
+            <div class="label"><div class="top">Level9 OS</div><div class="bot">EXECUTION LAYER</div></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="bucket-problem a-rise d3"><span>Your SDRs are copy-pasting LinkedIn DMs at midnight.</span> Your CS team is triaging tickets at 11pm. Your prospecting motion needs three humans to keep one campaign alive.</p>
+
+      <div class="options-grid">
+        <div class="option a-rise d4">
+          <div class="option-num">Option 01</div>
+          <div class="option-tag">Startup . SMB . Lean Teams</div>
+          <div class="option-name">Run the pods.</div>
+          <div class="option-line">Four production pods. <strong>One human manager. Zero daily intervention.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>LinkupOS . LinkedIn pod</li>
+              <li>ABM Engine . multi-channel</li>
+              <li>AutoCS . customer care</li>
+              <li>Shared voice profile</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"I was the founder doing outbound at midnight. The pods exist because I built them for myself first."</div>
+        </div>
+        <div class="option recommended a-rise d5">
+          <div class="option-num">Option 02 . Most Selected</div>
+          <div class="option-tag">Mid-Market . $30M-$250M ARR</div>
+          <div class="option-name">Voice-calibrated pods.</div>
+          <div class="option-line">Pods tuned to your ICP, voice, motion. <strong>SDR plateau breaks. AE bandwidth opens.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>ICP voice calibration</li>
+              <li>Custom sequence templates</li>
+              <li>Industry-specific motions</li>
+              <li>Pre-qualification routing to AEs</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"Mid-market has too many revenue motions to run by hand. Built for teams that needed leverage now."</div>
+        </div>
+        <div class="option a-rise d6">
+          <div class="option-num">Option 03</div>
+          <div class="option-tag">Enterprise . Regional</div>
+          <div class="option-name">Territory-specific outbound.</div>
+          <div class="option-line">Custom pods per region, vertical, language. <strong>Audit trail to your CISO and local privacy regime.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>Per-region/per-vertical pods</li>
+              <li>Local voice profiles</li>
+              <li>Local privacy audit trail</li>
+              <li>Regional escalation paths</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"Regional teams that need vertical-specific outbound the global SDR team will never cover."</div>
+        </div>
+      </div>
+
+      <div class="install-note a-fade d7">Options 01 and 02 install via the <span>COO Playbook.</span> Operators interface via <span>MAX.</span></div>
+    </div>
+    <footer class="pfooter">
+      <div><strong>Level9OS LLC</strong> . Execute . OutboundOS</div>
+      <div>level9os.com . erichathaway@gmail.com . 6</div>
+    </footer>
+  </div>
+
+  <!-- ========= PAGE 7 (MEASURE / LucidORG) ========= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">9</div><div class="ph-name">Level<span>9</span></div></div>
+      <div class="ph-meta">Sales Brief . 04.2026 . Continued</div>
+    </header>
+    <div class="p-bucket-body">
+      <div class="bucket-kicker-line a-fade d1">Pressure Point <strong>04 . Measure.</strong> Breaks Reactive Leadership</div>
+
+      <div class="tile-band a-fade d2">
+        <div class="tile-canvas">
+          <div class="glow" style="background: radial-gradient(circle at center, #67e8f955 0%, #67e8f918 40%, transparent 70%);"></div>
+          <svg class="hero-svg" width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="lucWave" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#67e8f9"/><stop offset="100%" stop-color="#2563eb"/></linearGradient>
+              <clipPath id="lucScan"><rect x="700" y="150" width="480" height="320"><animate attributeName="width" values="0;480;480" keyTimes="0;0.7;1" dur="5s" repeatCount="indefinite"/></rect></clipPath>
+            </defs>
+            <g stroke="rgba(6,182,212,0.08)" stroke-width="1">
+              <line x1="700" y1="200" x2="1180" y2="200"/><line x1="700" y1="260" x2="1180" y2="260"/><line x1="700" y1="315" x2="1180" y2="315"/><line x1="700" y1="370" x2="1180" y2="370"/><line x1="700" y1="430" x2="1180" y2="430"/>
+              <line x1="760" y1="180" x2="760" y2="450"/><line x1="820" y1="180" x2="820" y2="450"/><line x1="880" y1="180" x2="880" y2="450"/><line x1="940" y1="180" x2="940" y2="450"/><line x1="1000" y1="180" x2="1000" y2="450"/><line x1="1060" y1="180" x2="1060" y2="450"/><line x1="1120" y1="180" x2="1120" y2="450"/>
+            </g>
+            <line x1="700" y1="315" x2="1180" y2="315" stroke="rgba(6,182,212,0.25)" stroke-width="1" stroke-dasharray="2 4"/>
+            <g clip-path="url(#lucScan)">
+              <path d="M 700,315 L 720,315 L 730,308 L 740,322 L 755,312 L 770,318 L 785,310 L 800,315 L 820,215 L 830,315 L 850,318 L 870,312 L 890,320 L 910,310 L 930,318 L 950,312 L 975,418 L 985,315 L 1005,318 L 1025,310 L 1045,320 L 1070,312 L 1100,316 L 1130,314 L 1180,315" fill="none" stroke="url(#lucWave)" stroke-width="2.4" stroke-linejoin="round" style="filter: drop-shadow(0 0 4px #06b6d4);"/>
+            </g>
+            <line x1="700" y1="160" x2="700" y2="450" stroke="#67e8f9" stroke-width="1.5" opacity="0.85" style="animation: lucScanLine 5s linear infinite;"/>
+            <g style="animation: lucMarker1 5s infinite;"><circle cx="825" cy="215" r="10" fill="#060610" stroke="#06b6d4" stroke-width="2"/><circle cx="825" cy="215" r="3" fill="#06b6d4"/><text x="840" y="210" font-family="JetBrains Mono, monospace" font-size="9" fill="#67e8f9" letter-spacing="1.5">LEVER 14</text><text x="840" y="222" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,255,255,0.5)" letter-spacing="1.5">HANDOFF FRICTION</text></g>
+            <g style="animation: lucMarker2 5s infinite;"><circle cx="975" cy="418" r="10" fill="#060610" stroke="#06b6d4" stroke-width="2"/><circle cx="975" cy="418" r="3" fill="#06b6d4"/><text x="960" y="405" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#67e8f9" letter-spacing="1.5">LEVER 29</text><text x="960" y="417" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,255,255,0.5)" letter-spacing="1.5">DECISION LAG</text></g>
+            <text x="710" y="474" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(6,182,212,0.65)" letter-spacing="2.5">ECI . EXECUTION CAPABILITY INDEX . LIVE</text>
+          </svg>
+          <div class="eyebrow" style="color: #67e8f9;">FRICTION DETECTION</div>
+          <div class="chips">
+            <div class="status" style="background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.4);"><span class="dot" style="background: #10b981; box-shadow: 0 0 8px #10b981;"></span><span class="lbl" style="color: #10b981;">LIVE</span></div>
+            <span class="metric">4 PILLARS . 37 LEVERS</span>
+          </div>
+          <svg class="wordmark" width="640" height="168" viewBox="0 0 640 168">
+            <defs><linearGradient id="word-lucidorg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#67e8f9"/><stop offset="100%" stop-color="#2563eb"/></linearGradient></defs>
+            <text x="12" y="128" style="font-family: Inter, sans-serif; font-weight: 900; font-size: 120px; letter-spacing: -0.04em; fill: url(#word-lucidorg);">LucidORG</text>
+          </svg>
+          <div class="copy">
+            <div class="problem">You measure outputs but don't know where execution actually breaks.</div>
+            <div class="answer" style="color: #67e8f9;">Real-time friction detection across four pillars and thirty-seven levers. Tells you exactly where execution is failing, and which lever to pull.</div>
+          </div>
+          <div class="layer">MEASUREMENT . THE NERVOUS SYSTEM</div>
+          <div class="domain">lucidorg.com</div>
+          <div class="cosign">
+            <div class="badge" style="border: 1px solid #67e8f9;">9</div>
+            <div class="label"><div class="top">Level9 OS</div><div class="bot">MEASUREMENT LAYER</div></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="bucket-problem a-rise d3"><span>You measure outputs but you can't see where execution is breaking.</span> The 14 micro-decisions over the last 30 days that caused the dip are invisible. By the time you see it in the number, it has already cost a quarter.</p>
+
+      <div class="options-grid">
+        <div class="option a-rise d4">
+          <div class="option-num">Option 01</div>
+          <div class="option-tag">Startup . SMB . Lean Teams</div>
+          <div class="option-name">ECI as your nervous system.</div>
+          <div class="option-line">ECI scoring across 4 pillars, 11 metrics, 37 levers. <strong>Friction surfaced before revenue impact.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>ECI scoring 0-1000</li>
+              <li>4 pillars . 11 metrics . 37 levers</li>
+              <li>Friction maps</li>
+              <li>Real-time observability</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"Founders run on gut until gut breaks. ECI was the instrument I needed when I had nothing."</div>
+        </div>
+        <div class="option recommended a-rise d5">
+          <div class="option-num">Option 02 . Most Selected</div>
+          <div class="option-tag">Mid-Market . $30M-$250M ARR</div>
+          <div class="option-name">Custom pillars for your operation.</div>
+          <div class="option-line">Pillars customized to your operating shape. <strong>Friction maps surface in your dashboards.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>Custom pillars for your shape</li>
+              <li>Industry benchmarks</li>
+              <li>Custom intervention plans</li>
+              <li>COO + CxfO model alignment</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"Most mid-market dashboards measure outputs. Custom pillars catch what your business actually breaks on."</div>
+        </div>
+        <div class="option a-rise d6">
+          <div class="option-num">Option 03</div>
+          <div class="option-tag">Enterprise . Regional</div>
+          <div class="option-name">Regional ECI.</div>
+          <div class="option-line">Regional benchmarks. Custom ECI per region or business unit. <strong>Regional comparables. Regional intervention plans.</strong></div>
+          <div class="option-bullets">
+            <div class="option-bullets-h">What you get</div>
+            <ul>
+              <li>Per-region ECI implementation</li>
+              <li>Regional benchmarks</li>
+              <li>BU-specific instrumentation</li>
+              <li>Cross-region rollups</li>
+            </ul>
+          </div>
+          <div class="option-founder"><small>Founder . Eric</small>"Regional ops with dedicated AI budget and global benchmarks that don't apply. Built for exactly this."</div>
+        </div>
+      </div>
+
+      <div class="install-note a-fade d7">Options 01 and 02 install via the <span>COO Playbook.</span> Operators interface via <span>MAX.</span></div>
+    </div>
+    <footer class="pfooter">
+      <div><strong>Level9OS LLC</strong> . Measure . LucidORG</div>
+      <div>level9os.com . erichathaway@gmail.com . 7</div>
+    </footer>
+  </div>
+
+  <!-- ========= PAGE 8 (GOVERNANCE / The Vault) ========= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">9</div><div class="ph-name">Level<span>9</span></div></div>
+      <div class="ph-meta">Sales Brief . 04.2026 . Continued</div>
+    </header>
+    <div class="p-feature-body">
+      <div class="bucket-kicker-line a-fade d1">How We Govern . <strong>The Vault.</strong> Built into every system</div>
+
+      <div class="tile-band a-fade d2">
+        <div class="tile-canvas">
+          <div class="glow" style="background: radial-gradient(circle at center, #ef444455 0%, #ef444418 40%, transparent 70%);"></div>
+          <svg class="hero-svg" width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="vaultCore"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#ef4444"/></radialGradient>
+              <linearGradient id="vaultBeam" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#fbbf24" stop-opacity="0"/><stop offset="100%" stop-color="#fbbf24" stop-opacity="0.8"/></linearGradient>
+            </defs>
+            <g transform="translate(930 315)">
+              <!-- 6 concentric protection rings -->
+              <circle r="60" fill="none" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="2 6" style="animation: vaultRing 3.5s 0s ease-in-out infinite;"/>
+              <circle r="90" fill="none" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="3 8" style="animation: vaultRing 3.5s 0.4s ease-in-out infinite;"/>
+              <circle r="120" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4 10" style="animation: vaultRing 3.5s 0.8s ease-in-out infinite;"/>
+              <circle r="150" fill="none" stroke="#fcd34d" stroke-width="1" stroke-dasharray="6 12" style="animation: vaultRing 3.5s 1.2s ease-in-out infinite;"/>
+              <circle r="180" fill="none" stroke="#fde68a" stroke-width="1" stroke-dasharray="8 14" style="animation: vaultRing 3.5s 1.6s ease-in-out infinite;"/>
+              <circle r="210" fill="none" stroke="#fef3c7" stroke-width="1" stroke-dasharray="10 16" style="animation: vaultRing 3.5s 2.0s ease-in-out infinite;"/>
+
+              <!-- Layer labels -->
+              <text x="0" y="-220" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#fef3c7" opacity="0.85" letter-spacing="2">06 . OVERRIDE</text>
+              <text x="200" y="0" font-family="JetBrains Mono, monospace" font-size="9" fill="#fde68a" opacity="0.85" letter-spacing="2">05 . ROUTING</text>
+              <text x="0" y="225" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#fcd34d" opacity="0.85" letter-spacing="2">04 . RECOVERY</text>
+              <text x="-200" y="0" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#fbbf24" opacity="0.85" letter-spacing="2">03 . SPLIT AGENTS</text>
+              <text x="-110" y="-105" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#f59e0b" opacity="0.85" letter-spacing="2">02 . LIE DETECT</text>
+              <text x="0" y="-78" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#ef4444" opacity="0.85" letter-spacing="2">01 . ECI</text>
+
+              <!-- Radar sweep -->
+              <g style="animation: vaultRadar 8s linear infinite; transform-origin: 0px 0px;">
+                <line x1="0" y1="0" x2="0" y2="-220" stroke="url(#vaultBeam)" stroke-width="2" opacity="0.7" transform="rotate(0)"/>
+              </g>
+
+              <!-- Pulse rings emanating -->
+              <circle r="30" fill="none" stroke="#fbbf24" stroke-width="1" style="animation: vaultPulse 3s 0s ease-out infinite; transform-origin: 0px 0px;"/>
+              <circle r="30" fill="none" stroke="#fbbf24" stroke-width="1" style="animation: vaultPulse 3s 1s ease-out infinite; transform-origin: 0px 0px;"/>
+              <circle r="30" fill="none" stroke="#fbbf24" stroke-width="1" style="animation: vaultPulse 3s 2s ease-out infinite; transform-origin: 0px 0px;"/>
+
+              <!-- Vault core -->
+              <circle r="42" fill="#0d0d18" stroke="#ef4444" stroke-width="2"/>
+              <circle r="36" fill="url(#vaultCore)" opacity="0.3"/>
+              <text y="-4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#fbbf24" letter-spacing="2.5" font-weight="700">THE</text>
+              <text y="14" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#fbbf24" font-weight="900" letter-spacing="-0.5">VAULT</text>
+              <circle r="8" cy="32" fill="#ef4444" style="animation: vaultLockBlink 1.4s ease-in-out infinite;"/>
+            </g>
+          </svg>
+          <div class="eyebrow" style="color: #fbbf24;">GOVERNANCE CHASSIS</div>
+          <div class="chips">
+            <div class="status" style="background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.4);"><span class="dot" style="background: #10b981; box-shadow: 0 0 8px #10b981;"></span><span class="lbl" style="color: #10b981;">LIVE</span></div>
+            <span class="metric">6 LAYERS . ALWAYS ON</span>
+          </div>
+          <svg class="wordmark" width="640" height="168" viewBox="0 0 640 168">
+            <defs><linearGradient id="word-vault" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#ef4444"/></linearGradient></defs>
+            <text x="12" y="128" style="font-family: Inter, sans-serif; font-weight: 900; font-size: 120px; letter-spacing: -0.04em; fill: url(#word-vault);">The Vault</text>
+          </svg>
+          <div class="copy">
+            <div class="problem">AI without guardrails is a liability waiting to bill you.</div>
+            <div class="answer" style="color: #fbbf24;">Six layers of protection built into the chassis, not bolted on. LucidORG measures both people and people-AI interaction.</div>
+          </div>
+          <div class="layer">GOVERNANCE . THE FOUNDATION</div>
+          <div class="domain">aegis-aligned . policy-as-code</div>
+          <div class="cosign">
+            <div class="badge" style="border: 1px solid #fbbf24;">9</div>
+            <div class="label"><div class="top">Level9 OS</div><div class="bot">GOVERNANCE LAYER</div></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="feature-problem a-rise d3"><span>In 2026 nobody trusts AI that runs without guardrails.</span> The governance layer makes the rest of the stack defensible to your CISO, your board, and your auditor. Every action logged. Every output verified. Every system replaceable mid-flight.</p>
+
+      <div class="gov-grid">
+        <div class="gov-card a-rise d3">
+          <div class="gov-card-num">01 . Measurement</div>
+          <div class="gov-card-name">LucidORG . People + AI.</div>
+          <div class="gov-card-line">ECI measures both human teams and human-AI interaction. <strong>One instrument scores your people, your agents, and the handoffs between them.</strong></div>
+        </div>
+        <div class="gov-card a-rise d4">
+          <div class="gov-card-num">02 . Verification</div>
+          <div class="gov-card-name">Lie detectors.</div>
+          <div class="gov-card-line">Every AI output passes through fact-check before it ships. <strong>If the system can't cite the source, it can't ship the claim.</strong></div>
+        </div>
+        <div class="gov-card a-rise d5">
+          <div class="gov-card-num">03 . Architecture</div>
+          <div class="gov-card-name">Split agents.</div>
+          <div class="gov-card-line">Producer agents and verifier agents are separate. <strong>Built-in adversarial review on every action.</strong></div>
+        </div>
+        <div class="gov-card a-rise d4">
+          <div class="gov-card-num">04 . Recovery</div>
+          <div class="gov-card-name">Full state with backups.</div>
+          <div class="gov-card-line">Append-only audit trail. <strong>Roll back any action. Reconstruct any decision. Replay any conversation.</strong></div>
+        </div>
+        <div class="gov-card a-rise d5">
+          <div class="gov-card-num">05 . Routing</div>
+          <div class="gov-card-name">Systematic protection.</div>
+          <div class="gov-card-line">Rate limits. Budget caps. Scope guards. Every request routed through governance. <strong>Your CFO will sleep better.</strong></div>
+        </div>
+        <div class="gov-card a-rise d6">
+          <div class="gov-card-num">06 . Override</div>
+          <div class="gov-card-name">Kill switches.</div>
+          <div class="gov-card-line">Emergency shutoff per system, agent, task. <strong>One operator can stop every running pod across the stack in one keystroke.</strong></div>
+        </div>
+      </div>
+
+      <div class="gov-band a-fade d7">
+        <div>
+          <div class="gov-band-h">Compliance Posture . 2026</div>
+          <div class="gov-band-line">GDPR-aware . EU AI Act ready . Built compliance-ready.</div>
+          <div class="gov-band-sub">AEGIS-aligned audit trail . Encrypted secrets . Policy-as-code . Every action logged.</div>
+        </div>
+        <div class="gov-band-roadmap">SOC 2 . ISO 27001<br>ISO 42001 . on roadmap</div>
+      </div>
+    </div>
+    <footer class="pfooter">
+      <div><strong>Level9OS LLC</strong> . Governance . The Foundation</div>
+      <div>level9os.com . erichathaway@gmail.com . 8</div>
+    </footer>
+  </div>
+
+  <!-- ========= PAGE 9 (PLAYBOOK) ========= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">9</div><div class="ph-name">Level<span>9</span></div></div>
+      <div class="ph-meta">Sales Brief . 04.2026 . Continued</div>
+    </header>
+    <div class="p-feature-body">
+      <div class="bucket-kicker-line a-fade d1">How We Install . <strong>The COO Playbook.</strong> 30 / 90 / 180</div>
+
+      <div class="tile-band a-fade d2">
+        <div class="tile-canvas">
+          <div class="glow" style="background: radial-gradient(circle at center, #cbd5e155 0%, #cbd5e118 40%, transparent 70%);"></div>
+          <svg class="hero-svg" width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="pbBar30" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#475569"/><stop offset="100%" stop-color="#94a3b8"/></linearGradient>
+              <linearGradient id="pbBar90" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#475569"/><stop offset="100%" stop-color="#cbd5e1"/></linearGradient>
+              <linearGradient id="pbBar180" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#475569"/><stop offset="100%" stop-color="#e2e8f0"/></linearGradient>
+            </defs>
+            <g transform="translate(790 170)">
+              <g>
+                <text x="0" y="16" font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(255,255,255,0.5)" letter-spacing="2.2">DAY 30</text>
+                <text x="0" y="34" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.85)">Diagnose . ECI baseline</text>
+                <rect x="0" y="44" width="380" height="10" rx="5" fill="rgba(148,163,184,0.1)"/>
+                <rect x="0" y="44" height="10" rx="5" fill="url(#pbBar30)" style="animation: pbBar30Fill 5s infinite;"/>
+                <circle cy="49" r="8" fill="#060610" stroke="#94a3b8" stroke-width="2" style="animation: pbMark30 5s infinite;"/>
+              </g>
+              <g transform="translate(0 86)">
+                <text x="0" y="16" font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(255,255,255,0.5)" letter-spacing="2.2">DAY 90</text>
+                <text x="0" y="34" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.85)">Install . Lean Ops + CxfO</text>
+                <rect x="0" y="44" width="380" height="10" rx="5" fill="rgba(148,163,184,0.1)"/>
+                <rect x="0" y="44" height="10" rx="5" fill="url(#pbBar90)" style="animation: pbBar90Fill 5s infinite;"/>
+                <circle cy="49" r="8" fill="#060610" stroke="#cbd5e1" stroke-width="2" style="animation: pbMark90 5s infinite;"/>
+              </g>
+              <g transform="translate(0 172)">
+                <text x="0" y="16" font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(255,255,255,0.5)" letter-spacing="2.2">DAY 180</text>
+                <text x="0" y="34" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.85)">Compound . Alignment Cycle</text>
+                <rect x="0" y="44" width="380" height="10" rx="5" fill="rgba(148,163,184,0.1)"/>
+                <rect x="0" y="44" height="10" rx="5" fill="url(#pbBar180)" style="animation: pbBar180Fill 5s infinite;"/>
+                <circle cy="49" r="8" fill="#060610" stroke="#e2e8f0" stroke-width="2" style="animation: pbMark180 5s infinite;"/>
+              </g>
+              <g transform="translate(0 276)" font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(255,255,255,0.45)">
+                <text x="0" y="0" letter-spacing="1.8">ECI</text>
+                <text x="70" y="0" letter-spacing="1.8">CxfO</text>
+                <text x="140" y="0" letter-spacing="1.8">LEAN OPS</text>
+                <text x="235" y="0" letter-spacing="1.8">ALIGNMENT</text>
+              </g>
+            </g>
+          </svg>
+          <div class="eyebrow" style="color: #cbd5e1;">INSTALL PROTOCOL</div>
+          <div class="chips">
+            <div class="status" style="background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.4);"><span class="dot" style="background: #10b981; box-shadow: 0 0 8px #10b981;"></span><span class="lbl" style="color: #10b981;">LIVE</span></div>
+            <span class="metric">30 . 90 . 180</span>
+          </div>
+          <svg class="wordmark" width="640" height="168" viewBox="0 0 640 168">
+            <defs><linearGradient id="word-playbook" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#cbd5e1"/><stop offset="100%" stop-color="#475569"/></linearGradient></defs>
+            <text x="12" y="128" style="font-family: Inter, sans-serif; font-weight: 900; font-size: 104px; letter-spacing: -0.04em; fill: url(#word-playbook);">COO Playbook</text>
+          </svg>
+          <div class="copy">
+            <div class="problem">Operations is the function nobody knows how to fix.</div>
+            <div class="answer" style="color: #cbd5e1;">Three decades of operational pattern recognition, productized into a 30/90/180 install protocol. The methodology behind every Option 01 and Option 02 engagement.</div>
+          </div>
+          <div class="layer">METHODOLOGY . THE INSTALL MANUAL</div>
+          <div class="domain">thenewcoo.com</div>
+          <div class="cosign">
+            <div class="badge" style="border: 1px solid #cbd5e1;">9</div>
+            <div class="label"><div class="top">Level9 OS</div><div class="bot">METHODOLOGY LAYER</div></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="feature-problem a-rise d3"><span>The Playbook is the install manual.</span> Five paradigm shifts. Eighteen chapters. Twelve frameworks. Stage-specific guides built from three decades of operational pattern recognition. Available today at thenewcoo.com.</p>
+
+      <div class="timeline">
+        <div class="ts">
+          <div class="ts-num">Phase 01 . Day 1-30</div>
+          <div class="ts-name">Diagnose<span class="stop">.</span></div>
+          <div class="ts-dur">30 days</div>
+          <div class="ts-line">We sit in your cadences. Map decision flows, handoffs, recurring meetings. <strong>Quantify what each is costing.</strong></div>
+          <div class="ts-deliv"><strong>You own.</strong><br>Diagnostic report . Friction map . 90-day install plan with dollar numbers</div>
+        </div>
+        <div class="ts">
+          <div class="ts-num">Phase 02 . Day 31-90</div>
+          <div class="ts-name">Build<span class="stop">.</span></div>
+          <div class="ts-dur">60 days</div>
+          <div class="ts-line">Install the operating system inside your company. Decision rooms, agent fleets, autonomous pods, governance chassis. <strong>Built to your voice. Audited.</strong></div>
+          <div class="ts-deliv"><strong>You own.</strong><br>Live system . Audit trail on every action . Trained operators</div>
+        </div>
+        <div class="ts">
+          <div class="ts-num">Phase 03 . Day 91-180</div>
+          <div class="ts-name">Embed<span class="stop">.</span></div>
+          <div class="ts-dur">90 days</div>
+          <div class="ts-line">We operate alongside your team. Refine on live data. Transfer ownership to your permanent operators. <strong>The system runs without us.</strong></div>
+          <div class="ts-deliv"><strong>You own.</strong><br>The whole system . We leave . Two of your team are now its operators</div>
+        </div>
+      </div>
+
+      <div class="pb-frameworks">
+        <div class="pb-stat">
+          <div class="pb-stat-num">5<small>shifts</small></div>
+          <div class="pb-stat-lbl">Paradigm Shifts</div>
+          <div class="pb-stat-line">From reporting to operating. From hierarchy to architecture. From oversight to instrument.</div>
+        </div>
+        <div class="pb-stat">
+          <div class="pb-stat-num">18<small>chapters</small></div>
+          <div class="pb-stat-lbl">Operating Chapters</div>
+          <div class="pb-stat-line">Stage-specific guides for startup, SMB, mid-market, enterprise, regional teams.</div>
+        </div>
+        <div class="pb-stat">
+          <div class="pb-stat-num">12<small>frameworks</small></div>
+          <div class="pb-stat-lbl">Operating Frameworks</div>
+          <div class="pb-stat-line">ECI. CxfO. Lean Ops. Alignment Cycle. Decision Architecture. Eight Operating Domains.</div>
+        </div>
+      </div>
+
+      <div class="pb-band a-fade d6">
+        <div>
+          <div class="pb-band-h">The Implementation Methodology</div>
+          <div class="pb-band-line">Three decades of <span>operational pattern recognition,</span> productized.</div>
+          <div class="pb-band-sub">Read the full methodology before you engage. Bring it to the diagnostic.</div>
+        </div>
+        <div class="pb-band-url">thenewcoo.com</div>
+      </div>
+    </div>
+    <footer class="pfooter">
+      <div><strong>Level9OS LLC</strong> . The Playbook . Implementation</div>
+      <div>level9os.com . erichathaway@gmail.com . 9</div>
+    </footer>
+  </div>
+
+  <!-- ========= PAGE 10 (THE PROOF SHEET) ========= -->
+  <div class="page">
+    <header class="pheader">
+      <div class="ph-mark"><div class="ph-chip">9</div><div class="ph-name">Level<span>9</span></div></div>
+      <div class="ph-meta">Sales Brief . 04.2026 . Continued</div>
+    </header>
+    <div class="p-proof-body">
+      <div class="bucket-kicker-line a-fade d1">The Proof Sheet . <strong>Skills, Stack, Background</strong></div>
+
+      <div class="proof-head">
+        <h1 class="a-rise d2">Built it. Run it.<br>Ship it to <em>you<span class="stop">.</span></em></h1>
+        <p class="proof-sub a-rise d3">Every capability below ships in production. Every tool runs in our own stack. <span>Three decades of operating leadership informs every system.</span></p>
+      </div>
+
+      <div class="proof-hero a-fade d3">
+        <div class="proof-stats">
+          <div>
+            <div class="proof-stat-num">6<small>+</small></div>
+            <div class="proof-stat-lbl">AI-Native Systems</div>
+            <div class="proof-stat-line">In production. Audited. Running on our own ops.</div>
+          </div>
+          <div>
+            <div class="proof-stat-num">48</div>
+            <div class="proof-stat-lbl">Domain Officers</div>
+            <div class="proof-stat-line">Multi-LLM agent fleet across 8 categories.</div>
+          </div>
+          <div>
+            <div class="proof-stat-num">30<small>yr</small></div>
+            <div class="proof-stat-lbl">Operating Leadership</div>
+            <div class="proof-stat-line">Microsoft. Credit Suisse. T-Mobile. S&amp;P.</div>
+          </div>
+          <div>
+            <div class="proof-stat-num">6</div>
+            <div class="proof-stat-lbl">Continents</div>
+            <div class="proof-stat-line">60+ countries operated in.</div>
+          </div>
+          <div>
+            <div class="proof-stat-num">100<small>%</small></div>
+            <div class="proof-stat-lbl">Audit Coverage</div>
+            <div class="proof-stat-line">AEGIS-aligned. Every action logged.</div>
+          </div>
+          <div>
+            <div class="proof-stat-num">37</div>
+            <div class="proof-stat-lbl">ECI Levers</div>
+            <div class="proof-stat-line">Friction maps across 4 pillars.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 3-CARD FACT GRID -->
+      <div class="proof-grid">
+        <div class="proof-card violet a-rise d4">
+          <div class="proof-card-num">Card 01</div>
+          <div class="proof-card-tag">Proven Capabilities . In Production</div>
+          <div class="proof-card-name">What we've built.</div>
+          <div class="proof-card-bullets">
+            <ul>
+              <li><strong>Multi-LLM orchestration.</strong> Claude / GPT / Perplexity routed per task.</li>
+              <li><strong>48-agent fleet management.</strong> 3 governance gates per project.</li>
+              <li><strong>10-exec adversarial deliberation.</strong> Decision rooms, audited.</li>
+              <li><strong>Voice-calibrated pods.</strong> One profile, three motions.</li>
+              <li><strong>ECI friction maps.</strong> 4 pillars, 37 intervention levers.</li>
+              <li><strong>Append-only governance.</strong> Every action and dollar logged.</li>
+              <li><strong>Auto-fix + Auto-test agents.</strong> Self-healing builds, eval harness.</li>
+              <li><strong>Session continuity.</strong> Multi-day context across rotations.</li>
+              <li><strong>RLS-locked vault.</strong> 29 secrets tracked. Daily expiry alerts.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="proof-card emerald a-rise d5">
+          <div class="proof-card-num">Card 02</div>
+          <div class="proof-card-tag">Production Stack . What We Run On</div>
+          <div class="proof-card-name">The technical depth.</div>
+          <div class="proof-card-list">
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Models</div><div class="proof-card-list-val">Claude Sonnet 4.6 + Opus 4.7 . GPT-5 . Perplexity Sonar . multi-model routing</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Stack</div><div class="proof-card-list-val">Next.js 16 + React 19 + TypeScript . Supabase (Postgres + RLS + Vector) . Vercel . Cloudflare . n8n . Docker</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Agents</div><div class="proof-card-list-val">MCP . Claude Code . Cursor . Anthropic SDK . tool use . structured outputs . streaming . prompt caching</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">RAG</div><div class="proof-card-list-val">Pinecone . pgvector . Voyage AI embeddings . hybrid search . semantic chunking</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Observe</div><div class="proof-card-list-val">OpenTelemetry . Sentry . Posthog . custom eval harness</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Govern</div><div class="proof-card-list-val">AEGIS audit . RLS vault . policy-as-code . budget + kill-switch . groupthink detection . 3-gate review</div></div>
+          </div>
+        </div>
+
+        <div class="proof-card amber a-rise d6">
+          <div class="proof-card-num">Card 03</div>
+          <div class="proof-card-tag">Operating Pedigree . 30 Years</div>
+          <div class="proof-card-name">Where it came from.</div>
+          <div class="proof-card-list">
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Microsoft</div><div class="proof-card-list-val">Worldwide Public Sector VP. <strong>94 offices unified.</strong></div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Credit Suisse</div><div class="proof-card-list-val">CEO, Czech Republic. Greenfield office build.</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">T-Mobile</div><div class="proof-card-list-val">Marketing analytics at scale.</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">S&amp;P Global</div><div class="proof-card-list-val">MD, South-East Asia (Singapore).</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">H&amp;H Mgmt</div><div class="proof-card-list-val">Global MP, Hong Kong. M&amp;A integration.</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Industries</div><div class="proof-card-list-val">Telecom . Banking . Public sector . Tech . AI native.</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Functions</div><div class="proof-card-list-val">VP . CEO . MD . Global MP . Founder.</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Mandate</div><div class="proof-card-list-val">Operations . AI . M&amp;A . Greenfield builds.</div></div>
+            <div class="proof-card-list-row"><div class="proof-card-list-key">Reach</div><div class="proof-card-list-val"><strong>6 continents . 60+ countries.</strong></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADJACENT AUTHORITY STRIP -->
+      <div class="authority-strip a-fade d7">
+        <div class="authority-cell">
+          <div class="authority-tag">Adjunct . Senior 401</div>
+          <div class="authority-org">MSU Jake Jabs Business School</div>
+          <div class="authority-note">Organizational behavior capstone.</div>
+        </div>
+        <div class="authority-cell">
+          <div class="authority-tag">Keynote . EU . Asia . US</div>
+          <div class="authority-org">20+ conferences</div>
+          <div class="authority-note">Automation in the enterprise.</div>
+        </div>
+        <div class="authority-cell">
+          <div class="authority-tag">Board . Advisory</div>
+          <div class="authority-org">Incubators . Investors . Startups</div>
+          <div class="authority-note">System and people integration.</div>
+        </div>
+        <div class="authority-cell">
+          <div class="authority-tag">Charity . Mentorship</div>
+          <div class="authority-org">Veterans . Founders . Students</div>
+          <div class="authority-note">Time, not just money. Ongoing.</div>
+        </div>
+      </div>
+
+      <!-- ERIC ATTRIBUTION (single line) -->
+      <div class="proof-eric">
+        <div>
+          <div class="proof-eric-h">Founded By</div>
+          <div class="proof-eric-name">Eric Hathaway</div>
+          <div class="proof-eric-line">"If it doesn't work for us, running our own businesses on our own operations, we don't release it. Period."</div>
+        </div>
+        <div class="proof-eric-link">linkedin.com/in/erichathaway1</div>
+      </div>
+    </div>
+    <footer class="pfooter">
+      <div><strong>Level9OS LLC</strong> . The Proof Sheet . Founded 2023</div>
+      <div>level9os.com . erichathaway@gmail.com . 10</div>
+    </footer>
+  </div>
+
+</div>
+
+<script>
+  // CommandOS officer dots
+  (function() {
+    const g = document.querySelector('#officer-dots-c5');
+    if (!g) return;
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 12; c++) {
+      const i = r * 12 + c;
+      const cx = c * 12, cy = r * 7;
+      const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      dot.setAttribute('cx', cx); dot.setAttribute('cy', cy); dot.setAttribute('r', 3); dot.setAttribute('fill', '#10b981');
+      dot.setAttribute('style', `animation: cmdFeedDot 5s ${((i*0.06)%5).toFixed(2)}s ease-in-out infinite; transform-origin: ${cx}px ${cy}px; transform-box: fill-box;`);
+      g.appendChild(dot);
+    }
+  })();
+
+  // ARCHITECT CUBE — original spinning cube, recolored for cream paper background
+  // Wires use dark violet (visible on cream), pips use ink, faces keep their colors
+  (function() {
+    const canvas = document.getElementById('cube-arch');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+
+    function resize() {
+      const r = canvas.parentElement.getBoundingClientRect();
+      canvas.width = r.width * dpr; canvas.height = r.height * dpr;
+      canvas.style.width = r.width + 'px'; canvas.style.height = r.height + 'px';
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const SIZE = 110;
+    const FOCAL = 600;
+    const N = 4;
+
+    const verts = [];
+    const key = new Map();
+    const h = SIZE / 2, s = SIZE / N;
+    function add(ix, iy, iz) {
+      const k = ix + ',' + iy + ',' + iz;
+      if (key.has(k)) return key.get(k);
+      const idx = verts.length;
+      verts.push([ix * s - h, iy * s - h, iz * s - h]);
+      key.set(k, idx);
+      return idx;
+    }
+    const edges = [];
+    const eset = new Set();
+    function addE(a, b) { const k = a < b ? a+'|'+b : b+'|'+a; if (eset.has(k)) return; eset.add(k); edges.push([a, b]); }
+    for (let i=0;i<=N;i++) for (let j=0;j<=N;j++) { add(i,j,0); add(i,j,N); add(i,0,j); add(i,N,j); add(0,i,j); add(N,i,j); }
+    for (let i=0;i<=N;i++) for (let j=0;j<N;j++) {
+      addE(add(i,j,0), add(i,j+1,0)); addE(add(j,i,0), add(j+1,i,0));
+      addE(add(i,j,N), add(i,j+1,N)); addE(add(j,i,N), add(j+1,i,N));
+      addE(add(i,0,j), add(i,0,j+1)); addE(add(j,0,i), add(j+1,0,i));
+      addE(add(i,N,j), add(i,N,j+1)); addE(add(j,N,i), add(j+1,N,i));
+      addE(add(0,i,j), add(0,i,j+1)); addE(add(0,j,i), add(0,j+1,i));
+      addE(add(N,i,j), add(N,i,j+1)); addE(add(N,j,i), add(N,j+1,i));
+    }
+
+    const faces = [
+      { id: 0, normal: [0,0,-1], corners: [[-h,-h,-h],[h,-h,-h],[h,h,-h],[-h,h,-h]], color: '#8b5cf6', rgb: '139,92,246', label: 'STRATOS' },
+      { id: 1, normal: [0,0,1],  corners: [[-h,-h,h],[h,-h,h],[h,h,h],[-h,h,h]], color: '#10b981', rgb: '16,185,129', label: 'COMMANDOS' },
+      { id: 2, normal: [-1,0,0], corners: [[-h,-h,-h],[-h,-h,h],[-h,h,h],[-h,h,-h]], color: '#f59e0b', rgb: '245,158,11', label: 'OUTBOUNDOS' },
+      { id: 3, normal: [1,0,0],  corners: [[h,-h,-h],[h,-h,h],[h,h,h],[h,h,-h]], color: '#06b6d4', rgb: '6,182,212', label: 'LUCIDORG' },
+      { id: 4, normal: [0,-1,0], corners: [[-h,-h,-h],[h,-h,-h],[h,-h,h],[-h,-h,h]], color: '#ec4899', rgb: '236,72,153', label: 'MAX' },
+      { id: 5, normal: [0,1,0],  corners: [[-h,h,-h],[h,h,-h],[h,h,h],[-h,h,h]], color: '#64748b', rgb: '100,116,139', label: 'PLAYBOOK' },
+    ];
+
+    const dust = verts.flatMap((_, i) => Array.from({length: 2}, () => ({
+      vi: i, ox: (Math.random()-0.5) * 800, oy: (Math.random()-0.5) * 600, delay: Math.random() * 1.0,
+    })));
+
+    const PHASES = { dust: 1800, wire: 2400, glass: 1600 };
+    const TOTAL = PHASES.dust + PHASES.wire + PHASES.glass;
+    const start = performance.now();
+
+    function rY(x, z, a) { return [x*Math.cos(a) - z*Math.sin(a), x*Math.sin(a) + z*Math.cos(a)]; }
+    function rX(y, z, a) { return [y*Math.cos(a) - z*Math.sin(a), y*Math.sin(a) + z*Math.cos(a)]; }
+
+    function frame(now) {
+      const t = now - start;
+      const cw = canvas.width / dpr, ch = canvas.height / dpr;
+      const cx = cw / 2, cy = ch / 2;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, cw, ch);
+
+      const live = t > TOTAL;
+      const aY = (t * 0.00022) % (Math.PI*2);
+      const aX = t * 0.00012 + 0.35;
+
+      const projected = verts.map(v => {
+        const [rx, rz1] = rY(v[0], v[2], aY);
+        const [ry, rz2] = rX(v[1], rz1, aX);
+        const sc = FOCAL / (FOCAL + rz2);
+        return [cx + rx*sc, cy + ry*sc, sc];
+      });
+
+      // dust phase — darker violet on cream
+      if (t < PHASES.dust) {
+        const pct = t / PHASES.dust;
+        for (const d of dust) {
+          const local = Math.max(0, Math.min(1, (pct - d.delay*0.3) * 1.6));
+          const e = 1 - Math.pow(1 - local, 3);
+          const [tx, ty] = projected[d.vi];
+          const px = d.ox + (tx - d.ox) * e;
+          const py = d.oy + (ty - d.oy) * e;
+          ctx.fillStyle = `rgba(109,40,217,${(0.1 + e*0.6)*0.45})`;
+          ctx.beginPath(); ctx.arc(px, py, 1, 0, Math.PI*2); ctx.fill();
+        }
+      }
+
+      // wire phase — DARKER violet for cream visibility
+      const wt = Math.max(0, t - PHASES.dust);
+      const ep = live ? 1 : Math.min(1, wt / PHASES.wire);
+      const ed = Math.floor(edges.length * ep);
+      for (let i=0;i<ed;i++) {
+        const [a,b] = edges[i];
+        const [ax,ay,as] = projected[a], [bx,by,bs] = projected[b];
+        const depth = (as+bs)/2;
+        ctx.strokeStyle = `rgba(109,40,217,${0.18 + depth*0.32})`;
+        ctx.lineWidth = 0.5 + depth*0.5;
+        ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+      }
+
+      // vertex pips — INK instead of white for cream visibility
+      if (t > PHASES.dust * 0.6) {
+        for (const [px,py,ps] of projected) {
+          ctx.fillStyle = `rgba(12,14,26,${0.35 + ps*0.30})`;
+          ctx.beginPath(); ctx.arc(px,py, 0.9 + ps*0.7, 0, Math.PI*2); ctx.fill();
+        }
+      }
+
+      // glass faces — slightly bumped alpha so colors read on cream
+      const gt = Math.max(0, t - PHASES.dust - PHASES.wire);
+      const go = live ? 1 : Math.min(1, gt / PHASES.glass);
+      if (go > 0) {
+        const rendered = faces.map(f => {
+          const c2 = f.corners.map(c => {
+            const [rx, rz1] = rY(c[0], c[2], aY);
+            const [ry, rz2] = rX(c[1], rz1, aX);
+            const sc = FOCAL / (FOCAL + rz2);
+            return [cx + rx*sc, cy + ry*sc, sc];
+          });
+          const z = c2.reduce((s,p) => s + (1-p[2]), 0) / 4;
+          const [, , nz] = (function() {
+            const [rx, rz1] = rY(f.normal[0], f.normal[2], aY);
+            const [ry, rz2] = rX(f.normal[1], rz1, aX);
+            return [rx, ry, rz2];
+          })();
+          return { f, c2, z, facing: Math.max(0, -nz) };
+        }).sort((a,b) => a.z - b.z);
+
+        for (const r of rendered) {
+          if (r.facing < 0.05) continue;
+          const fa = go * (0.18 + r.facing*0.30);
+          ctx.beginPath();
+          ctx.moveTo(r.c2[0][0], r.c2[0][1]);
+          for (let i=1;i<r.c2.length;i++) ctx.lineTo(r.c2[i][0], r.c2[i][1]);
+          ctx.closePath();
+          const cxs = r.c2.reduce((s,v)=>s+v[0],0)/4;
+          const cys = r.c2.reduce((s,v)=>s+v[1],0)/4;
+          const grad = ctx.createRadialGradient(cxs, cys, 5, cxs, cys, 140);
+          grad.addColorStop(0, `rgba(${r.f.rgb},${fa*1.4})`);
+          grad.addColorStop(1, `rgba(${r.f.rgb},${fa*0.4})`);
+          ctx.fillStyle = grad; ctx.fill();
+          ctx.strokeStyle = `rgba(${r.f.rgb},${go*0.75})`;
+          ctx.lineWidth = 0.9;
+          ctx.stroke();
+
+          if (r.facing > 0.5) {
+            ctx.font = `700 ${Math.round(8 + r.facing*2)}px JetBrains Mono, monospace`;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = `rgba(${r.f.rgb},${Math.min(1, go*0.95)})`;
+            ctx.fillText(r.f.label, cxs, cys);
+          }
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+</script>
+</body>
+</html>

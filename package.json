@@ -45,7 +45,8 @@
   "files": [
     "src/",
     "scripts/",
-    "legal/"
+    "legal/",
+    "templates/"
   ],
   "scripts": {
     "lint": "echo 'lint stub. wire ESLint when components arrive'"
