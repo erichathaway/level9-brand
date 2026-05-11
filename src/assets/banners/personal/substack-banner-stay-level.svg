@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2100 400" width="2100" height="400">
+  <!-- Stay Level · Substack publication header v5 (2100x400, 21:4).
+       Solid #020617 background. Headline scaled to fill edge-to-edge
+       both vertically and horizontally. Tightened letter-spacing so the
+       full word fits the canvas without overflow. -->
+
+  <defs>
+    <linearGradient id="hl" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#a5f3fc"/>
+      <stop offset="20%"  stop-color="#22d3ee"/>
+      <stop offset="40%"  stop-color="#a78bfa"/>
+      <stop offset="60%"  stop-color="#f472b6"/>
+      <stop offset="80%"  stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="2100" height="400" fill="#020617"/>
+
+  <text x="1050" y="314"
+        text-anchor="middle"
+        font-family="Inter, system-ui, sans-serif"
+        font-weight="900"
+        font-size="430"
+        fill="url(#hl)"
+        letter-spacing="-0.10em">Stay Level.</text>
+</svg>

@@ -20,3 +20,10 @@ export * from "./playbookDomains";
 export * from "./voiceRules";
 export * from "./siteMeta";
 export * from "./tagline";
+// Namespaced because both export the same entity names (ericPersonal, level9)
+// by design — same entity, different aspects. Disambiguate at import site:
+//   import { personalVoice, keyMessages } from "@level9/brand/content";
+//   personalVoice.ericPersonal.tagline
+//   keyMessages.ericPersonal[0]
+export * as personalVoice from "./personalVoice";
+export * as keyMessages from "./keyMessages";

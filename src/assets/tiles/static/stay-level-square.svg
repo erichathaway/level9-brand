@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <!-- Stay Level square static share card (1080x1080).
+       For Instagram feed, LinkedIn image posts, Twitter/X, square slots.
+       Same composition + brand language as horizontal/vertical tiles,
+       compressed into a square aspect. Bubble level horizontal at center. -->
+
+  <defs>
+    <linearGradient id="sqslPalette" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#a5f3fc"/>
+      <stop offset="20%"  stop-color="#22d3ee"/>
+      <stop offset="40%"  stop-color="#a78bfa"/>
+      <stop offset="60%"  stop-color="#f472b6"/>
+      <stop offset="80%"  stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="sqslGlass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="rgba(255,255,255,0.10)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.02)"/>
+    </linearGradient>
+    <radialGradient id="sqslBubble" cx="35%" cy="30%" r="65%">
+      <stop offset="0%"   stop-color="rgba(255,255,255,0.95)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.55)"/>
+    </radialGradient>
+    <radialGradient id="sqslGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="rgba(167,139,250,0.30)"/>
+      <stop offset="42%"  stop-color="rgba(244,114,182,0.15)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Base bg -->
+  <rect width="1080" height="1080" fill="#060610"/>
+
+  <!-- Multi-color glow centered on hero zone -->
+  <ellipse cx="540" cy="560" rx="540" ry="380" fill="url(#sqslGlow)"/>
+
+  <!-- Subtle horizon line through level -->
+  <line x1="60" y1="560" x2="1020" y2="560" stroke="url(#sqslPalette)" stroke-width="1.2" stroke-opacity="0.20"/>
+
+  <!-- M / W / F section markers above level -->
+  <text x="380" y="424" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="13" letter-spacing="0.3em" fill="rgba(139,92,246,0.92)">M</text>
+  <circle cx="380" cy="448" r="9" fill="#8b5cf6"/>
+
+  <text x="540" y="424" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="13" letter-spacing="0.3em" fill="rgba(6,182,212,0.92)">W</text>
+  <circle cx="540" cy="448" r="9" fill="#06b6d4"/>
+
+  <text x="700" y="424" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="13" letter-spacing="0.3em" fill="rgba(236,72,153,0.92)">F</text>
+  <circle cx="700" cy="448" r="9" fill="#ec4899"/>
+
+  <!-- Bubble level body (centered) -->
+  <g>
+    <rect x="180" y="510" width="720" height="100" rx="50" fill="#0d0d18" stroke="url(#sqslPalette)" stroke-width="3"/>
+    <rect x="220" y="542" width="640" height="36" rx="18" fill="url(#sqslGlass)" stroke="rgba(255,255,255,0.16)" stroke-width="1.2"/>
+    <line x1="514" y1="534" x2="514" y2="586" stroke="rgba(255,255,255,0.32)" stroke-width="1.2"/>
+    <line x1="566" y1="534" x2="566" y2="586" stroke="rgba(255,255,255,0.32)" stroke-width="1.2"/>
+    <circle cx="540" cy="560" r="14" fill="url(#sqslBubble)" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+  </g>
+
+  <!-- Top band: eyebrow -->
+  <text x="72" y="110" font-family="SF Mono, Menlo, monospace" font-size="14" letter-spacing="0.5em" fill="#22d3ee" opacity="0.9">OPERATOR-GRADE THINKING</text>
+
+  <!-- LIVE chip -->
+  <g>
+    <rect x="64" y="128" width="76" height="30" rx="15" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.4)" stroke-width="1"/>
+    <circle cx="80" cy="143" r="3.5" fill="#10b981"/>
+    <text x="92" y="148" font-family="SF Mono, Menlo, monospace" font-size="12" letter-spacing="0.2em" fill="#10b981">LIVE</text>
+  </g>
+  <text x="158" y="148" font-family="SF Mono, Menlo, monospace" font-size="12" letter-spacing="0.3em" fill="rgba(255,255,255,0.42)">M/W/F NEWSLETTER · LEVEL9OS</text>
+
+  <!-- Wordmark (centered horizontally for square) -->
+  <text x="72" y="350" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="150" letter-spacing="-0.04em" fill="url(#sqslPalette)">Stay Level.</text>
+
+  <!-- Copy zone (below hero level) -->
+  <text x="72" y="730" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="30" letter-spacing="-0.01em" fill="rgba(255,255,255,0.78)">On the shifts. The scars. The forward.</text>
+  <text x="72" y="780" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="26" letter-spacing="-0.01em" fill="#a78bfa">Operator-grade thinking, three lenses, M/W/F.</text>
+
+  <!-- Bottom band: layer + domain -->
+  <text x="72" y="970" font-family="SF Mono, Menlo, monospace" font-size="13" letter-spacing="0.3em" fill="rgba(255,255,255,0.35)">OPERATOR · NEWSLETTER</text>
+  <text x="72" y="1010" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="18" fill="rgba(255,255,255,0.58)">erichathaway.substack.com</text>
+
+  <!-- Level9 co-sign bottom-right -->
+  <g>
+    <rect x="892" y="956" width="48" height="48" rx="10" fill="#0d0d18" stroke="rgba(167,139,250,0.6)" stroke-width="1.2" opacity="0.85"/>
+    <text x="916" y="993" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="26" letter-spacing="-0.04em" fill="white" transform="rotate(-14 916 991)">9</text>
+    <text x="950" y="980" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="15" fill="rgba(255,255,255,0.72)">Level9 OS</text>
+    <text x="950" y="1000" font-family="SF Mono, Menlo, monospace" font-size="10" letter-spacing="0.18em" fill="rgba(255,255,255,0.4)">PUBLICATION</text>
+  </g>
+</svg>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Stay Level — Favicon (32x32 viewBox, optimized for browser tab)
+  Simplified mark: solid bg + gradient bar. No glass overlay at this size.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Stay Level">
+  <defs>
+    <linearGradient id="slFavBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"  stop-color="#14082E"/>
+      <stop offset="100%" stop-color="#041521"/>
+    </linearGradient>
+    <linearGradient id="slFavPal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#22d3ee"/>
+      <stop offset="50%"  stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="32" height="32" rx="6" fill="url(#slFavBg)"/>
+  <rect x="6" y="14" width="20" height="4" rx="2" fill="url(#slFavPal)"/>
+</svg>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Stay Level — Square logo (320x320)
+  ─────────────────────────────────────────────────────────────────────────
+  Edge-to-edge sharp square. Obsidian background (Level9 family).
+  Gradient stroke + central horizontal "level" line in the full palette.
+  The mark IS the publication name made visual.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="Stay Level">
+  <defs>
+    <linearGradient id="slSqObs" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"  stop-color="#14082E"/>
+      <stop offset="100%" stop-color="#041521"/>
+    </linearGradient>
+    <linearGradient id="slSqGlass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"  stop-color="#FFFFFF" stop-opacity="0.14"/>
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="slSqPalette" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#a5f3fc"/>
+      <stop offset="20%"  stop-color="#22d3ee"/>
+      <stop offset="40%"  stop-color="#a78bfa"/>
+      <stop offset="60%"  stop-color="#f472b6"/>
+      <stop offset="80%"  stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Edge-to-edge dark base -->
+  <rect x="0" y="0" width="320" height="320" fill="url(#slSqObs)"/>
+  <rect x="0" y="0" width="320" height="320" fill="url(#slSqGlass)"/>
+
+  <!-- Inset gradient stroke (matches Level9 square pattern) -->
+  <rect x="4" y="4" width="312" height="312" fill="none" stroke="url(#slSqPalette)" stroke-width="4"/>
+
+  <!-- Central "level" line: full palette gradient bar -->
+  <rect x="56" y="148" width="208" height="24" rx="12" fill="url(#slSqPalette)"/>
+</svg>

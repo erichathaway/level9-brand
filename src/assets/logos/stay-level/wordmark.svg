@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Stay Level — Wordmark (mini chip + "Stay Level." text, 540x80)
+  ─────────────────────────────────────────────────────────────────────────
+  Wider canvas than Level9 wordmark to fit "Stay Level." comfortably.
+  Transparent background for use on Substack header (overlays page bg).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 80" role="img" aria-label="Stay Level">
+  <defs>
+    <linearGradient id="slWmObs" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"  stop-color="#14082E"/>
+      <stop offset="100%" stop-color="#041521"/>
+    </linearGradient>
+    <linearGradient id="slWmGlass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"  stop-color="#FFFFFF" stop-opacity="0.14"/>
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="slWmPalette" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#a5f3fc"/>
+      <stop offset="20%"  stop-color="#22d3ee"/>
+      <stop offset="40%"  stop-color="#a78bfa"/>
+      <stop offset="60%"  stop-color="#f472b6"/>
+      <stop offset="80%"  stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Mini chip 56x56 -->
+  <rect x="12" y="12" width="56" height="56" rx="12" fill="url(#slWmObs)" stroke="url(#slWmPalette)" stroke-width="1"/>
+  <rect x="12" y="12" width="56" height="56" rx="12" fill="url(#slWmGlass)"/>
+  <rect x="22" y="36" width="36" height="8" rx="4" fill="url(#slWmPalette)"/>
+
+  <!-- "Stay Level." wordmark -->
+  <text x="86" y="55"
+        font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="44"
+        letter-spacing="-1.5" fill="url(#slWmPalette)">Stay Level.</text>
+</svg>

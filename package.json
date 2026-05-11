@@ -34,6 +34,8 @@
     "./content/voiceRules": "./src/content/voiceRules.ts",
     "./content/siteMeta": "./src/content/siteMeta.ts",
     "./content/tagline": "./src/content/tagline.ts",
+    "./content/personalVoice": "./src/content/personalVoice.ts",
+    "./content/keyMessages": "./src/content/keyMessages.ts",
     "./legal": "./legal/index.ts",
     "./legal/lucidorg": "./legal/lucidorg/index.ts",
     "./legal/nextgenintern": "./legal/nextgenintern/index.ts",

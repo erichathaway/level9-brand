@@ -23,6 +23,7 @@
 export type BrandId =
   | "level9"
   | "erichathaway"
+  | "stay-level"
   | "lucidorg"
   | "linkupos"
   | "commandos"
@@ -50,6 +51,13 @@ export const LOGO_PATHS = {
     square: "erichathaway/square.svg",
     wordmark: "erichathaway/wordmark.svg",
     favicon: "erichathaway/favicon.svg",
+  },
+  "stay-level": {
+    chip: "stay-level/chip.svg",
+    square: "stay-level/square.svg",
+    wordmark: "stay-level/wordmark.svg",
+    favicon: "stay-level/favicon.svg",
+    title: "stay-level/title.png",
   },
   lucidorg: {
     chip: "lucidorg/chip.svg",
@@ -145,6 +153,7 @@ export function isPlaceholder(brand: BrandId): boolean {
 export const BRAND_NAMES: Readonly<Record<BrandId, string>> = {
   level9: "Level9",
   erichathaway: "Eric Hathaway",
+  "stay-level": "Stay Level",
   lucidorg: "LucidORG",
   linkupos: "LinkupOS",
   commandos: "CommandOS",

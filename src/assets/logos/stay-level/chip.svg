@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Stay Level — Chip (rounded inset square, 320x320 viewBox)
+  ─────────────────────────────────────────────────────────────────────────
+  Rounded variant of the square logo for use on light surfaces or where a
+  softer corner treatment is desired. Matches Level9 chip pattern.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="Stay Level">
+  <defs>
+    <linearGradient id="slChObs" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"  stop-color="#14082E"/>
+      <stop offset="100%" stop-color="#041521"/>
+    </linearGradient>
+    <linearGradient id="slChGlass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"  stop-color="#FFFFFF" stop-opacity="0.14"/>
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="slChPalette" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#a5f3fc"/>
+      <stop offset="20%"  stop-color="#22d3ee"/>
+      <stop offset="40%"  stop-color="#a78bfa"/>
+      <stop offset="60%"  stop-color="#f472b6"/>
+      <stop offset="80%"  stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="40" y="40" width="240" height="240" rx="56" fill="url(#slChObs)" stroke="url(#slChPalette)" stroke-width="1.5"/>
+  <rect x="40" y="40" width="240" height="240" rx="56" fill="url(#slChGlass)"/>
+
+  <!-- Central level line -->
+  <rect x="80" y="148" width="160" height="20" rx="10" fill="url(#slChPalette)"/>
+</svg>
