@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-ALIGNMENT-CYCLE
+title: "The Alignment Cycle — operational doctrine"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:governance
+  - audience:private
+  - layer:L10-brand
+  - type:md
+  - authority:brand
+  - origin:ai-drafted
+  - topic:brand-identity
+  - topic:policy
+  - topic:agent-config
+---
 # The Alignment Cycle — operational doctrine
 
 The framework that organizes everything Level9 builds. This is how we

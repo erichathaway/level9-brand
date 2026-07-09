@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-COMPANY-CHARTER
+title: "Company Charter — Level9"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:governance
+  - audience:private
+  - layer:L10-brand
+  - type:md
+  - authority:brand
+  - origin:ai-drafted
+  - topic:brand-identity
+  - topic:policy
+  - topic:agent-config
+---
 # Company Charter — Level9
 
 The principles, values, and rules-of-engagement that bind everyone working

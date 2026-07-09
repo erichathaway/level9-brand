@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-VERCEL-AUDIT
+title: "Vercel Project Audit — last updated 2026-04-18"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:brand
+  - audience:private
+  - layer:L8-verification
+  - type:audit-report
+  - authority:brand
+  - origin:ai-drafted
+  - topic:audit
+  - topic:brand-identity
+  - topic:agent-config
+---
 # Vercel Project Audit — last updated 2026-04-18
 
 Inventory of all Vercel projects under team `decisioning-v1` (team_UGKVZSfkGnRYZEo0Y2A2XhQk).

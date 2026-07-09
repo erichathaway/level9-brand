@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-NORTHSTAR
+title: "Northstar — Level9"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: strategic
+tags:
+  - section:governance
+  - audience:private
+  - layer:L1-strategic
+  - type:md
+  - authority:strategic
+  - origin:manual
+  - topic:brand-identity
+  - topic:northstar
+  - topic:policy
+---
 # Northstar — Level9
 
 **The lodestar every product, every page, every decision orients toward.**

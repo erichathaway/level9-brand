@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-BRAND-AGENT-HANDOFF
+title: "Brand-Agent Handoff — Logo Design Briefs"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: both
+authority: brand
+tags:
+  - section:brand
+  - audience:both
+  - layer:L10-brand
+  - type:handoff
+  - authority:brand
+  - origin:ai-drafted
+  - topic:brand-identity
+  - topic:session-handoff
+  - topic:agent-config
+---
 # Brand-Agent Handoff — Logo Design Briefs
 
 When brand-agent has bandwidth, the following marks need design work. Everything

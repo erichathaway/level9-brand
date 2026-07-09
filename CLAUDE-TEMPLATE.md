@@ -1,3 +1,24 @@
+---
+id: LVL9-BRAND-CLAUDE-TEMPLATE
+title: "CLAUDE.md template — canonical agent context for any repo in the Level9 family"
+version: "0.1"
+effective: 2026-04-19
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:brand
+  - audience:private
+  - layer:L10-brand
+  - type:agent-contract
+  - authority:brand
+  - origin:scaffolded
+  - topic:brand-identity
+  - topic:agent-config
+---
 # CLAUDE.md template — canonical agent context for any repo in the Level9 family
 
 Copy this file to the root of any new repo as `CLAUDE.md`. Fill in the

@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-README
+title: "@level9/brand/legal"
+version: "0.1"
+effective: 2026-04-19
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: legal
+tags:
+  - section:brand
+  - audience:private
+  - layer:L10-brand
+  - type:md
+  - authority:legal
+  - origin:ai-drafted
+  - topic:brand-identity
+  - topic:legal
+  - topic:documentation
+---
 # @level9/brand/legal
 
 Canonical source of truth for **legal attribution** and **privacy / terms / cookie policy templates** across every Level9 portfolio site.
