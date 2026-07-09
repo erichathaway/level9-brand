@@ -1,3 +1,24 @@
+---
+id: LVL9-BRAND-PROJECT-LIFECYCLE
+title: "Project Lifecycle — intake → ship → retire"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:brand
+  - audience:private
+  - layer:L10-brand
+  - type:md
+  - authority:brand
+  - origin:ai-drafted
+  - topic:brand-identity
+  - topic:agent-config
+---
 # Project Lifecycle — intake → ship → retire
 
 Every site, app, or product in the Level9 family follows this lifecycle.

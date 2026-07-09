@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-README
+title: "`@level9/brand` — Central canon for the Level9 family"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:brand
+  - audience:private
+  - layer:L10-brand
+  - type:md
+  - authority:brand
+  - origin:ai-drafted
+  - topic:brand-identity
+  - topic:documentation
+  - topic:agent-config
+---
 # `@level9/brand` — Central canon for the Level9 family
 
 This repo is **the single source of truth** for the Level9 family. Code

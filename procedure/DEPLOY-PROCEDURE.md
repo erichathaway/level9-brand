@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-DEPLOY-PROCEDURE
+title: "Deploy Procedure — Level9 family sites"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:brand
+  - audience:private
+  - layer:L10-brand
+  - type:md
+  - authority:brand
+  - origin:ai-drafted
+  - topic:brand-identity
+  - topic:deployment
+  - topic:agent-config
+---
 # Deploy Procedure — Level9 family sites
 
 How sites in the Level9 family deploy. Applies to every Next.js site

@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-BRAND-AUDIT-2026-04-24
+title: "Brand audit, 2026-04-24"
+version: "0.1"
+effective: 2026-04-24
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:brand
+  - audience:private
+  - layer:L8-verification
+  - type:audit-report
+  - authority:brand
+  - origin:ai-drafted
+  - topic:audit
+  - topic:brand-identity
+  - topic:agent-config
+---
 # Brand audit, 2026-04-24
 
 Scope: erichathaway-site (personal portfolio, `eric-personal` entity) and

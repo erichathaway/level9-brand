@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-DATA-CLEANUP-PROCEDURE
+title: "Data Cleanup Procedure — retiring old projects safely"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:brand
+  - audience:private
+  - layer:L10-brand
+  - type:md
+  - authority:brand
+  - origin:ai-drafted
+  - topic:cleanup
+  - topic:brand-identity
+  - topic:agent-config
+---
 # Data Cleanup Procedure — retiring old projects safely
 
 The pattern Level9 uses when retiring an old project, sunsetting a

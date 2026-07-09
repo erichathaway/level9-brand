@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-README
+title: "Logo Audit — Level9 Brand Family"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:brand
+  - audience:private
+  - layer:L8-verification
+  - type:md
+  - authority:brand
+  - origin:ai-drafted
+  - topic:audit
+  - topic:brand-identity
+  - topic:documentation
+---
 # Logo Audit — Level9 Brand Family
 
 Single-folder side-by-side view of every unique logo SVG found across all

@@ -11,6 +11,7 @@ export const SITE_TO_ENTITY: Record<string, EntityKey> = {
   "coo-playbook-app": "lucidorg",
   "stratos-v2": "lucidorg",
   "stratos-lucidorg": "lucidorg",
+  "max-app": "lucidorg",
 
   // NextGen Interns LLC — youth/intern platform (COPPA-sensitive)
   "nextgenintern-site": "nextgenintern",

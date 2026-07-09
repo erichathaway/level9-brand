@@ -1,3 +1,25 @@
+---
+id: LVL9-BRAND-DECISION-FRAMEWORK
+title: "Decision Framework — how big decisions get made at Level9"
+version: "0.1"
+effective: 2026-04-18
+last_verified: 2026-05-19
+owner: Eric Hathaway
+status: live
+review_cadence: quarterly
+audience: private
+authority: brand
+tags:
+  - section:governance
+  - audience:private
+  - layer:L3-methodology
+  - type:md
+  - authority:brand
+  - origin:ai-drafted
+  - topic:brand-identity
+  - topic:policy
+  - topic:agent-config
+---
 # Decision Framework — how big decisions get made at Level9
 
 Decisions get made differently depending on their reversibility and blast

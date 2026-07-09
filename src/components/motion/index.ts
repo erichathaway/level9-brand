@@ -39,3 +39,6 @@ export type { CursorGradientProps } from "./CursorGradient";
 
 export { LiveTicker, default as LiveTickerDefault } from "./LiveTicker";
 export type { LiveTickerProps, TickerMetric } from "./LiveTicker";
+
+export { Toaster, toast, default as ToasterDefault } from "./Toast";
+export type { ToasterProps, ExternalToast } from "./Toast";
