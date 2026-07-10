@@ -19,6 +19,10 @@ export const SITE_TO_ENTITY: Record<string, EntityKey> = {
   // Level9OS LLC — brand/umbrella + consulting relationship to products
   // (kept at legal distance from product operating entities)
   "level9os-site": "level9os",
+  // The Vault (governance chassis) + The Liar Liar report/stories — Eric
+  // decision 2026-07-10: umbrella-owned per NORTHSTAR ("runs under all four").
+  "the-liar-liar": "level9os",
+  "vault-kit": "level9os",
 
   // Eric Hathaway (individual, not LLC) — personal site
   "erichathaway-site": "eric-personal",
