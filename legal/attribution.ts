@@ -7,11 +7,14 @@ export const SITE_TO_ENTITY: Record<string, EntityKey> = {
   // LucidORG LLC portfolio — all commercial products
   "linkupos-site": "lucidorg",
   "lucidorg-site": "lucidorg",
+  "lucidorg-static": "lucidorg",
   "coo-playbook": "lucidorg",
   "coo-playbook-app": "lucidorg",
   "stratos-v2": "lucidorg",
   "stratos-lucidorg": "lucidorg",
-  "max-app": "lucidorg",
+  "stratos-app": "lucidorg",
+  "stratos-marketing": "lucidorg",
+  "outboundos": "lucidorg",
 
   // NextGen Interns LLC — youth/intern platform (COPPA-sensitive)
   "nextgenintern-site": "nextgenintern",
@@ -23,6 +26,17 @@ export const SITE_TO_ENTITY: Record<string, EntityKey> = {
   // decision 2026-07-10: umbrella-owned per NORTHSTAR ("runs under all four").
   "the-liar-liar": "level9os",
   "vault-kit": "level9os",
+  // Governance / CommandOS stack — Level9OS LLC
+  "level9-governance": "level9os",
+  "commandos-v2": "level9os",
+  "commandos-center": "level9os",
+  "level9-operations": "level9os",
+  "centralos": "level9os",
+  "level9-library": "level9os",
+  "humanize": "level9os",
+  // Max/Verifier trial — umbrella owned per NORTHSTAR decision 2026-07-12
+  "max-app": "level9os",
+  "max-verifier-trial": "level9os",
 
   // Eric Hathaway (individual, not LLC) — personal site
   "erichathaway-site": "eric-personal",
